@@ -8,14 +8,15 @@
 using namespace std;
 namespace SF
 {
-
+	//Should eventually be moved to it's own file.
 	#ifndef _SF_TYPES
-
+		//Holds a single 3D vertex
 		struct SF_VERTEX
 		{
 			float x,y,z;
 		};
 
+		//A set of vertices that comprise a single model
 		struct SF_VERTICES
 		{
 			SF_VERTEX *vertices;
@@ -28,8 +29,8 @@ namespace SF
 		typedef vector<SF_PID> *SF_PIDS;//List of all available PIDs
 		typedef wstring  *SF_NAME;//A name or part of a name
 		typedef wstring  *SF_EMAIL;//An email address
-		typedef int32_t  *SF_EXPRESSION;//A named expression
-		typedef vector<SF_EXPRESSION>  *SF_EXPRESSIONS;//List of All Available PIDs
+		typedef int32_t  *SF_EXPRESSION;//A named expression *** may need its own struct for text such as "Smile" TBD trying to give a namespace to different expressions in essence however they should not be hard-coded.
+ 		typedef vector<SF_EXPRESSION>  *SF_EXPRESSIONS;//List of All Available PIDs
 	#endif // !_SF_TYPES
 
 	class sf_idb
