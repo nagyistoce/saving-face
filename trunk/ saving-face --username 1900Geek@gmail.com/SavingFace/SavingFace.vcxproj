@@ -13,6 +13,14 @@
   <ItemGroup>
     <ClInclude Include="Headers\sf_icontroller.h" />
     <ClInclude Include="Headers\sf_idb.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="sf_person.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sf_person.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SavingFace.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{8C308F6A-0D4B-40A2-AE44-CC2448FFA0E6}</ProjectGuid>
@@ -42,11 +50,16 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(DXSDK_DIR);$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
+      <GenerateXMLDocumentationFiles>true</GenerateXMLDocumentationFiles>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
