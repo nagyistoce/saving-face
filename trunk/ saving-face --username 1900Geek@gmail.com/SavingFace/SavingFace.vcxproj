@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Headers\sf_icontroller.h" />
-    <ClInclude Include="Headers\sf_idb.h" />
+    <ClInclude Include="include\sf_icontroller.h" />
+    <ClInclude Include="include\sf_idb.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="sf_person.h" />
   </ItemGroup>
@@ -51,8 +51,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(DXSDK_DIR);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)\SavingFace\include\;$(DXSDK_DIR);$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
+    <SourcePath>$(SolutionDir)SavingFace\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
