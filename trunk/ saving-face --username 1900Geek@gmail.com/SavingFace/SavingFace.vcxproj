@@ -13,10 +13,6 @@
   <ItemGroup>
     <ClInclude Include="include\sf_idb.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="sf_person.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="sf_person.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SavingFace.rc" />
