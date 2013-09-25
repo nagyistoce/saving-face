@@ -197,15 +197,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\segmentation_viewer.cpp" />
-    <ClCompile Include="src\util_image.cpp" />
-    <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="include\sf_idb.h" />
+    <ClInclude Include="include\util_image.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="segmentation_viewer.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\SavingFace\src\TestCode.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
