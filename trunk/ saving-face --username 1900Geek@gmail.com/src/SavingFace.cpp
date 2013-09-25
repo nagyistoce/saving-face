@@ -1,7 +1,6 @@
 // SavingFace.cpp : Defines the entry point for the application.
 //
 
-#include "stdafx.h"
 #include "SavingFace.h"
 
 #define MAX_LOADSTRING 100
