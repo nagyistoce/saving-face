@@ -8,8 +8,8 @@ namespace SF
 	class Model
 	{
 	public:
-		//This is being made a class instead of a struct to be more consistent with the OOP paradigm
-		//Vars are public purely for speed of access
+		//For testing access to the constructor will remain public,
+		//This should eventially be handled by the model db manager.
 	
 		SF_MUID muid;
 		SF_PUID puid;

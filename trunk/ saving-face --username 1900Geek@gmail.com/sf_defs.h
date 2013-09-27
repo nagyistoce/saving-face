@@ -47,7 +47,7 @@ namespace SF
 
 	
 	//A struct containing a translational vector and a rotational matix
-	struct SF_TR_MATIX{			
+	struct SF_TR_MATRIX{			
 			SF_TR_VECTOR trXYZ;
 			SF_SCALAR trMatrix[9];	
 	};
@@ -76,6 +76,10 @@ namespace SF
 	//Potential to have more than one model
 	//Associated with a Person
 	typedef long SF_MUID;
+
+	struct SF_YPR{
+		float yaw, pitch, roll;
+	};
 }
 
 #endif // !_SF_TYPE_DEFS
