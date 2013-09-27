@@ -45,6 +45,7 @@ namespace SF
 	//to put the point of rotation at the origin
 	typedef PXCPoint3DF32 SF_TR_VECTOR; 
 
+	
 	//A struct containing a translational vector and a rotational matix
 	struct SF_TR_MATIX{			
 			SF_TR_VECTOR trXYZ;
