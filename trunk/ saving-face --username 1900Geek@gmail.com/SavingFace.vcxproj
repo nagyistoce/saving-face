@@ -71,7 +71,7 @@
     <ClCompile Include="src\TestCode.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header.h" />
+    <ClInclude Include="sf_tr_func.h" />
     <ClInclude Include="sf_defs.h" />
     <ClInclude Include="include\sf_idb.h" />
     <ClInclude Include="sf_model.h" />

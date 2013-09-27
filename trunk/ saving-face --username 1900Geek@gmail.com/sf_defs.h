@@ -51,6 +51,9 @@ namespace SF
 			SF_TR_VECTOR trXYZ;
 			SF_SCALAR trMatrix[9];	
 	};
+
+	//Defines a byte array that holds the model data
+	typedef char* SF_MODEL_ARR;
 }
 
 
