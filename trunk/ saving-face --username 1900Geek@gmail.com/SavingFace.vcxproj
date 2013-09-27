@@ -67,12 +67,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="sf_model.cpp" />
+    <ClCompile Include="sf_model_builder.cpp" />
     <ClCompile Include="src\TestCode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sf_defs.h" />
     <ClInclude Include="include\sf_idb.h" />
     <ClInclude Include="sf_model.h" />
+    <ClInclude Include="sf_model_builder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

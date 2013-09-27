@@ -11,14 +11,14 @@ namespace SF
 		//Vars are public purely for speed of access
 	
 		SF_NAME salutation, firstName, lastName, suffix;
-		SF_EMAIL email_address;
+		SF_EMAIL emailAddress;
 		SF_BOUND xMin, xMax, yMin, yMax, zMin, zMax;
 		SF_DELTA deltaX, deltaY, deltaZ;
 		SF_ARR_WIDTH xWidth, yWidth, zWidth;
 		SF_ARR_OFFSET  xOffset, yOffset;
 
 		//Creates a model with the default settings
-		//Generic Model or used if loading from a file.
+		//Generic Model used only if loading from a file, or for troubleshooting.
 		Model(void);
 
 		//Creates a model with the default settings
@@ -34,6 +34,12 @@ namespace SF
 
 		//Destroys the model
 		~Model(void);
+
+		//Set the name of a model
+		SF_STS setName(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix);
+
+		//Set the email address of a model
+		SF_STS setEmail(SF_EMAIL emailAddress);
 
 		//Sends the contents of a model to a file.
 		SF_STS streamToFile(std::ofstream const *fileStream);

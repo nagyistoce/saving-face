@@ -1,7 +1,7 @@
 #ifndef _SF_TYPE_DEFS
 #define _SF_TYPE_DEFS
 #include <string>
-
+#include "pxcdefs.h"
 namespace SF
 {
 
@@ -34,6 +34,10 @@ namespace SF
 	//0 or less indicates a failure
 	//See further defs for failure types
 	#define SF_STS int
+
+	//Defines a coordinate in 3D model space
+	//Example SF_F32 x = -0.12f // Means -0.12 meters in the x direction from the origin
+	#define SF_F32 float
 }
 
 

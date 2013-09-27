@@ -21,6 +21,9 @@
     <ClCompile Include="sf_model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sf_model_builder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sf_idb.h">
@@ -30,6 +33,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sf_model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sf_model_builder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
