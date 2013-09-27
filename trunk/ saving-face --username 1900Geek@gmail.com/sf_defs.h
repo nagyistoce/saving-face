@@ -4,7 +4,6 @@
 #include "pxcdefs.h"
 namespace SF
 {
-
 	//A name or part of a name of a person
 	typedef std::string SF_NAME; 
 
@@ -54,7 +53,12 @@ namespace SF
 
 	//Defines a byte array that holds the model data
 	typedef char* SF_MODEL_ARR;
-}
 
+	typedef char SF_MODEL_COORD;
+
+	struct SF_MODEL_COORD3D{
+		SF_MODEL_COORD x,y,z;
+	};
+}
 
 #endif // !_SF_TYPE_DEFS

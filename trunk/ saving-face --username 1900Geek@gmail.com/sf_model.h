@@ -2,6 +2,7 @@
 #include "sf_defs.h"
 #include <fstream>
 
+using namespace std;
 namespace SF
 {
 	class Model
@@ -42,10 +43,10 @@ namespace SF
 		SF_STS setEmail(SF_EMAIL emailAddress);
 
 		//Sends the contents of a model to a file.
-		SF_STS streamToFile(std::ofstream const *fileStream);
+		SF_STS streamToFile(ofstream const *fileStream);
 
 		//Loads the contents of a model to a file.
-		SF_STS LoadFromFile(std::ifstream const *fileStream);
+		SF_STS LoadFromFile(ifstream const *fileStream);
 	};
 }
 
