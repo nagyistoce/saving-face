@@ -5,6 +5,12 @@
 
 #ifndef _SF_IDB
 
+
+//This was an initial attempt at the interface...
+//Now that we no more about how we are actually going to build it
+//It needs modification.
+
+
 using namespace std;
 namespace SF
 {
