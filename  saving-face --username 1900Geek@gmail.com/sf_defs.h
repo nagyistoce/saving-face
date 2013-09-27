@@ -52,14 +52,30 @@ namespace SF
 			SF_SCALAR trMatrix[9];	
 	};
 
+	//Defines what primitive we are storing
+	//In this case a byte
+	typedef char SF_MODEL_UNIT;
+	
 	//Defines a byte array that holds the model data
-	typedef char* SF_MODEL_ARR;
+	typedef SF_MODEL_UNIT *SF_MODEL_ARR;
 
-	typedef char SF_MODEL_COORD;
+	//An offset into the model
+	typedef int SF_MODEL_COORD;
 
+	//A 3D Offset into the model.
 	struct SF_MODEL_COORD3D{
 		SF_MODEL_COORD x,y,z;
 	};
+
+	//Unique Personal Identifier
+	//There is only one you
+	//Labeling in good
+	typedef long SF_PUID;
+
+	//Unique Model Identifier
+	//Potential to have more than one model
+	//Associated with a Person
+	typedef long SF_MUID;
 }
 
 #endif // !_SF_TYPE_DEFS

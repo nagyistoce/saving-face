@@ -11,12 +11,15 @@ namespace SF
 		//This is being made a class instead of a struct to be more consistent with the OOP paradigm
 		//Vars are public purely for speed of access
 	
+		SF_MUID muid;
+		SF_PUID puid;
 		SF_NAME salutation, firstName, lastName, suffix;
 		SF_EMAIL emailAddress;
 		SF_BOUND xMin, xMax, yMin, yMax, zMin, zMax;
 		SF_DELTA deltaX, deltaY, deltaZ;
 		SF_ARR_WIDTH xWidth, yWidth, zWidth;
 		SF_ARR_OFFSET  xOffset, yOffset;
+		SF_MODEL_ARR modelArr;
 
 		//Creates a model with the default settings
 		//Generic Model used only if loading from a file, or for troubleshooting.
