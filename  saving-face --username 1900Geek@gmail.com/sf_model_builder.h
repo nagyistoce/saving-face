@@ -3,6 +3,7 @@
 
 namespace SF
 {
+	//Ideally only one instance should be needed.
 	class sf_model_builder
 	{
 	public:
