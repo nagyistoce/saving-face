@@ -1,201 +1,213 @@
+/*******************************************************************************
+
+INTEL CORPORATION PROPRIETARY INFORMATION
+This software is supplied under the terms of a license agreement or nondisclosure
+agreement with Intel Corporation and may not be copied or disclosed except in
+accordance with the terms of that agreement
+Copyright(c) 2011-2013 Intel Corporation. All Rights Reserved.
+
+*******************************************************************************/
+
+#include <fstream>
+#include <sstream>
 
 #include <stdio.h>
 #include <conio.h>
 #include <windows.h>
 #include <wchar.h>
 #include <vector>
-//*
-#include <fstream>
-#include <sstream>
 
-#include "pxcsession.h"
-#include "pxcsmartptr.h"
-#include "pxccapture.h"
-#include "util_render.h"
-#include "util_capture.h"
+#include "pxcsession.h" //Required To Make Session
+#include "pxcsmartptr.h" //Smart pointers for memory management
+#include "pxccapture.h" //For Capture Instance
+#include "util_render.h" //To Render Image
+#include "util_capture.h" 
 #include "util_cmdline.h"
-#include "pxcprojection.h"
-#include "pxcmetadata.h"
+#include "pxcprojection.h" //To Project Coords to Real-Life and to map depth to image
+#include "pxcmetadata.h" 
 
 int wmain(int argc, WCHAR* argv[]) {
-	//A Smart Pointer To Automatically Release Resources
-    PXCSmartPtr<PXCSession> session;//A Pointer to hold the session
-    pxcStatus sts=PXCSession_Create(&session);//Create the session
-    if (sts<PXC_STATUS_NO_ERROR || session==NULL) 
-	{//Check to see if the session was created
+	//Create the SDK Session
+    PXCSmartPtr<PXCSession> session;
+    pxcStatus sts=PXCSession_Create(&session);
+    if (sts<PXC_STATUS_NO_ERROR || session==NULL) {
         wprintf_s(L"Failed to create a session\n");
-		return 3;
-	}
-
-	/*
-	//Prints out Devices
-	PXCSession::ImplDesc desc1;
-	memset(&desc1,0,sizeof(desc1));
-	desc1.group=PXCSession::IMPL_GROUP_SENSOR;
-	desc1.subgroup=PXCSession::IMPL_SUBGROUP_VIDEO_CAPTURE;
-
-	for (int m=0;;m++) 
-	{
-		PXCSession::ImplDesc desc2;
-		if (session->QueryImpl(&desc1,m,&desc2)<PXC_STATUS_NO_ERROR) 
-			break;
-		wprintf_s(L"Module[%d]: %s\n", m, desc2.friendlyName);
-		PXCSmartPtr<PXCCapture> capture;
-		session->CreateImpl<PXCCapture>(&desc2,&capture);
-		for (int d=0;;d++) 
-		{
-			PXCCapture::DeviceInfo dinfo;
-			if (capture->QueryDevice(d,&dinfo)<PXC_STATUS_NO_ERROR) break;
-			wprintf_s(L"    Device[%d]: %s\n",d,dinfo.name);
-			PXCPointF32 color_fov;
-	
-	//device->QueryPropertyAsPoint(PXCCapture::Device::PROPERTY_COLOR_FIELD_OF_VIEW,&color_fov);
-
-	//PXCPointF32 depth_fov;
-
-	//device->QueryPropertyAsPoint(PXCCapture::Device::PROPERTY_DEPTH_FIELD_OF_VIEW,&depth_fov);
-		}
-	}*/
-
+        return 3;
+    }
 
 	UtilCmdLine cmdl(session);
 	if (!cmdl.Parse(L"-nframes-csize-sdname",argc,argv)) return 3;
+
+	//Util Capture interface hides some of the nasty bits
     UtilCapture capture(session);
     
+	//Create a request
     PXCCapture::VideoStream::DataDesc request; 
     memset(&request, 0, sizeof(request)); 
+
+	//Setup To Request Data Streams
     request.streams[0].format=PXCImage::COLOR_FORMAT_RGB32;
     request.streams[1].format=PXCImage::COLOR_FORMAT_DEPTH;
-    sts = capture.LocateStreams (&request);
+    
+	//Submit Request to capture streams
+	sts = capture.LocateStreams (&request);
     if (sts<PXC_STATUS_NO_ERROR) {
         wprintf_s(L"Failed to locate video stream(s)\n");
         return 1;
     }
     
-    PXCCapture::VideoStream::ProfileInfo pcolor;
+    //Get Stream Info For Color
+	PXCCapture::VideoStream::ProfileInfo pcolor;
     capture.QueryVideoStream(0)->QueryProfile(&pcolor);
+
+	//Get Stream Info For Depth
     PXCCapture::VideoStream::ProfileInfo pdepth;
     capture.QueryVideoStream(1)->QueryProfile(&pdepth);
 
+	//Make Render View For Depth
     pxcCHAR line[64];
     swprintf_s(line,sizeof(line)/sizeof(pxcCHAR),L"Depth %dx%d", pdepth.imageInfo.width, pdepth.imageInfo.height);
+	wprintf(line);//Print to Console
+	wprintf(L"\n");
     UtilRender depth_render(line);
-    swprintf_s(line,sizeof(line)/sizeof(pxcCHAR),L"UV %dx%d", pcolor.imageInfo.width, pcolor.imageInfo.height);
+
+    //Make Render View For UV Overlay
+	swprintf_s(line,sizeof(line)/sizeof(pxcCHAR),L"UV %dx%d", pcolor.imageInfo.width, pcolor.imageInfo.height);
     UtilRender uv_render(line);
-	swprintf_s(line,sizeof(line)/sizeof(pxcCHAR),L"Projection %dx%d", pcolor.imageInfo.width, pcolor.imageInfo.height);
+	wprintf(line);
+	wprintf(L"\n");
+
+	//Make Render View For Color Data
+	wprintf_s(line,sizeof(line)/sizeof(pxcCHAR),L"Projection %dx%d", pcolor.imageInfo.width, pcolor.imageInfo.height);
+	wprintf(line);
+	wprintf(L"\n");
 	UtilRender prj_render(line);
 
-	PXCSmartPtr<PXCProjection> projection;
-    PXCSmartPtr<PXCImage> color2;   // the color image after projection
-    PXCPoint3DF32 *pos2d = 0;       // array of depth coordinates to be mapped onto color coordinates
-    PXCPointF32 *posc = 0;          // array of mapped color coordinates
-    pxcF32 dvalues[2] = {-1};       // special depth values for saturated and low-confidence pixels
-	pxcUID prj_value;               // projection serializable identifier
+	PXCSmartPtr<PXCProjection> projection;	// determines what projection to apply
+    PXCSmartPtr<PXCImage> color2;			// the color image after projection
+    PXCPoint3DF32 *pos2d = 0;				// array of depth coordinates to be mapped onto color coordinates
+    PXCPointF32 *posc = 0;					// array of mapped color coordinates
+    pxcF32 dvalues[2] = {-1};				// special depth values for saturated and low-confidence pixels
+	pxcUID prj_value;						// projection serializable identifier
+	
+	//Keith begin
+	 PXCPoint3DF32 *pos3d = 0;				//3D Real world Depth coordinates
+	//Keith End
+	
+	//Get Projection Unique ID
 	sts=capture.QueryDevice()->QueryPropertyAsUID(PXCCapture::Device::PROPERTY_PROJECTION_SERIALIZABLE,&prj_value);
+	
 	if (sts>=PXC_STATUS_NO_ERROR) {
+		//Get Confidence values for Depth
     	capture.QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_LOW_CONFIDENCE_VALUE,&dvalues[0]);
     	capture.QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_SATURATION_VALUE,&dvalues[1]);
 
-        session->DynamicCast<PXCMetadata>()->CreateSerializable<PXCProjection>(prj_value, &projection);
-        PXCSmartPtr<PXCAccelerator> accelerator;
+        //Create a projection with UID
+		session->DynamicCast<PXCMetadata>()->CreateSerializable<PXCProjection>(prj_value, &projection);
+        
+		//Create an Accelerator
+		PXCSmartPtr<PXCAccelerator> accelerator;
         session->CreateAccelerator(&accelerator);
+
+		//Create an image instance to hold the Color Data
         accelerator->CreateImage(&pcolor.imageInfo,0,0,&color2);
 
-	    int npoints = pdepth.imageInfo.width*pdepth.imageInfo.height; 
-        pos2d=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints];
-        posc=(PXCPointF32 *)new PXCPointF32[npoints];
-        int k = 0;
+		
+	    int npoints = pdepth.imageInfo.width*pdepth.imageInfo.height; //Num points from Depth Feed
+        
+		pos2d=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints]; 
+		
+		//Keith begin
+		pos3d=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints];//Array To Hold 3D Mapped Coords
+        //Keith end
 
-		/**
-		* make file
-		*/
-		/*static int incr= 0;//Image number
-		std::ofstream arrayData;
-		std::stringstream sstrm;
-		sstrm << "D:\\dimgd\\test" << incr << ".txt";
-		arrayData.open(sstrm.str());
-		sstrm.clear();
-		incr ++;*/
+		posc=(PXCPointF32 *)new PXCPointF32[npoints];
+        
+		//Init Arrays x and y values for color mapped depth coords
+		int k = 0;
 	    for (float y=0;y<pdepth.imageInfo.height;y++)
-		{
-			//if(y > 0) arrayData << "\n";
             for (float x=0;x<pdepth.imageInfo.width;x++,k++)
-			{
-				//if(x > 0) arrayData << ", ";
-				//arrayData << pos2d[k].x << ", " <<  pos2d[k].y << ", " << pos2d[k].z;
-                pos2d[k].x=x,
-				pos2d[k].y=y;
-			}
-		}
-		//arrayData.close();
+                pos2d[k].x=x, pos2d[k].y=y;
     }
 
+	//Begin Main Loop
     for (pxcU32 f=0;f<cmdl.m_nframes;f++) {
-        PXCSmartArray<PXCImage> images(2);
+        //Create 2 image instances
+		PXCSmartArray<PXCImage> images(2);
+
+		//Synchronous Pointer
         PXCSmartSP sp;
+		//ReadStream If Data Available or Block
         sts=capture.ReadStreamAsync(images,&sp);
 		if (sts<PXC_STATUS_NO_ERROR) break;
-
+		
+		//Wait for all ASynchronous Modules To Return
         sts=sp->Synchronize();
         if (sts<PXC_STATUS_NO_ERROR) break;
-        if (!depth_render.RenderFrame(images[1])) break;
+       
+		//Render the Depth Image
+		if (!depth_render.RenderFrame(images[1])) break;
 
+		//Get Read access to the Depth Image
         PXCImage::ImageData ddepth;
         images[1]->AcquireAccess(PXCImage::ACCESS_READ,&ddepth);
+
+		//
         int dwidth2=ddepth.pitches[0]/sizeof(pxcU16); // aligned depth width
 
+		//Copy Color Data
         if (projection.IsValid()) {
             color2->CopyData(images[0]);
             PXCImage::ImageData dcolor;
             color2->AcquireAccess(PXCImage::ACCESS_READ_WRITE,PXCImage::COLOR_FORMAT_RGB32,&dcolor);
     	    int cwidth2=dcolor.pitches[0]/sizeof(pxcU32); // aligned color width
 
-		/**
-		* make file
-		*/
+            for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++)
+                for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++)
+				    pos2d[k].z=((short*)ddepth.planes[0])[y*dwidth2+x];
+            
+			
+			//Keith begin
+			//Set up and open file stream, temp for Mathematica
 			static int incr= 0;//Image number
 			bool bob  =  false;
 			int samples = 0;
 			std::ofstream arrayData;
 			std::stringstream sstrm;
-			sstrm << "G:\\camera_uvmap\\test\\test" << incr << ".csv";
+			sstrm << "G:\\camera_uvmap\\test\\test_1_" << incr << ".csv";
 			arrayData.open(sstrm.str());
 			sstrm.clear();
 			incr ++;
 
-		
-            for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++)
-			{
-				//if(y > 0) arrayData << "\n";//KS
+			/** For Color Images
+			planes[0] stores color Data
+			**/
+			/** For Depth Images
+			planes[0] stores DEPTHMAP data or VERTICES data
+			planes[1] stores CONFIDENCEMAP data
+			planes[2] stores UVMAP data
+			**/
 
-                for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++){
-					//if(x > 0) arrayData << ", ";//KS
-				    pos2d[k].z=((short*)ddepth.planes[0])[y*dwidth2+x];
-					//arrayData << pos2d[k].x << ", " <<  pos2d[k].y << ", " << pos2d[k].z;//KS
-				}
-			}
-            projection->MapDepthToColorCoordinates(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,posc);
-		    for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++) {
-                //if(y > 0) arrayData << "\n";//KS
-				for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
+			//Map depth to real world
+			projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
+			
+			//Map depth to Color
+			projection->MapDepthToColorCoordinates(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,posc);
+			for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++) {
+                for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
+						//wprintf(L"%f,%f,%f", pos3d[k].x,pos3d[k].y,pos3d[k].z);
                     int xx=(int)(posc[k].x+0.5f), yy= (int) (posc[k].y+0.5f);
 				    if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;
                     if (pos2d) if (pos2d[k].z==dvalues[0] || pos2d[k].z==dvalues[1]) continue; // no mapping based on unreliable depth values
-	                if(bob) arrayData << "\n"; else bob = true;//KS
-					samples++;
-					arrayData << pos2d[k].x << ", " <<  pos2d[k].y << ", " << pos2d[k].z;//KS
 					((pxcU32 *)dcolor.planes[0])[yy*cwidth2+xx] |= 0x0000FF00;
+					//samples++; //Count valid samples
+					arrayData << pos3d[k].x << ", " <<  pos3d[k].y << ", " << pos3d[k].z << "\n";//KS write to file
+					//wprintf(L"%f,%f,%f", pos3d[k].x,pos3d[k].y,pos3d[k].z);
                 }
-            }
-
-			arrayData.close();//KS
-			
-			
-			if(samples < 100){//KS
-				std::remove(sstrm.str().c_str());//KS
-				sstrm.clear();//KS
 			}
-				
+			//wprintf(L"Samples in file: %d\n", samples); // Print Num Samples per file to console
+			//samples = 0;
+			arrayData.close();//Close the file
 
             color2->ReleaseAccess(&dcolor);
  		    if (!prj_render.RenderFrame(color2)) break;
@@ -225,6 +237,7 @@ int wmain(int argc, WCHAR* argv[]) {
 
 	if (pos2d) delete [] pos2d;
 	if (posc) delete [] posc;
+	if (pos3d) delete [] pos3d;
 
     return 0;
 }
