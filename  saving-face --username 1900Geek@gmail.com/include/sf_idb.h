@@ -7,7 +7,7 @@
 
 
 //This was an initial attempt at the interface...
-//Now that we no more about how we are actually going to build it
+//Now that we know more about how we are actually going to build it
 //It needs modification LOTS.
 
 
