@@ -18,7 +18,7 @@
     <ClCompile Include="src\TestCode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Model.cpp">
+    <ClCompile Include="sf_model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,10 +26,10 @@
     <ClInclude Include="include\sf_idb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h">
+    <ClInclude Include="sf_defs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sf_defs.h">
+    <ClInclude Include="sf_model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
