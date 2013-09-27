@@ -174,7 +174,7 @@ int wmain(int argc, WCHAR* argv[]) {
 			int samples = 0;
 			std::ofstream arrayData;
 			std::stringstream sstrm;
-			sstrm << "G:\\camera_uvmap\\test\\test_1_" << incr << ".csv";
+			sstrm << "test\\test_1_" << incr << ".csv";
 			arrayData.open(sstrm.str());
 			sstrm.clear();
 			incr ++;
