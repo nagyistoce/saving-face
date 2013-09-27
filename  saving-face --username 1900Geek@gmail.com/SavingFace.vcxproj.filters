@@ -38,7 +38,7 @@
     <ClInclude Include="sf_model_builder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header.h">
+    <ClInclude Include="sf_tr_func.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
