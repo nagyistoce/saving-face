@@ -40,7 +40,10 @@
     <Import Project="C:\Program Files (x86)\Intel\PCSDK\props\VS2010-12.Integration.MT.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(SolutionDir)include;$(PCSDK_DIR)/Include;$(PCSDK_DIR)/Sample/Common/Include;$(IncludePath)</IncludePath>
+    <SourcePath>$(SolutionDir)src;$(VCInstallDir)atlmfc\src\mfc;$(VCInstallDir)atlmfc\src\mfcm;$(VCInstallDir)atlmfc\src\atl;$(VCInstallDir)crt\src</SourcePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
