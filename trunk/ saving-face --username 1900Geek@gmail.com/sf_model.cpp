@@ -13,7 +13,6 @@ namespace SF
 		//Temp for testing.
 		//Would not want to do this if loading from a file
 		initModelArray();
-
 	}
 
 	SF_STS Model::setName(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix)
@@ -57,13 +56,33 @@ namespace SF
 			modelArr = 0;
 		}
 		modelArr = new SF_MODEL_UNIT[xWidth * yWidth * zWidth];
+		//Set model array to zero
+		memset(modelArr,0,xWidth * yWidth * zWidth);
 		if(modelArr)
 			return SF_STS_OK;
 		//Insert Seperate Fail Condition For Debug and Release
 		else
 			return SF_STS_MEM_ALLOC_FAIL;
 	}
+	
+	SF_STS Model::setEmail(SF_EMAIL emailAddress)
+	{
+		this->emailAddress = emailAddress;
 		
+		return SF_STS_OK;
+	}
+
+	SF_STS Model::streamToFile(ofstream const *fileStream)
+	{
+		//TODO
+		return 0;
+	}
+
+	SF_STS loadFromFile(ifstream const *fileStream)
+	{
+		//TODO
+		return 0;
+	}
 
 	Model::~Model(void)
 	{

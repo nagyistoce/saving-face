@@ -59,11 +59,12 @@ namespace SF
 		SF_STS streamToFile(ofstream const *fileStream);
 
 		//Loads the contents of a model to a file.
-		SF_STS LoadFromFile(ifstream const *fileStream);
+		SF_STS loadFromFile(ifstream const *fileStream);
 
 		//Set the default parameters
 		SF_STS setDefaultParameters();
 
+		//Initialize a blank array
 		SF_STS initModelArray();
 	};
 }
