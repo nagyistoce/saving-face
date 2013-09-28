@@ -11,7 +11,7 @@
 
 
 PXCSmartPtr<PXCSession> session;
-PXCSmartPtr<UtilCmdLine> cmdl;
+UtilCmdLine *cmdl;
 
 //Create the PCSDK Session
 bool createSession()

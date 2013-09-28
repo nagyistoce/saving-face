@@ -1,12 +1,3 @@
-/*******************************************************************************
-
-INTEL CORPORATION PROPRIETARY INFORMATION
-This software is supplied under the terms of a license agreement or nondisclosure
-agreement with Intel Corporation and may not be copied or disclosed except in
-accordance with the terms of that agreement
-Copyright(c) 2011-2013 Intel Corporation. All Rights Reserved.
-
-*******************************************************************************/
 
 #include <fstream>
 #include <sstream>
@@ -25,7 +16,9 @@ Copyright(c) 2011-2013 Intel Corporation. All Rights Reserved.
 #include "util_cmdline.h"
 #include "pxcprojection.h" //To Project Coords to Real-Life and to map depth to image
 #include "pxcmetadata.h" 
+#include "Testing.h"
 
+#ifndef _TEST_CODE
 
 
 int wmain(int argc, WCHAR* argv[]) {
@@ -243,3 +236,4 @@ int wmain(int argc, WCHAR* argv[]) {
 
     return 0;
 }
+#endif //_TEST_CODE
