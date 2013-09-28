@@ -39,8 +39,10 @@ namespace SF
 		deltaX = SF_DEFAULT_DELTAX;
 		deltaY = SF_DEFAULT_DELTAY;
 		deltaZ = SF_DEFAULT_DELTAZ;
-		xWidth = (SF_ARR_WIDTH)((xMax - xMin) / deltaX);//Potential bug if value is not a perfect integer
-		//for now assume it is. But Will fail on Apply coord in integration testing if not.
+		xWidth = (SF_ARR_WIDTH)(((xMax - xMin)) / deltaX);
+		//Potential bug if value is not a perfect integer
+		//for now assume it is. 
+		//But Will fail on Apply coord in integration testing if not.
 		yWidth = (SF_ARR_WIDTH)((yMax - yMin) / deltaY);
 		zWidth = (SF_ARR_WIDTH)((zMax - zMin) / deltaZ);
 		xOffset =(yWidth * zWidth);
@@ -51,7 +53,7 @@ namespace SF
 	SF_STS Model::initModelArray()
 	{
 		if(modelArr){
-			delete modelArr;
+			delete[] modelArr;
 			modelArr = 0;
 		}
 		modelArr = new SF_MODEL_UNIT[xWidth * yWidth * zWidth];
@@ -65,5 +67,7 @@ namespace SF
 
 	Model::~Model(void)
 	{
+		if(modelArr)
+			delete[] modelArr;
 	}
 }
