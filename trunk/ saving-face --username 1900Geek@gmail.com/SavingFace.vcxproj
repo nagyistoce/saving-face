@@ -72,6 +72,7 @@
     <ClCompile Include="src\sf_model.cpp" />
     <ClCompile Include="src\sf_model_builder.cpp" />
     <ClCompile Include="src\sf_session.cpp" />
+    <ClCompile Include="src\sf_test_main.cpp" />
     <ClCompile Include="src\TestCode.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -80,6 +81,7 @@
     <ClInclude Include="include\sf_model.h" />
     <ClInclude Include="include\sf_model_builder.h" />
     <ClInclude Include="include\sf_tr_func.h" />
+    <ClInclude Include="include\Testing.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
