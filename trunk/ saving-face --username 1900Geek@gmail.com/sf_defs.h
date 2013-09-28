@@ -77,9 +77,15 @@ namespace SF
 	//Associated with a Person
 	typedef long SF_MUID;
 
+	//Contains YAW PITCH and ROLL data
 	struct SF_YPR{
 		float yaw, pitch, roll;
 	};
+
+	//SUCCESS
+	#define SF_STS_OK (1)
+	//Failed memory allocation
+	#define SF_STS_MEM_ALLOC_FAIL (-999)
 }
 
 #endif // !_SF_TYPE_DEFS

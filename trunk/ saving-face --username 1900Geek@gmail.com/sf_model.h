@@ -5,15 +5,25 @@
 using namespace std;
 namespace SF
 {
+#define SF_DEFAULT_XMIN (-0.15f)
+#define SF_DEFAULT_XMAX (0.15f)
+#define SF_DEFAULT_YMIN (-0.15f)
+#define SF_DEFAULT_YMAX (0.15f)
+#define SF_DEFAULT_ZMIN (-0.05f)
+#define SF_DEFAULT_ZMAX (0.45f)
+#define SF_DEFAULT_DELTAX (0.0025f)
+#define SF_DEFAULT_DELTAY (0.0025f)
+#define SF_DEFAULT_DELTAZ (0.0025f)
 	class Model
 	{
+
 	public:
 		//For testing access to the constructor will remain public,
 		//This should eventially be handled by the model db manager.
 	
 		SF_MUID muid;
 		SF_PUID puid;
-		SF_NAME salutation, firstName, lastName, suffix;
+		SF_NAME salutation, firstName, middleName, lastName, suffix;
 		SF_EMAIL emailAddress;
 		SF_BOUND xMin, xMax, yMin, yMax, zMin, zMax;
 		SF_DELTA deltaX, deltaY, deltaZ;
@@ -50,6 +60,11 @@ namespace SF
 
 		//Loads the contents of a model to a file.
 		SF_STS LoadFromFile(ifstream const *fileStream);
+
+		//Set the default parameters
+		SF_STS setDefaultParameters();
+
+		SF_STS initModelArray();
 	};
 }
 
