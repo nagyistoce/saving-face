@@ -71,6 +71,7 @@
   <ItemGroup>
     <ClCompile Include="src\sf_model.cpp" />
     <ClCompile Include="src\sf_model_builder.cpp" />
+    <ClCompile Include="src\sf_session.cpp" />
     <ClCompile Include="src\TestCode.cpp" />
   </ItemGroup>
   <ItemGroup>
