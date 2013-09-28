@@ -18,10 +18,10 @@
     <ClCompile Include="src\TestCode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sf_model.cpp">
+    <ClCompile Include="src\sf_model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sf_model_builder.cpp">
+    <ClCompile Include="src\sf_model_builder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,16 +29,16 @@
     <ClInclude Include="include\sf_idb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sf_defs.h">
+    <ClInclude Include="include\sf_defs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sf_model.h">
+    <ClInclude Include="include\sf_model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sf_model_builder.h">
+    <ClInclude Include="include\sf_model_builder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sf_tr_func.h">
+    <ClInclude Include="include\sf_tr_func.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
