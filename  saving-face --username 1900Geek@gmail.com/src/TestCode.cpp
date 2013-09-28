@@ -26,6 +26,8 @@ Copyright(c) 2011-2013 Intel Corporation. All Rights Reserved.
 #include "pxcprojection.h" //To Project Coords to Real-Life and to map depth to image
 #include "pxcmetadata.h" 
 
+
+
 int wmain(int argc, WCHAR* argv[]) {
 	//Create the SDK Session
     PXCSmartPtr<PXCSession> session;
