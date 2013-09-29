@@ -31,11 +31,13 @@ namespace SF
 
 	SF_Session::SF_Session(void)
 	{
+		cmdl = 0;
 	}
 
 
 	SF_Session::~SF_Session(void)
 	{
+		if(cmdl) delete cmdl;
 	}
 
 }
