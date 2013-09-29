@@ -77,6 +77,8 @@ namespace SF
 	//Associated with a Person
 	typedef long SF_MUID;
 
+	//Further investigation into the SDK, says it has its own stuct for this
+	//Thus this will likely not be used.
 	//Contains YAW PITCH and ROLL data
 	struct SF_YPR{
 		float yaw, pitch, roll;
