@@ -41,7 +41,7 @@ namespace SF
 		xWidth = (SF_ARR_WIDTH)(((xMax - xMin)) / deltaX);
 		//Potential bug if value is not a perfect integer
 		//for now assume it is. 
-		//But Will fail on Apply coord in integration testing if not.
+		//But will likely fail on Apply coord in integration testing if not.
 		yWidth = (SF_ARR_WIDTH)((yMax - yMin) / deltaY);
 		zWidth = (SF_ARR_WIDTH)((zMax - zMin) / deltaZ);
 		xOffset =(yWidth * zWidth);
