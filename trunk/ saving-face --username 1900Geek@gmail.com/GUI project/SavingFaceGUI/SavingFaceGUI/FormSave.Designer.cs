@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSave));
-            this.labelName = new System.Windows.Forms.Label();
+            this.labelFirstName = new System.Windows.Forms.Label();
             this.labelEmail = new System.Windows.Forms.Label();
-            this.textBoxName = new System.Windows.Forms.TextBox();
+            this.textBoxFirstName = new System.Windows.Forms.TextBox();
             this.textBoxEmail = new System.Windows.Forms.TextBox();
             this.buttonScanFace = new System.Windows.Forms.Button();
             this.pictureBoxTakePicture = new System.Windows.Forms.PictureBox();
@@ -39,39 +39,43 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
             this.richTextBoxDebug = new System.Windows.Forms.RichTextBox();
+            this.labelLastName = new System.Windows.Forms.Label();
+            this.labelGender = new System.Windows.Forms.Label();
+            this.textBoxLastName = new System.Windows.Forms.TextBox();
+            this.textBoxGender = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTakePicture)).BeginInit();
             this.SuspendLayout();
             // 
-            // labelName
+            // labelFirstName
             // 
-            this.labelName.AutoSize = true;
-            this.labelName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelName.Location = new System.Drawing.Point(13, 13);
-            this.labelName.Name = "labelName";
-            this.labelName.Size = new System.Drawing.Size(55, 20);
-            this.labelName.TabIndex = 0;
-            this.labelName.Text = "Name:";
+            this.labelFirstName.AutoSize = true;
+            this.labelFirstName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelFirstName.Location = new System.Drawing.Point(13, 13);
+            this.labelFirstName.Name = "labelFirstName";
+            this.labelFirstName.Size = new System.Drawing.Size(76, 16);
+            this.labelFirstName.TabIndex = 0;
+            this.labelFirstName.Text = "First Name:";
             // 
             // labelEmail
             // 
             this.labelEmail.AutoSize = true;
-            this.labelEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelEmail.Location = new System.Drawing.Point(13, 73);
+            this.labelEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelEmail.Location = new System.Drawing.Point(13, 98);
             this.labelEmail.Name = "labelEmail";
-            this.labelEmail.Size = new System.Drawing.Size(52, 20);
+            this.labelEmail.Size = new System.Drawing.Size(45, 16);
             this.labelEmail.TabIndex = 1;
             this.labelEmail.Text = "Email:";
             // 
-            // textBoxName
+            // textBoxFirstName
             // 
-            this.textBoxName.Location = new System.Drawing.Point(84, 13);
-            this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(100, 20);
-            this.textBoxName.TabIndex = 2;
+            this.textBoxFirstName.Location = new System.Drawing.Point(108, 13);
+            this.textBoxFirstName.Name = "textBoxFirstName";
+            this.textBoxFirstName.Size = new System.Drawing.Size(100, 20);
+            this.textBoxFirstName.TabIndex = 2;
             // 
             // textBoxEmail
             // 
-            this.textBoxEmail.Location = new System.Drawing.Point(84, 73);
+            this.textBoxEmail.Location = new System.Drawing.Point(108, 94);
             this.textBoxEmail.Name = "textBoxEmail";
             this.textBoxEmail.Size = new System.Drawing.Size(100, 20);
             this.textBoxEmail.TabIndex = 3;
@@ -135,11 +139,49 @@
             this.richTextBoxDebug.TabIndex = 9;
             this.richTextBoxDebug.Text = "";
             // 
+            // labelLastName
+            // 
+            this.labelLastName.AutoSize = true;
+            this.labelLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelLastName.Location = new System.Drawing.Point(12, 39);
+            this.labelLastName.Name = "labelLastName";
+            this.labelLastName.Size = new System.Drawing.Size(76, 16);
+            this.labelLastName.TabIndex = 10;
+            this.labelLastName.Text = "Last Name:";
+            // 
+            // labelGender
+            // 
+            this.labelGender.AutoSize = true;
+            this.labelGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelGender.Location = new System.Drawing.Point(12, 66);
+            this.labelGender.Name = "labelGender";
+            this.labelGender.Size = new System.Drawing.Size(56, 16);
+            this.labelGender.TabIndex = 11;
+            this.labelGender.Text = "Gender:";
+            // 
+            // textBoxLastName
+            // 
+            this.textBoxLastName.Location = new System.Drawing.Point(108, 39);
+            this.textBoxLastName.Name = "textBoxLastName";
+            this.textBoxLastName.Size = new System.Drawing.Size(100, 20);
+            this.textBoxLastName.TabIndex = 12;
+            // 
+            // textBoxGender
+            // 
+            this.textBoxGender.Location = new System.Drawing.Point(108, 66);
+            this.textBoxGender.Name = "textBoxGender";
+            this.textBoxGender.Size = new System.Drawing.Size(100, 20);
+            this.textBoxGender.TabIndex = 13;
+            // 
             // FormSave
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(740, 390);
+            this.Controls.Add(this.textBoxGender);
+            this.Controls.Add(this.textBoxLastName);
+            this.Controls.Add(this.labelGender);
+            this.Controls.Add(this.labelLastName);
             this.Controls.Add(this.richTextBoxDebug);
             this.Controls.Add(this.buttonBack);
             this.Controls.Add(this.buttonSave);
@@ -147,9 +189,9 @@
             this.Controls.Add(this.pictureBoxTakePicture);
             this.Controls.Add(this.buttonScanFace);
             this.Controls.Add(this.textBoxEmail);
-            this.Controls.Add(this.textBoxName);
+            this.Controls.Add(this.textBoxFirstName);
             this.Controls.Add(this.labelEmail);
-            this.Controls.Add(this.labelName);
+            this.Controls.Add(this.labelFirstName);
             this.Name = "FormSave";
             this.Text = "FormSave";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTakePicture)).EndInit();
@@ -160,9 +202,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Label labelName;
+        private System.Windows.Forms.Label labelFirstName;
         private System.Windows.Forms.Label labelEmail;
-        private System.Windows.Forms.TextBox textBoxName;
+        private System.Windows.Forms.TextBox textBoxFirstName;
         private System.Windows.Forms.TextBox textBoxEmail;
         private System.Windows.Forms.Button buttonScanFace;
         private System.Windows.Forms.PictureBox pictureBoxTakePicture;
@@ -170,5 +212,9 @@
         private System.Windows.Forms.Button buttonSave;
         private System.Windows.Forms.Button buttonBack;
         private System.Windows.Forms.RichTextBox richTextBoxDebug;
+        private System.Windows.Forms.Label labelLastName;
+        private System.Windows.Forms.Label labelGender;
+        private System.Windows.Forms.TextBox textBoxLastName;
+        private System.Windows.Forms.TextBox textBoxGender;
     }
 }
