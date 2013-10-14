@@ -42,7 +42,8 @@
             this.labelLastName = new System.Windows.Forms.Label();
             this.labelGender = new System.Windows.Forms.Label();
             this.textBoxLastName = new System.Windows.Forms.TextBox();
-            this.textBoxGender = new System.Windows.Forms.TextBox();
+            this.radioButtonMale = new System.Windows.Forms.RadioButton();
+            this.radioButtonFemale = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTakePicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -166,19 +167,35 @@
             this.textBoxLastName.Size = new System.Drawing.Size(100, 20);
             this.textBoxLastName.TabIndex = 12;
             // 
-            // textBoxGender
+            // radioButtonMale
             // 
-            this.textBoxGender.Location = new System.Drawing.Point(108, 66);
-            this.textBoxGender.Name = "textBoxGender";
-            this.textBoxGender.Size = new System.Drawing.Size(100, 20);
-            this.textBoxGender.TabIndex = 13;
+            this.radioButtonMale.AutoSize = true;
+            this.radioButtonMale.Location = new System.Drawing.Point(92, 66);
+            this.radioButtonMale.Name = "radioButtonMale";
+            this.radioButtonMale.Size = new System.Drawing.Size(48, 17);
+            this.radioButtonMale.TabIndex = 13;
+            this.radioButtonMale.TabStop = true;
+            this.radioButtonMale.Text = "Male";
+            this.radioButtonMale.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonFemale
+            // 
+            this.radioButtonFemale.AutoSize = true;
+            this.radioButtonFemale.Location = new System.Drawing.Point(147, 66);
+            this.radioButtonFemale.Name = "radioButtonFemale";
+            this.radioButtonFemale.Size = new System.Drawing.Size(59, 17);
+            this.radioButtonFemale.TabIndex = 14;
+            this.radioButtonFemale.TabStop = true;
+            this.radioButtonFemale.Text = "Female";
+            this.radioButtonFemale.UseVisualStyleBackColor = true;
             // 
             // FormSave
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(740, 390);
-            this.Controls.Add(this.textBoxGender);
+            this.Controls.Add(this.radioButtonFemale);
+            this.Controls.Add(this.radioButtonMale);
             this.Controls.Add(this.textBoxLastName);
             this.Controls.Add(this.labelGender);
             this.Controls.Add(this.labelLastName);
@@ -215,6 +232,7 @@
         private System.Windows.Forms.Label labelLastName;
         private System.Windows.Forms.Label labelGender;
         private System.Windows.Forms.TextBox textBoxLastName;
-        private System.Windows.Forms.TextBox textBoxGender;
+        private System.Windows.Forms.RadioButton radioButtonMale;
+        private System.Windows.Forms.RadioButton radioButtonFemale;
     }
 }
