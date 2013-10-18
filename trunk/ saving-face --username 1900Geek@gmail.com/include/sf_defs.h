@@ -86,8 +86,12 @@ namespace SF
 
 	//SUCCESS
 	#define SF_STS_OK (1)
+	//Unable to Locate or capture streams
+	#define SF_STS_FAIL_STREAMS (-998)
 	//Failed memory allocation
 	#define SF_STS_MEM_ALLOC_FAIL (-999)
+	//General Failure::Usually for unimplemented functionality
+	#define SF_STS_FAIL (-1000)
 }
 
 #endif // !_SF_TYPE_DEFS

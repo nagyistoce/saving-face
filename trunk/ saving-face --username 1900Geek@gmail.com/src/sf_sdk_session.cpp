@@ -2,8 +2,6 @@
 
 namespace SF
 {
-
-
 	bool SF_Session::createSession()
 	{
 		pxcStatus sts=PXCSession_Create(&session);
@@ -21,6 +19,8 @@ namespace SF
 	//–file		Specify a file name. Use with –record for recording or alone for playback.
 	//–record	Enable the recording mode. Use with –file to specify the recording file name.
 	//-load		Load a specific input SDK module into the SDK session.
+	
+	
 	bool SF_Session::setOptions(int argc, WCHAR *argv[])
 	{
 		//Set Options
@@ -29,9 +29,33 @@ namespace SF
 		return true;
 	}
 
+	SF_STS SF_Session::initSession(){
+		return SF_STS_FAIL;
+	}
+	
+	SF_STS SF_Session::captureStreams(){
+		PXCCapture::VideoStream::DataDesc request; 
+		memset(&request, 0, sizeof(request)); 
+		//Setup To Request Data Streams
+		request.streams[0].format=PXCImage::COLOR_FORMAT_RGB32;
+		request.streams[1].format=PXCImage::COLOR_FORMAT_DEPTH;
+		//Submit Request to capture streams
+		pxcStatus sts = capture->LocateStreams (&request);
+		if (sts<PXC_STATUS_NO_ERROR) {
+        wprintf_s(L"Failed to locate video stream(s)\n");
+        return SF_STS_FAIL_STREAMS;
+    }
+		return SF_STS_OK;
+	}
+	
+	SF_STS SF_Session::loadFaceModule(){
+		return SF_STS_FAIL;
+	}
+
 	SF_Session::SF_Session(void)
 	{
 		cmdl = 0;
+		
 	}
 
 

@@ -19,7 +19,7 @@
 #include "pxcmetadata.h" 
 #include "Testing.h"
 
-#ifndef _TEST_CODE
+#ifdef _TEST_CODE
 
 
 int wmain(int argc, WCHAR* argv[]) {
@@ -188,7 +188,7 @@ int wmain(int argc, WCHAR* argv[]) {
 			projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
 
 			//Grab the location of the tip of the nose using landmarks
-			PXCFaceAnalysis::Landmark *landmark=face->DynamicCast<PXCFaceAnalysis::Landmark>();
+			PXCFaceAnalysis::Landmark *landmark= face->DynamicCast<PXCFaceAnalysis::Landmark>();
 
 			pxcUID fid; pxcU64 ts;
 			if (face->QueryFace(i,&fid,&ts)<PXC_STATUS_NO_ERROR) break;
@@ -217,7 +217,9 @@ int wmain(int argc, WCHAR* argv[]) {
 
 					//Rotate each point around the origin in x,y,z
 					pos3d[k].{{1,0,0}, {0,cos(pdata.yaw), -sin(pdata.yaw)}, {0, sin(pdata.yaw), cos(pdata.yaw)}};
-					pos3d[k].{{cos(pdata.pitch),0,sin(pdata.pitch)}, {0, 1, 0}, {-sin(pdata.pitch), sin(pdata.pitch), cos(pdata.pitch)}};
+					//Error here * KS
+					pos3d[k].{{cos(pdata.pitch),0,sin(pdata.pitch)}, {0, 1, 0}, {-sin(pdata.pitch), 0, cos(pdata.pitch)}};
+					
 					pos3d[k].{{cos(pdata.roll),-sin(pdata.roll),0}, {sin(pdata.roll), cos(pdata.roll), 0}, {0, 0. 1}};
 
 					arrayData << pos3d[k].x << ", " <<  pos3d[k].y << ", " << pos3d[k].z << "\n";//KS write to file

@@ -6,6 +6,8 @@
 #include "pxcsession.h" //Required To Make Session
 #include "pxcsmartptr.h" //Smart pointers for memory management
 #include "util_cmdline.h" //CmdLine for passing options in... Minimizes Code
+#include "util_capture.h" //Allows capture of data streams
+#include "sf_defs.h" //Data types
 
 namespace SF
 {
@@ -13,6 +15,7 @@ namespace SF
 	{
 	public:
 	PXCSmartPtr<PXCSession> session;
+	PXCSmartPtr<UtilCapture> capture;
 	UtilCmdLine *cmdl;
 
 	//Create the PCSDK Session
@@ -27,8 +30,19 @@ namespace SF
 	//-load		Load a specific input SDK module into the SDK session.
 	bool setOptions(int argc, WCHAR *argv[]);
 	
+
+	//TODO Comment all of these
+	SF_STS initSession();
+	SF_STS captureStreams();
+	SF_STS loadFaceModule();
+
+
+
+
 	SF_Session();
 	~SF_Session();
+
+	
 	
 	};
 }

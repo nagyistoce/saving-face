@@ -1,5 +1,5 @@
 
 
 
-//#define _SF_TEST_MAIN
-#define _TEST_CODE
+#define _SF_TEST_MAIN
+//#define _TEST_CODE
