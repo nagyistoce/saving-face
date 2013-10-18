@@ -34,6 +34,9 @@ int wmain(int argc, WCHAR* argv[]) {
         return 3;
 	}
 
+	session->createDepthRenderView();
+	session->tempMainLoop();
+
 
 	
 

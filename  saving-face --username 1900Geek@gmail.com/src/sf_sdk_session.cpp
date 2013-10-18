@@ -85,4 +85,26 @@ namespace SF
 		if(cmdl) delete cmdl;
 	}
 
+	//Temp Code Must be replaced
+	void SF_Session::tempMainLoop()
+	{
+		for (pxcU32 f=0;f<200;f++) {
+        //Create 2 image instances
+		PXCSmartArray<PXCImage> images(2);
+
+		//Synchronous Pointer
+        PXCSmartSP sp;
+		//ReadStream If Data Available or Block
+		pxcStatus sts = capture->ReadStreamAsync(images,&sp);
+		if (sts<PXC_STATUS_NO_ERROR) break;
+		
+		//Wait for all ASynchronous Modules To Return
+        sts=sp->Synchronize();
+        if (sts<PXC_STATUS_NO_ERROR) break;
+       
+		//Render the Depth Image
+		if (!depth_render->RenderFrame(images[1])) break;
+		}
+		
+	}
 }
