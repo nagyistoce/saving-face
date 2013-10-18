@@ -20,6 +20,9 @@ int wmain(int argc, WCHAR* argv[]) {
 	//This is test code to verify proper operation.
 	//This will later be replaced by the program flow control code.
 	//Which can be controlled by case statements.
+
+	//For simplicity the control code will be implemented in C++ and only necessary function calls
+	//will be made from c#.
 	session = new SF::SF_Session();
 	if(!(session->createSession())){
         wprintf_s(L"Failed to create a session\n");

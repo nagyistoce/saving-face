@@ -29,6 +29,8 @@ namespace SF
 		return true;
 	}
 	
+	//This will fail if you do not have the camera.
+
 	SF_STS SF_Session::captureStreams(){
 		PXCCapture::VideoStream::DataDesc request; 
 		memset(&request, 0, sizeof(request)); 
