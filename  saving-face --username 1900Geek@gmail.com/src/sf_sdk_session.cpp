@@ -28,10 +28,6 @@ namespace SF
 		if (!cmdl->Parse(L"-nframes-csize-sdname",argc,argv)) return false;
 		return true;
 	}
-
-	SF_STS SF_Session::initSession(){
-		return SF_STS_FAIL;
-	}
 	
 	SF_STS SF_Session::captureStreams(){
 		PXCCapture::VideoStream::DataDesc request; 
@@ -40,11 +36,36 @@ namespace SF
 		request.streams[0].format=PXCImage::COLOR_FORMAT_RGB32;
 		request.streams[1].format=PXCImage::COLOR_FORMAT_DEPTH;
 		//Submit Request to capture streams
+		capture = new UtilCapture(session);
 		pxcStatus sts = capture->LocateStreams (&request);
 		if (sts<PXC_STATUS_NO_ERROR) {
-        wprintf_s(L"Failed to locate video stream(s)\n");
-        return SF_STS_FAIL_STREAMS;
-    }
+			wprintf_s(L"Failed to locate video stream(s)\n");
+			return SF_STS_FAIL_STREAMS;
+		}
+		//Get Stream profile info
+		//Should be moved to its own function to account for changes at runtime
+		//If the previous code did not fail this will succeed.
+		capture->QueryVideoStream(0)->QueryProfile(&pcolor);
+		capture->QueryVideoStream(1)->QueryProfile(&pdepth);
+		return SF_STS_OK;
+	}
+
+	SF_STS SF_Session::createDepthRenderView(){
+		pxcCHAR line[64];
+		swprintf_s(line,sizeof(line)/sizeof(pxcCHAR),L"Depth %dx%d", pdepth.imageInfo.width, pdepth.imageInfo.height);
+		wprintf(line);//Print to Console//Temp for debug
+		wprintf(L"\n");
+		depth_render = new UtilRender(line);
+		//Lazy here should check allocation
+		return SF_STS_OK;
+	}
+	SF_STS SF_Session::createColorRenderView(){
+		pxcCHAR line[64];
+		swprintf_s(line,sizeof(line)/sizeof(pxcCHAR),L"UV %dx%d", pcolor.imageInfo.width, pcolor.imageInfo.height);
+		wprintf(line);//Temp for debug
+		wprintf(L"\n");
+		uv_render = new UtilRender(line);
+		//Lazy here should check allocation
 		return SF_STS_OK;
 	}
 	
@@ -52,10 +73,10 @@ namespace SF
 		return SF_STS_FAIL;
 	}
 
+	//Constructor should be no fail.
 	SF_Session::SF_Session(void)
 	{
 		cmdl = 0;
-		
 	}
 
 

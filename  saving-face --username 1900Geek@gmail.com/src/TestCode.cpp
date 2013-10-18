@@ -79,6 +79,8 @@ int wmain(int argc, WCHAR* argv[]) {
 	wprintf(L"\n");
 	UtilRender prj_render(line);
 
+	//TEMP NOTE: YOU ARE HERE
+
 	PXCSmartPtr<PXCProjection> projection;	// determines what projection to apply
     PXCSmartPtr<PXCImage> color2;			// the color image after projection
     PXCPoint3DF32 *pos2d = 0;				// array of depth coordinates to be mapped onto color coordinates
