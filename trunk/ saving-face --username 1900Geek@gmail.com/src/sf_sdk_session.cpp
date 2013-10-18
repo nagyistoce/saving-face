@@ -99,10 +99,12 @@ namespace SF
 	}
 
 	//Temp Code Must be replaced
+	//Use this as a template for other functions. Like detect or build model.
 	//Raw Model for detection and Model Capture
 	//Currently all it does is display the feeds
 	void SF_Session::tempMainLoop()
 	{
+		//Currently set to iterate over 200 frames.
 		for (pxcU32 f=0;f<200;f++) {
         //Create 2 image instances
 		//Should auto delete as it goes out of scope...
@@ -132,10 +134,13 @@ namespace SF
 			landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_NOSE_TIP,0,&ldata);
        
 			/****
-			This is where we would put in the calls to out SF Module.
+			This is where we would put in the calls to our SF Module.
 			Please use function calls instead of writing the code inline.
 			You can however inline the functions.
 			****/
+
+			//Use the detector to limit the input pixels
+			//Use the landmark to get Yaw Pitch Roll and the center coord.
 		}
 		//Render the Depth Image
 		if (!depth_render->RenderFrame(images[1])) break;
