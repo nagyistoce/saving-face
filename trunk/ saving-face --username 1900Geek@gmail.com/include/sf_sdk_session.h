@@ -7,6 +7,7 @@
 #include "pxcsmartptr.h" //Smart pointers for memory management
 #include "util_cmdline.h" //CmdLine for passing options in... Minimizes Code
 #include "util_capture.h" //Allows capture of data streams
+#include "util_render.h" //For quick display of feeds
 #include "sf_defs.h" //Data types
 
 namespace SF
@@ -16,7 +17,12 @@ namespace SF
 	public:
 	PXCSmartPtr<PXCSession> session;
 	PXCSmartPtr<UtilCapture> capture;
+	PXCSmartPtr<UtilRender> depth_render;
+	PXCSmartPtr<UtilRender> uv_render;
 	UtilCmdLine *cmdl;
+	PXCCapture::VideoStream::ProfileInfo pcolor;
+	PXCCapture::VideoStream::ProfileInfo pdepth;
+	
 
 	//Create the PCSDK Session
 	bool createSession();
@@ -32,11 +38,12 @@ namespace SF
 	
 
 	//TODO Comment all of these
-	SF_STS initSession();
 	SF_STS captureStreams();
 	SF_STS loadFaceModule();
+	SF_STS createDepthRenderView();
+	SF_STS createColorRenderView();
 
-
+	void tempMainLoop();
 
 
 	SF_Session();
