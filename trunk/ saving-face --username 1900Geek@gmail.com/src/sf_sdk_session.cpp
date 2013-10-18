@@ -59,6 +59,7 @@ namespace SF
 		//Lazy here should check allocation
 		return SF_STS_OK;
 	}
+
 	SF_STS SF_Session::createColorRenderView(){
 		pxcCHAR line[64];
 		swprintf_s(line,sizeof(line)/sizeof(pxcCHAR),L"UV %dx%d", pcolor.imageInfo.width, pcolor.imageInfo.height);
@@ -70,7 +71,19 @@ namespace SF
 	}
 	
 	SF_STS SF_Session::loadFaceModule(){
-		return SF_STS_FAIL;
+		//Need some error checking here
+		session->CreateImpl<PXCFaceAnalysis>(&face);
+		PXCFaceAnalysis::ProfileInfo pinfo;
+		face->QueryProfile(0,&pinfo);
+		//capture->LocateStreams(&pinfo.inputs);
+		face->SetProfile(&pinfo);
+		detector = face->DynamicCast<PXCFaceAnalysis::Detection>();
+		PXCFaceAnalysis::Detection::ProfileInfo dinfo;
+		detector->QueryProfile(0,&dinfo);
+		detector->SetProfile(&dinfo);
+
+		landmark = face->DynamicCast<PXCFaceAnalysis::Landmark>();
+		return SF_STS_OK;
 	}
 
 	//Constructor should be no fail.
@@ -86,24 +99,47 @@ namespace SF
 	}
 
 	//Temp Code Must be replaced
+	//Raw Model for detection and Model Capture
+	//Currently all it does is display the feeds
 	void SF_Session::tempMainLoop()
 	{
 		for (pxcU32 f=0;f<200;f++) {
         //Create 2 image instances
+		//Should auto delete as it goes out of scope...
+		//Consider moving to a local variable to eleminate repetitive allocation.
 		PXCSmartArray<PXCImage> images(2);
 
 		//Synchronous Pointer
-        PXCSmartSP sp;
+		PXCSmartSPArray sp(2);
 		//ReadStream If Data Available or Block
-		pxcStatus sts = capture->ReadStreamAsync(images,&sp);
+		pxcStatus sts = capture->ReadStreamAsync(images, &sp[0]);
 		if (sts<PXC_STATUS_NO_ERROR) break;
 		
+		if(face)
+			face->ProcessImageAsync(images,&sp[1]);
+		
 		//Wait for all ASynchronous Modules To Return
-        sts=sp->Synchronize();
+        sts=sp.SynchronizeEx();
+		//sts=sp->Synchronize();
         if (sts<PXC_STATUS_NO_ERROR) break;
+
+		for (int i=0;;i++) {
+			pxcUID fid; pxcU64 ts;
+			if (face->QueryFace(i,&fid,&ts)<PXC_STATUS_NO_ERROR) break;
+			PXCFaceAnalysis::Detection::Data data;
+			detector->QueryData(fid,&data);
+			PXCFaceAnalysis::Landmark::LandmarkData ldata;
+			landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_NOSE_TIP,0,&ldata);
        
+			/****
+			This is where we would put in the calls to out SF Module.
+			Please use function calls instead of writing the code inline.
+			You can however inline the functions.
+			****/
+		}
 		//Render the Depth Image
 		if (!depth_render->RenderFrame(images[1])) break;
+		if (!uv_render->RenderFrame(images[0])) break;
 		}
 		
 	}

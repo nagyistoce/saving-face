@@ -35,6 +35,8 @@ int wmain(int argc, WCHAR* argv[]) {
 	}
 
 	session->createDepthRenderView();
+	session->createColorRenderView();
+	session->loadFaceModule();
 	session->tempMainLoop();
 
 
