@@ -235,7 +235,7 @@
             this.label3.Size = new System.Drawing.Size(389, 51);
             this.label3.TabIndex = 18;
             this.label3.Tag = "";
-            this.label3.Text = "* Indicates a required field, however the truth is not required.\n Feel free to ma" +
+            this.label3.Text = "* Indicates a required field, however the truth is not required.\nFeel free to ma" +
     "ke something up.\nNote that this information may be displayed publicly.";
             // 
             // FormSave
@@ -250,7 +250,7 @@
             this.Controls.Add(this.pictureBoxTakePicture);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "FormSave";
-            this.Text = "FormSave";
+            this.Text = "Create New Model";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTakePicture)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
