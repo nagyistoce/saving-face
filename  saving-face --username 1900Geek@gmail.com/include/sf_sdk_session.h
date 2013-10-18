@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "pxcsession.h" //Required To Make Session
 #include "pxcsmartptr.h" //Smart pointers for memory management
+#include "pxcface.h"
 #include "util_cmdline.h" //CmdLine for passing options in... Minimizes Code
 #include "util_capture.h" //Allows capture of data streams
 #include "util_render.h" //For quick display of feeds
@@ -15,10 +16,20 @@ namespace SF
 	class SF_Session
 	{
 	public:
+	
 	PXCSmartPtr<PXCSession> session;
 	PXCSmartPtr<UtilCapture> capture;
+
+	//SDK Easy Render Views...
 	PXCSmartPtr<UtilRender> depth_render;
 	PXCSmartPtr<UtilRender> uv_render;
+
+	//Face Analysis Module
+	PXCSmartPtr<PXCFaceAnalysis> face;
+	PXCSmartPtr<PXCFaceAnalysis::Landmark> landmark;
+	PXCSmartPtr<PXCFaceAnalysis::Detection> detector;
+
+
 	UtilCmdLine *cmdl;
 	PXCCapture::VideoStream::ProfileInfo pcolor;
 	PXCCapture::VideoStream::ProfileInfo pdepth;
@@ -42,14 +53,10 @@ namespace SF
 	SF_STS loadFaceModule();
 	SF_STS createDepthRenderView();
 	SF_STS createColorRenderView();
-
 	void tempMainLoop();
-
+	
 
 	SF_Session();
 	~SF_Session();
-
-	
-	
 	};
 }
