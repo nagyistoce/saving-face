@@ -72,7 +72,6 @@
     <ClCompile Include="src\sf_model.cpp" />
     <ClCompile Include="src\sf_model_builder.cpp" />
     <ClCompile Include="src\sf_sdk_session.cpp" />
-    <ClCompile Include="src\sf_session.cpp" />
     <ClCompile Include="src\sf_test_main.cpp" />
     <ClCompile Include="src\TestCode.cpp" />
   </ItemGroup>

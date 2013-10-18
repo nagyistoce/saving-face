@@ -24,9 +24,6 @@
     <ClCompile Include="src\sf_model_builder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\sf_session.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\sf_test_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

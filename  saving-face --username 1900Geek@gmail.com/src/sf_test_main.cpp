@@ -6,7 +6,7 @@
 #include "Testing.h"
 #include "sf_sdk_session.h"
 
-#ifndef _SF_TEST_MAIN
+#ifdef _SF_TEST_MAIN
 
 SF::SF_Session *session;
 
@@ -19,6 +19,7 @@ int wmain(int argc, WCHAR* argv[]) {
         wprintf_s(L"Failed to create a session\n");
         return 3;
     }
+
 	if(!(session->setOptions(argc, argv))){
         wprintf_s(L"Failed to set cmdln options\n");
         return 3;
