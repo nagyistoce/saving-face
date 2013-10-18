@@ -87,7 +87,7 @@
             this.emailTB.Margin = new System.Windows.Forms.Padding(4);
             this.emailTB.Name = "emailTB";
             this.emailTB.Size = new System.Drawing.Size(222, 22);
-            this.emailTB.TabIndex = 3;
+            this.emailTB.TabIndex = 4;
             // 
             // userImagePB
             // 
@@ -151,7 +151,7 @@
             this.lastNameTB.Margin = new System.Windows.Forms.Padding(4);
             this.lastNameTB.Name = "lastNameTB";
             this.lastNameTB.Size = new System.Drawing.Size(222, 22);
-            this.lastNameTB.TabIndex = 12;
+            this.lastNameTB.TabIndex = 3;
             // 
             // maleRB
             // 
