@@ -148,6 +148,17 @@ namespace SF
 		if (!depth_render->RenderFrame(images[1])) break;
 		if (!uv_render->RenderFrame(images[0])) break;
 		}
-		
+	}
+
+	void centerModel(PXCFaceAnalysis::Landmark::LandmarkData ldata, PXCPoint3DF32 pos3d)
+	{
+		pos3d.x -= ldata.position.x;
+		pos3d.y -= ldata.position.y;
+		pos3d.z -= ldata.position.z;
+	}
+
+	void rotateModel(PXCFaceAnalysis::Landmark::PoseData pdata, PXCPoint3DF32 pos3d)
+	{
+		//this needs to be created out.
 	}
 }
