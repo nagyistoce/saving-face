@@ -47,6 +47,10 @@ namespace SF
 	//-load		Load a specific input SDK module into the SDK session.
 	bool setOptions(int argc, WCHAR *argv[]);
 	
+	//Center the model to the tip of the nose
+	void centerModel(PXCFaceAnalysis::Landmark::LandmarkData ldata, PXCPoint3DF32 pos3d);
+	//Rotate around x,y,z axis, based on yaw,pitch, and roll.
+	void rotateModel(PXCFaceAnalysis::Landmark::PoseData pdata, PXCPoint3DF32 pos3d);
 
 	//TODO Comment all of these
 	SF_STS captureStreams();
