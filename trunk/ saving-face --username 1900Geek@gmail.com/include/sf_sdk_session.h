@@ -50,7 +50,10 @@ namespace SF
 	//Center the model to the tip of the nose
 	void centerModel(PXCFaceAnalysis::Landmark::LandmarkData ldata, PXCPoint3DF32 pos3d);
 	//Rotate around x,y,z axis, based on yaw,pitch, and roll.
-	void rotateModel(PXCFaceAnalysis::Landmark::PoseData pdata, PXCPoint3DF32 pos3d);
+	pxcF32 * getTransform(PXCFaceAnalysis::Landmark::PoseData pdata);
+	void applyTransform(PXCPoint3DF32 pos3d);
+	void coordTransform(PXCPoint3DF32 pos3d);
+	void tempTestingModule();
 
 	//TODO Comment all of these
 	SF_STS captureStreams();
