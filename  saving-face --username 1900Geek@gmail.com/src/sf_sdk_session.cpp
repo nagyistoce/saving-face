@@ -1,4 +1,5 @@
 #include "..\include\sf_sdk_session.h"
+#include <iostream>
 
 namespace SF
 {
@@ -133,8 +134,10 @@ namespace SF
 			PXCFaceAnalysis::Detection::Data data;
 			detector->QueryData(fid,&data);
 			PXCFaceAnalysis::Landmark::LandmarkData ldata;
+			PXCFaceAnalysis::Landmark::PoseData pdata;
+			       
 			landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_NOSE_TIP,0,&ldata);
-       
+			landmark->QueryPoseData(fid, &pdata);
 			/****
 			This is where we would put in the calls to our SF Module.
 			Please use function calls instead of writing the code inline.
@@ -157,21 +160,58 @@ namespace SF
 		pos3d.z -= ldata.position.z;
 	}
 
-	void rotateModel(PXCFaceAnalysis::Landmark::PoseData pdata, PXCPoint3DF32 pos3d)
+	pxcF32 * getTransform(PXCFaceAnalysis::Landmark::PoseData pdata)
 	{
-		double tx[3][3] = {{1,0,0},{0,cos(pdata.yaw),-sin(pdata.yaw)},{0,sin(pdata.yaw),cos(pdata.yaw)}};
-		double ty[3][3] = {{cos(pdata.pitch),0,sin(pdata.pitch)},{0,1,0},{-sin(pdata.pitch),0,cos(pdata.pitch)}};
-		double tz[3][3] = {{cos(pdata.roll),-sin(pdata.roll),0},{sin(pdata.roll),cos(pdata.roll),0},{0,0,1}};
+		pxcF32 tx[3][3] = {{1,0,0},{0,cos(pdata.yaw),-sin(pdata.yaw)},{0,sin(pdata.yaw),cos(pdata.yaw)}};
+		pxcF32 ty[3][3] = {{cos(pdata.pitch),0,sin(pdata.pitch)},{0,1,0},{-sin(pdata.pitch),0,cos(pdata.pitch)}};
+		pxcF32 tz[3][3] = {{cos(pdata.roll),-sin(pdata.roll),0},{sin(pdata.roll),cos(pdata.roll),0},{0,0,1}};
 
-		double temp[3][3] = {{tx[1][1] * ty[1][1] + tx[1][2]*ty[2][1] + tx[1][3] * ty[3][1], tx[1][1] * ty[1][2] + tx[1][2]*ty[2][2] + tx[1][3] * ty[3][2], tx[1][1] * ty[1][3] + tx[1][2]*ty[2][3] + tx[1][3] * ty[3][3]},
+		pxcF32 temp[3][3] = {{tx[1][1] * ty[1][1] + tx[1][2]*ty[2][1] + tx[1][3] * ty[3][1], tx[1][1] * ty[1][2] + tx[1][2]*ty[2][2] + tx[1][3] * ty[3][2], tx[1][1] * ty[1][3] + tx[1][2]*ty[2][3] + tx[1][3] * ty[3][3]},
 						   {tx[2][1] * ty[1][1] + tx[2][2]*ty[2][1] + tx[2][3] * ty[3][1], tx[2][1] * ty[1][2] + tx[2][2]*ty[2][2] + tx[2][3] * ty[3][2], tx[2][1] * ty[1][3] + tx[2][2]*ty[2][3] + tx[2][3] * ty[3][3]},
 						   {tx[3][1] * ty[1][1] + tx[3][2]*ty[2][1] + tx[3][3] * ty[3][1], tx[3][1] * ty[1][2] + tx[3][2]*ty[2][2] + tx[3][3] * ty[3][2], tx[3][1] * ty[1][3] + tx[3][2]*ty[2][3] + tx[3][3] * ty[3][3]}};
 
-		double tm[3][3] = {{temp[1][1] * tz[1][1] + temp[1][2]*tz[2][1] + temp[1][3] * tz[3][1], temp[1][1] * tz[1][2] + temp[1][2]*ty[2][2] + temp[1][3] * tz[3][2], temp[1][1] * tz[1][3] + temp[1][2]*tz[2][3] + temp[1][3] * tz[3][3]},
+
+		pxcF32 tm[3][3] = {{temp[1][1] * tz[1][1] + temp[1][2]*tz[2][1] + temp[1][3] * tz[3][1], temp[1][1] * tz[1][2] + temp[1][2]*ty[2][2] + temp[1][3] * tz[3][2], temp[1][1] * tz[1][3] + temp[1][2]*tz[2][3] + temp[1][3] * tz[3][3]},
 						   {temp[2][1] * tz[1][1] + temp[2][2]*tz[2][1] + temp[2][3] * tz[3][1], temp[2][1] * tz[1][2] + temp[2][2]*ty[2][2] + temp[2][3] * tz[3][2], temp[2][1] * tz[1][3] + temp[2][2]*tz[2][3] + temp[2][3] * tz[3][3]},
 						   {temp[3][1] * tz[1][1] + temp[3][2]*tz[2][1] + temp[3][3] * tz[3][1], temp[3][1] * tz[1][2] + temp[3][2]*ty[2][2] + temp[3][3] * tz[3][2], temp[3][1] * tz[1][3] + temp[3][2]*tz[2][3] + temp[3][3] * tz[3][3]}};
 
-		//Need to apply rotation to vertices.
+		return *tm;
+	}
 
+	void applyTransform(PXCPoint3DF32 pos3d, pxcF32 tm[3][3])
+	{
+		pos3d.x = (pos3d.x * tm[1][1] + pos3d.y * tm[1][2] + pos3d.z * tm[1][3]);
+		pos3d.y = (pos3d.x * tm[2][1] + pos3d.y * tm[2][2] + pos3d.z * tm[2][3]);
+		pos3d.z = (pos3d.x * tm[3][1] + pos3d.y * tm[3][2] + pos3d.z * tm[3][3]);
+	}
+
+	void coordTransform(PXCPoint3DF32 pos3d)
+	{
+		pxcF32 xmin = (pxcF32)-0.25;
+		pxcF32 ymin = (pxcF32)-0.25;
+		pxcF32 zmin = (pxcF32)-0.1;
+		pxcF32 xmax = (pxcF32)0.25;
+		pxcF32 ymax = (pxcF32)0.25;
+		pxcF32 zmax = (pxcF32)0.4;
+		pxcF32 deltax = (pxcF32)0.0025;
+		pxcF32 deltay = (pxcF32)0.0025;
+		pxcF32 deltaz = (pxcF32)0.0025;
+
+		pos3d.x = floor((pos3d.x - xmin) / deltax);
+		pos3d.y = floor((pos3d.y - ymin) / deltay);
+		pos3d.z = floor((pos3d.z - zmin) / deltaz);
+
+	}
+
+	void tempTestingModule()
+	{
+		PXCPoint3DF32 temp;
+		temp.x = (pxcF32)-0.25;
+		temp.y = (pxcF32)-0.25;
+		temp.z = (pxcF32)-0.1;
+
+		coordTransform(temp);
+		std::cout << temp.x << temp.y << temp.z;
+		
 	}
 }
