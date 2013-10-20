@@ -159,6 +159,19 @@ namespace SF
 
 	void rotateModel(PXCFaceAnalysis::Landmark::PoseData pdata, PXCPoint3DF32 pos3d)
 	{
-		//this needs to be created out.
+		double tx[3][3] = {{1,0,0},{0,cos(pdata.yaw),-sin(pdata.yaw)},{0,sin(pdata.yaw),cos(pdata.yaw)}};
+		double ty[3][3] = {{cos(pdata.pitch),0,sin(pdata.pitch)},{0,1,0},{-sin(pdata.pitch),0,cos(pdata.pitch)}};
+		double tz[3][3] = {{cos(pdata.roll),-sin(pdata.roll),0},{sin(pdata.roll),cos(pdata.roll),0},{0,0,1}};
+
+		double temp[3][3] = {{tx[1][1] * ty[1][1] + tx[1][2]*ty[2][1] + tx[1][3] * ty[3][1], tx[1][1] * ty[1][2] + tx[1][2]*ty[2][2] + tx[1][3] * ty[3][2], tx[1][1] * ty[1][3] + tx[1][2]*ty[2][3] + tx[1][3] * ty[3][3]},
+						   {tx[2][1] * ty[1][1] + tx[2][2]*ty[2][1] + tx[2][3] * ty[3][1], tx[2][1] * ty[1][2] + tx[2][2]*ty[2][2] + tx[2][3] * ty[3][2], tx[2][1] * ty[1][3] + tx[2][2]*ty[2][3] + tx[2][3] * ty[3][3]},
+						   {tx[3][1] * ty[1][1] + tx[3][2]*ty[2][1] + tx[3][3] * ty[3][1], tx[3][1] * ty[1][2] + tx[3][2]*ty[2][2] + tx[3][3] * ty[3][2], tx[3][1] * ty[1][3] + tx[3][2]*ty[2][3] + tx[3][3] * ty[3][3]}};
+
+		double tm[3][3] = {{temp[1][1] * tz[1][1] + temp[1][2]*tz[2][1] + temp[1][3] * tz[3][1], temp[1][1] * tz[1][2] + temp[1][2]*ty[2][2] + temp[1][3] * tz[3][2], temp[1][1] * tz[1][3] + temp[1][2]*tz[2][3] + temp[1][3] * tz[3][3]},
+						   {temp[2][1] * tz[1][1] + temp[2][2]*tz[2][1] + temp[2][3] * tz[3][1], temp[2][1] * tz[1][2] + temp[2][2]*ty[2][2] + temp[2][3] * tz[3][2], temp[2][1] * tz[1][3] + temp[2][2]*tz[2][3] + temp[2][3] * tz[3][3]},
+						   {temp[3][1] * tz[1][1] + temp[3][2]*tz[2][1] + temp[3][3] * tz[3][1], temp[3][1] * tz[1][2] + temp[3][2]*ty[2][2] + temp[3][3] * tz[3][2], temp[3][1] * tz[1][3] + temp[3][2]*tz[2][3] + temp[3][3] * tz[3][3]}};
+
+		//Need to apply rotation to vertices.
+
 	}
 }
