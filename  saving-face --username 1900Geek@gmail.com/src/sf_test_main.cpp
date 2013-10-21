@@ -2,13 +2,15 @@
 #include <conio.h>
 #include <windows.h>
 #include <wchar.h>
-
 #include "Testing.h"
 #include "sf_sdk_session.h"
+#include "sf_model_builder.h"
 
 #ifdef _SF_TEST_MAIN
 
 SF::SF_Session *session;
+SF::sf_model_builder *modelBuilder;
+
 
 
 int wmain(int argc, WCHAR* argv[]) {
@@ -24,6 +26,8 @@ int wmain(int argc, WCHAR* argv[]) {
 	//For simplicity the control code will be implemented in C++ and only necessary function calls
 	//will be made from c#.
 	session = new SF::SF_Session();
+	modelBuilder = new SF::sf_model_builder();
+
 	if(!(session->createSession())){
         wprintf_s(L"Failed to create a session\n");
         return 3;
@@ -42,10 +46,9 @@ int wmain(int argc, WCHAR* argv[]) {
 	session->loadFaceModule();
 	session->tempMainLoop();
 
-
-	
-
+	modelBuilder->tempTestingModule();
 
     return 0;
 }
+
 #endif //_SF_TEST_MAIN
