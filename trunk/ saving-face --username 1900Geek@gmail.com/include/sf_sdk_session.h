@@ -46,14 +46,6 @@ namespace SF
 	//–record	Enable the recording mode. Use with –file to specify the recording file name.
 	//-load		Load a specific input SDK module into the SDK session.
 	bool setOptions(int argc, WCHAR *argv[]);
-	
-	//Center the model to the tip of the nose
-	void centerModel(PXCFaceAnalysis::Landmark::LandmarkData ldata, PXCPoint3DF32 pos3d);
-	//Rotate around x,y,z axis, based on yaw,pitch, and roll.
-	pxcF32 * getTransform(PXCFaceAnalysis::Landmark::PoseData pdata);
-	void applyTransform(PXCPoint3DF32 pos3d);
-	void coordTransform(PXCPoint3DF32 pos3d);
-	void tempTestingModule();
 
 	//TODO Comment all of these
 	SF_STS captureStreams();
