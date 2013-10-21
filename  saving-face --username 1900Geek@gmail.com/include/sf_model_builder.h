@@ -20,15 +20,17 @@ namespace SF
 
 	public:
 
-		PXCPoint3DF32 applyCoords(PXCPoint3DF32 pos3d);//Figure out what the arguments are.
-
 		sf_model_builder(void);
 		~sf_model_builder(void);
 
 		PXCPoint3DF32 movePointsToOrigin(PXCFaceAnalysis::Landmark::LandmarkData ldata, PXCPoint3DF32 pos3d); //Center the model to the tip of the nose
 		PXCPoint3DF32 coordTransform(PXCPoint3DF32 pos3d);
+		void tempTestingModule();
+
+		//Not finished
 		pxcF32 * getTransform(PXCFaceAnalysis::Landmark::PoseData pdata); //Rotate around x,y,z axis, based on yaw,pitch, and roll.
 		void applyTransform(PXCPoint3DF32 pos3d, pxcF32 tm[3][3]);
-		void tempTestingModule();
+		PXCPoint3DF32 applyCoords(PXCPoint3DF32 pos3d);//Figure out what the arguments are.
+
 	};
 }
