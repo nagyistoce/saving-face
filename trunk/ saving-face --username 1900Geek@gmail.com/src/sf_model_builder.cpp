@@ -22,14 +22,14 @@ namespace SF
 		//pos3d = ((pos3d.x - 1) * lengthx + (pos3d.y - 1) * lengthy + pos3d.y) + 1; 
 	}
 
-	PXCPoint3DF32 sf_model_builder::movePointsToOrigin(PXCFaceAnalysis::Landmark::LandmarkData ldata, PXCPoint3DF32 pos3d)
+	PXCPoint3DF32 sf_model_builder::moveToOrigin(PXCFaceAnalysis::Landmark::LandmarkData ldata, PXCPoint3DF32 pos3d)
 	{
 		pos3d.x -= ldata.position.x;
 		pos3d.y -= ldata.position.y;
 		pos3d.z -= ldata.position.z;
 	}
 
-	pxcF32 * sf_model_builder::getTransform(PXCFaceAnalysis::Landmark::PoseData pdata)
+	pxcF32 * sf_model_builder::getTransformationMatrix(PXCFaceAnalysis::Landmark::PoseData pdata)
 	{
 
 		pxcF32 tx[3][3] = {{1,0,0},{0,cos(pdata.yaw),-sin(pdata.yaw)},{0,sin(pdata.yaw),cos(pdata.yaw)}};
@@ -48,11 +48,13 @@ namespace SF
 		return *tm;
 	}
 
-	void sf_model_builder::applyTransform(PXCPoint3DF32 pos3d, pxcF32 tm[3][3])
+	PXCPoint3DF32 sf_model_builder::applyTransform(PXCPoint3DF32 pos3d, pxcF32 tm[3][3])
 	{
 		pos3d.x = (pos3d.x * tm[1][1] + pos3d.y * tm[1][2] + pos3d.z * tm[1][3]);
 		pos3d.y = (pos3d.x * tm[2][1] + pos3d.y * tm[2][2] + pos3d.z * tm[2][3]);
 		pos3d.z = (pos3d.x * tm[3][1] + pos3d.y * tm[3][2] + pos3d.z * tm[3][3]);
+
+		return pos3d;
 	}
 
 	PXCPoint3DF32 sf_model_builder::coordTransform(PXCPoint3DF32 pos3d)
@@ -90,7 +92,7 @@ namespace SF
 		temp.y = 100;
 		temp.z = 100;
 
-		temp = movePointsToOrigin(ldata, temp);
+		temp = moveToOrigin(ldata, temp);
 
 		if (temp.x == 0 && temp.y == 0 && temp.z == 0)
 			std::printf("coordinate transform test 1 success\n");
