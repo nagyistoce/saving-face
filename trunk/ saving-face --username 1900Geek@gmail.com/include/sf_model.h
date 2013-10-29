@@ -5,15 +5,18 @@
 using namespace std;
 namespace SF
 {
-#define SF_DEFAULT_XMIN (-0.15f)
-#define SF_DEFAULT_XMAX (0.15f)
-#define SF_DEFAULT_YMIN (-0.15f)
-#define SF_DEFAULT_YMAX (0.15f)
-#define SF_DEFAULT_ZMIN (-0.05f)
-#define SF_DEFAULT_ZMAX (0.45f)
-#define SF_DEFAULT_DELTAX (0.0025f)
-#define SF_DEFAULT_DELTAY (0.0025f)
-#define SF_DEFAULT_DELTAZ (0.0025f)
+	//Define Defaults
+	//Tweak here to manipulate the default configuration
+	//Will not affect previous instances
+	#define SF_DEFAULT_XMIN (-0.15f)
+	#define SF_DEFAULT_XMAX (0.15f)
+	#define SF_DEFAULT_YMIN (-0.15f)
+	#define SF_DEFAULT_YMAX (0.15f)
+	#define SF_DEFAULT_ZMIN (-0.05f)
+	#define SF_DEFAULT_ZMAX (0.45f)
+	#define SF_DEFAULT_DELTAX (0.0025f)
+	#define SF_DEFAULT_DELTAY (0.0025f)
+	#define SF_DEFAULT_DELTAZ (0.0025f)
 	
 	class Model
 	{

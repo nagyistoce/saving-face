@@ -41,6 +41,12 @@ namespace SF
 	//Defines a unit vector scalar for a transform
 	typedef float SF_SCALAR;
 
+	//The following could be redefined for use with other API's
+	
+	//Defines a magnitude and direction to shift a coord in the real-world xyz plane
+	//to put the point of rotation at the origin
+	typedef PXCPoint3DF32 SF_R3_COORD;
+
 	//Defines a magnitude and direction to shift a coord in the real-world xyz plane
 	//to put the point of rotation at the origin
 	typedef PXCPoint3DF32 SF_TR_VECTOR; 
@@ -60,16 +66,22 @@ namespace SF
 	typedef SF_MODEL_UNIT *SF_MODEL_ARR;
 
 	//An offset into the model
-	typedef int SF_MODEL_COORD;
+	typedef float SF_MODEL_COORD;
 
-	//A 3D Offset into the model.
+
+	//A 3D Coords in R3 model space.
 	struct SF_MODEL_COORD3D{
+		SF_MODEL_COORD x,y,z;
+	};
+
+	//A 3D Index into model.
+	struct SF_MODEL_COORD3D_INDEX{
 		SF_MODEL_COORD x,y,z;
 	};
 
 	//Unique Personal Identifier
 	//There is only one you
-	//Labeling in good
+	//Labeling people is good
 	typedef long SF_PUID;
 
 	//Unique Model Identifier

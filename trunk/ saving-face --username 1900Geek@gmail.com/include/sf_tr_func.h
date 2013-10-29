@@ -4,11 +4,13 @@
 
 namespace SF
 {
+	//Pass in the nose coord, and the Yaw, Pitch, and Roll
+	SF_TR_MATRIX* calculateTRMatrix(const SF_R3_COORD &rwcReference, const SF_YPR &ypr);
+
+	//So the Actual Transformation
+	SF_MODEL_COORD3D* transformCoord(const SF_R3_COORD &realWorldCoord, const SF_TR_MATRIX *tr_matrix);
 	
-	SF_TR_MATRIX calculateTRMatrix(const PXCPoint3DF32 rwcReference, const SF_YPR ypr);
-
-	SF_MODEL_COORD3D transformCoord(const PXCPoint3DF32 realWorldCoord, const SF_TR_MATRIX);
-
-	SF_STS coordInModelSpace(const SF_MODEL_COORD3D mdsCoord, const Model *model);
-
+	//Transforms the Coord into indexed model coords
+	//Returns null if outside model space.
+	SF_MODEL_COORD3D_INDEX* coordInModelSpace(const SF_MODEL_COORD3D &md_Coord, const Model *model);
 }
