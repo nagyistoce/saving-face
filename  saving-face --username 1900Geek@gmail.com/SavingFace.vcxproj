@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="sf_tr_func.cpp" />
     <ClCompile Include="src\sf_model.cpp" />
     <ClCompile Include="src\sf_model_builder.cpp" />
     <ClCompile Include="src\sf_sdk_session.cpp" />
@@ -77,7 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sf_defs.h" />
-    <ClInclude Include="include\sf_idb.h" />
     <ClInclude Include="include\sf_model.h" />
     <ClInclude Include="include\sf_model_builder.h" />
     <ClInclude Include="include\sf_sdk_session.h" />
