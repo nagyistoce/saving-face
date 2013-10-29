@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <conio.h>
-#include <windows.h>
+#include <Windows.h>
 #include <wchar.h>
 #include "Testing.h"
 #include "sf_sdk_session.h"
@@ -46,7 +46,7 @@ int wmain(int argc, WCHAR* argv[]) {
 	session->loadFaceModule();
 	session->tempMainLoop();
 
-	modelBuilder->tempTestingModule();
+	//modelBuilder->tempTestingModule();
 
     return 0;
 }

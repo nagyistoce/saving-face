@@ -4,12 +4,12 @@ namespace SF
 {
 	sf_model_builder::sf_model_builder(void)
 	{
-		xind = (SF_DEFAULT_XMAX - SF_DEFAULT_XMIN) / SF_DEFAULT_DELTAX;
+		/*xind = (SF_DEFAULT_XMAX - SF_DEFAULT_XMIN) / SF_DEFAULT_DELTAX;
 		yind = (SF_DEFAULT_YMAX - SF_DEFAULT_YMIN) / SF_DEFAULT_DELTAY;
 		zind = (SF_DEFAULT_ZMAX - SF_DEFAULT_ZMIN) / SF_DEFAULT_DELTAZ;
 
 		lengthx = yind * zind;
-		lengthy = zind;
+		lengthy = zind;*/
 	}
 
 
@@ -17,18 +17,28 @@ namespace SF
 	{
 	}
 
+	/*
+	Commentend out. Does not return a value
+	For this application need pass by reference and should not use SDK specific Types...
+	Flexibility needed if sensor changes... say using the Kinect instead
+
 	PXCPoint3DF32 sf_model_builder::applyCoords(PXCPoint3DF32 pos3d)
 	{
 		//pos3d = ((pos3d.x - 1) * lengthx + (pos3d.y - 1) * lengthy + pos3d.y) + 1; 
 	}
 
+	/**
+	Commentend out. Does not return a value
+	For this application need pass by reference and should not use SDK specific Types...
+	Flexibility needed if sensor changes... say using the Kinect instead
 	PXCPoint3DF32 sf_model_builder::moveToOrigin(PXCFaceAnalysis::Landmark::LandmarkData ldata, PXCPoint3DF32 pos3d)
 	{
 		pos3d.x -= ldata.position.x;
 		pos3d.y -= ldata.position.y;
 		pos3d.z -= ldata.position.z;
 	}
-
+	*/
+	/*
 	pxcF32 * sf_model_builder::getTransformationMatrix(PXCFaceAnalysis::Landmark::PoseData pdata)
 	{
 
@@ -106,6 +116,6 @@ namespace SF
 
 		}
 		
-	}
+	}*/
 
 }

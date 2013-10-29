@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SavingFaceTest", "SavingFac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SavingFaceGUI", "GUI project\SavingFaceGUI\SavingFaceGUI\SavingFaceGUI.csproj", "{14665777-FF2A-4375-B698-B96005EFD486}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SavingFaceDebug", "SavingFaceDebug\SavingFaceDebug.vcxproj", "{6EC1D7B6-CDB9-42E8-9D8D-BA88E68E21ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,16 @@ Global
 		{14665777-FF2A-4375-B698-B96005EFD486}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{14665777-FF2A-4375-B698-B96005EFD486}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{14665777-FF2A-4375-B698-B96005EFD486}.Release|Win32.ActiveCfg = Release|Any CPU
+		{6EC1D7B6-CDB9-42E8-9D8D-BA88E68E21ED}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{6EC1D7B6-CDB9-42E8-9D8D-BA88E68E21ED}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{6EC1D7B6-CDB9-42E8-9D8D-BA88E68E21ED}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{6EC1D7B6-CDB9-42E8-9D8D-BA88E68E21ED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6EC1D7B6-CDB9-42E8-9D8D-BA88E68E21ED}.Debug|Win32.Build.0 = Debug|Win32
+		{6EC1D7B6-CDB9-42E8-9D8D-BA88E68E21ED}.Release|Any CPU.ActiveCfg = Release|Win32
+		{6EC1D7B6-CDB9-42E8-9D8D-BA88E68E21ED}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{6EC1D7B6-CDB9-42E8-9D8D-BA88E68E21ED}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{6EC1D7B6-CDB9-42E8-9D8D-BA88E68E21ED}.Release|Win32.ActiveCfg = Release|Win32
+		{6EC1D7B6-CDB9-42E8-9D8D-BA88E68E21ED}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

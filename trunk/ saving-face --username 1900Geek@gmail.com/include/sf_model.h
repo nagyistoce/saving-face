@@ -14,6 +14,7 @@ namespace SF
 #define SF_DEFAULT_DELTAX (0.0025f)
 #define SF_DEFAULT_DELTAY (0.0025f)
 #define SF_DEFAULT_DELTAZ (0.0025f)
+	
 	class Model
 	{
 
