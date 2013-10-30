@@ -23,37 +23,33 @@ namespace SF
 	
 	class Model
 	{
-//Allows for unit testing of private datamembers
-//Refactoring to use structs will make this (TODO)
-//And a whole bunch of setters and getters unneccesary
-//Not sure about viewing these structs in C#
-//May need the getters and setters their, so best to keep them.
-#ifdef _DEBUG
 	public:
-#else
-	private:
-#endif //_DEBUG
 		
-		//TODO make this a struct and return const version only
-		SF_PUID puid;
-		SF_NAME salutation, firstName, middleName, lastName, suffix;
-		SF_EMAIL emailAddress;
-		SF_GENDER gender;
+		struct Person_Info
+		{
+			SF_PUID puid;
+			SF_NAME salutation, firstName, middleName, lastName, suffix;
+			SF_EMAIL emailAddress;
+			SF_GENDER gender;
+		};
 		
-		//TODO make this a struct and return const version only
-		SF_MUID muid;
-		SF_BOUND xMin, xMax, yMin, yMax, zMin, zMax;
-		SF_DELTA deltaX, deltaY, deltaZ;
-		SF_ARR_WIDTH xWidth, yWidth, zWidth;
-		SF_ARR_OFFSET  xOffset, yOffset;
-		SF_MODEL_ARR modelArr;
+		struct Model_Info
+		{
+			SF_MUID muid;
+			SF_BOUND xMin, xMax, yMin, yMax, zMin, zMax;
+			SF_DELTA deltaX, deltaY, deltaZ;
+			SF_ARR_WIDTH xWidth, yWidth, zWidth;
+			SF_ARR_OFFSET  xOffset, yOffset;
+			SF_MODEL_ARR modelArr;
+		};
 		
 	
 		//Creates a model with the default settings
+
 		Model(void);//Should only be used for debug
-#ifndef _DEBUG
-	public:
-#endif
+
+		Model(SF_NAME firstName, SF_NAME lastName);
+
 		//Creates a model with the default settings
 		//Adds Name and email to the model
 		//Generic Model
@@ -97,25 +93,33 @@ namespace SF
 
 		//Gets the full name as a single string
 		//Default name parts are set to ""
-		SF_NAME getConcatenatedName();
+		const SF_NAME getConcatenatedName();
 
-		SF_NAME getSalutation();
+		const SF_NAME getSalutation();
 
-		SF_NAME getFirstName();
+		const SF_NAME getFirstName();
 
-		SF_NAME getMiddleName();
+		const SF_NAME getMiddleName();
 
-		SF_NAME getLastName();
+		const SF_NAME getLastName();
 
-		SF_NAME getSuffix();
+		const SF_NAME getSuffix();
 
 		//Gets a full name with '_' concatenation instead of spaces
-		SF_NAME getFileVersionName();
+		const SF_NAME getFileVersionName();
 
 		//Returns lower-case only
-		SF_GENDER getGender();
+		const SF_GENDER getGender();
 
-		SF_EMAIL getEmail();
+		const SF_EMAIL getEmail();
+
+		const Model_Info getModelInfo();
+
+		const Person_Info getPersonInfo();
+
+	private:
+		Model_Info model_info;
+		Person_Info person_info;
 	};
 }
 
