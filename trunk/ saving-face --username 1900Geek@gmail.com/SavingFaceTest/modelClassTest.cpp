@@ -11,16 +11,26 @@ namespace SavingFaceTest
 	public:
 		
 		Model *model;
-
+		//For Best Practices use the test method initializers / cleanup.
+		//Not done here
+		//There are a lot of other tidbits for testing not yet used.
+		
+		//This is potentially bad juju
+		//There may be other attributes not being set by setting a default constructor.
+		//Also this may not even be being called.
 		modelClassTest()
 		{
 			model = 0;
 		}
 
+
+		//Same goes for the destructor
 		~modelClassTest()
 		{
 			if(model) delete model;
 		}
+
+		//Use the Logger mechanism to print out results.
 
 		TEST_METHOD(defaultConstructorTest)
 		{
