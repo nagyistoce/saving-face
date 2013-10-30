@@ -48,9 +48,6 @@ namespace SavingFaceTest
 			Assert().IsTrue(model->emailAddress == "");
 			Assert().IsTrue(model->gender == "");
 		}
-
-		
-
 #endif //_DEBUG
 
 		//TODO Test Alternate Constructors
@@ -79,10 +76,10 @@ namespace SavingFaceTest
 			//TODO test file import;
 
 			//TODO destroy created files after test;
+
+			//TODO test model Arr(increment points, readback points, total model value etc)
+
+
 		}
-
-
-	
-
 	};
 }
