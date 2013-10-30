@@ -7,16 +7,10 @@
 namespace SF
 {
 	//Ideally only one instance should be needed.
+	//And should belong to the model database once created
 	class sf_model_builder
 	{
 
-	private:
-		
-		//double xind;
-		//double yind;
-		//double zind;
-		//double lengthx;
-		//double lengthy;
 
 	public:
 
