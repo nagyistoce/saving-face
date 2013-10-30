@@ -17,7 +17,7 @@ namespace SF
 	
 	//Transforms the Coord into indexed model coords
 	//Returns null if outside model space.
-	SF_MODEL_COORD3D_INDEX* coordInModelSpace(const SF_MODEL_COORD3D &md_Coord, const Model *model)
+	SF_MODEL_COORD3D_INDEX* coordInModelSpace(const SF_MODEL_COORD3D &md_Coord, const Model::Model_Info *model)
 	{
 		return NULL;
 	}
