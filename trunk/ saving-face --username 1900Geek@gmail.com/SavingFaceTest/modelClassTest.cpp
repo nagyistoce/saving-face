@@ -22,33 +22,30 @@ namespace SavingFaceTest
 			if(model) delete model;
 		}
 
-#ifdef _DEBUG
-		//Accesses private datamembers... Refactor to use getters
-		//Better refactor Model to return a const struct with the datamembers
-		//The later is neccesary to support a multi-model implementation
-		//As well as fast access to parameters for transforms.
 		TEST_METHOD(defaultConstructorTest)
 		{
-			model = new Model;
-			Assert().AreEqual(model->xMin, SF_DEFAULT_XMIN);
-			Assert().AreEqual(model->xMax, SF_DEFAULT_XMAX);
-			Assert().AreEqual(model->yMin, SF_DEFAULT_YMIN);
-			Assert().AreEqual(model->yMax, SF_DEFAULT_YMAX);
-			Assert().AreEqual(model->zMin, SF_DEFAULT_ZMIN);
-			Assert().AreEqual(model->zMax, SF_DEFAULT_ZMAX);
-			Assert().AreEqual(model->deltaX, SF_DEFAULT_DELTAX);
-			Assert().AreEqual(model->deltaY, SF_DEFAULT_DELTAY);
-			Assert().AreEqual(model->deltaZ, SF_DEFAULT_DELTAZ);
-			Assert().AreEqual(model->xWidth, (SF_ARR_WIDTH)(((SF_DEFAULT_XMAX - SF_DEFAULT_XMIN)) / SF_DEFAULT_DELTAX));
-			Assert().AreEqual(model->yWidth, (SF_ARR_WIDTH)(((SF_DEFAULT_YMAX - SF_DEFAULT_YMIN)) / SF_DEFAULT_DELTAY));
-			Assert().AreEqual(model->zWidth, (SF_ARR_WIDTH)(((SF_DEFAULT_ZMAX - SF_DEFAULT_ZMIN)) / SF_DEFAULT_DELTAZ));
-			Assert().IsTrue(model->salutation == "");
-			Assert().IsTrue(model->firstName == "");
-			Assert().IsTrue(model->lastName == "");
-			Assert().IsTrue(model->emailAddress == "");
-			Assert().IsTrue(model->gender == "");
+			model = new Model();
+			Model::Model_Info  model_info = model->getModelInfo();
+			Model::Person_Info  person_info = model->getPersonInfo();
+			Assert().AreEqual(model_info.xMin, SF_DEFAULT_XMIN);
+			Assert().AreEqual(model_info.xMax, SF_DEFAULT_XMAX);
+			Assert().AreEqual(model_info.yMin, SF_DEFAULT_YMIN);
+			Assert().AreEqual(model_info.yMax, SF_DEFAULT_YMAX);
+			Assert().AreEqual(model_info.zMin, SF_DEFAULT_ZMIN);
+			Assert().AreEqual(model_info.zMax, SF_DEFAULT_ZMAX);
+			Assert().AreEqual(model_info.deltaX, SF_DEFAULT_DELTAX);
+			Assert().AreEqual(model_info.deltaY, SF_DEFAULT_DELTAY);
+			Assert().AreEqual(model_info.deltaZ, SF_DEFAULT_DELTAZ);
+			Assert().AreEqual(model_info.xWidth, (SF_ARR_WIDTH)(((SF_DEFAULT_XMAX - SF_DEFAULT_XMIN)) / SF_DEFAULT_DELTAX));
+			Assert().AreEqual(model_info.yWidth, (SF_ARR_WIDTH)(((SF_DEFAULT_YMAX - SF_DEFAULT_YMIN)) / SF_DEFAULT_DELTAY));
+			Assert().AreEqual(model_info.zWidth, (SF_ARR_WIDTH)(((SF_DEFAULT_ZMAX - SF_DEFAULT_ZMIN)) / SF_DEFAULT_DELTAZ));
+			Assert().IsTrue(person_info.salutation == "");
+			Assert().IsTrue(person_info.firstName == "");
+			Assert().IsTrue(person_info.lastName == "");
+			Assert().IsTrue(person_info.emailAddress == "");
+			Assert().IsTrue(person_info.gender == "");
 		}
-#endif //_DEBUG
+
 
 		//TODO Test Alternate Constructors
 
@@ -56,6 +53,8 @@ namespace SavingFaceTest
 		{
 			if(model == nullptr)
 				model = new Model();
+
+			
 			
 			//TODO Test Name, Email, and Gender Setters and Getters
 
@@ -63,7 +62,7 @@ namespace SavingFaceTest
 			//Make Sure it returns an error code if the Model has already been initialized
 
 			//TODO Test concatenated Name Getters
-
+			Assert().Fail();
 		}
 
 		TEST_METHOD(TestFileIOStreams)
@@ -77,9 +76,17 @@ namespace SavingFaceTest
 
 			//TODO destroy created files after test;
 
+			Assert().Fail();
+		}
+
+		TEST_METHOD(TestModelArrModifyAndRead)
+		{
+			if(model == nullptr)
+				model = new Model();
+
 			//TODO test model Arr(increment points, readback points, total model value etc)
 
-
+			Assert().Fail();
 		}
 	};
 }
