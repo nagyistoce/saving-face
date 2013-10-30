@@ -4,12 +4,6 @@ namespace SF
 {
 	sf_model_builder::sf_model_builder(void)
 	{
-		/*xind = (SF_DEFAULT_XMAX - SF_DEFAULT_XMIN) / SF_DEFAULT_DELTAX;
-		yind = (SF_DEFAULT_YMAX - SF_DEFAULT_YMIN) / SF_DEFAULT_DELTAY;
-		zind = (SF_DEFAULT_ZMAX - SF_DEFAULT_ZMIN) / SF_DEFAULT_DELTAZ;
-
-		lengthx = yind * zind;
-		lengthy = zind;*/
 	}
 
 
