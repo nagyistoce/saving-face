@@ -24,6 +24,8 @@ namespace SavingFaceTest
 
 		TEST_METHOD(defaultConstructorTest)
 		{
+			if(model != nullptr)
+				delete model;
 			model = new Model();
 			Model::Model_Info  model_info = model->getModelInfo();
 			Model::Person_Info  person_info = model->getPersonInfo();
