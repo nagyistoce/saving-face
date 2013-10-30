@@ -100,7 +100,6 @@ namespace SF
 		if(cmdl) delete cmdl;
 	}
 
-	//Temp Code Must be replaced
 	//Use this as a template for other functions. Like detect or build model.
 	//Raw Model for detection and Model Capture
 	//Currently all it does is display the feeds
@@ -108,47 +107,47 @@ namespace SF
 	{
 		//Currently set to iterate over 200 frames.
 		for (pxcU32 f=0;f<200;f++) {
-        //Create 2 image instances
-		//Should auto delete as it goes out of scope...
-		//Consider moving to a local variable to eleminate repetitive allocation.
-		PXCSmartArray<PXCImage> images(2);
+			//Create 2 image instances
+			//Should auto delete as it goes out of scope...
+			//Consider moving to a local variable to eleminate repetitive allocation.
+			PXCSmartArray<PXCImage> images(2);
 
-		//Synchronous Pointer
-		PXCSmartSPArray sp(2);
-		//ReadStream If Data Available or Block
-		pxcStatus sts = capture->ReadStreamAsync(images, &sp[0]);
-		if (sts<PXC_STATUS_NO_ERROR) break;
+			//Synchronous Pointer
+			PXCSmartSPArray sp(2);
+			//ReadStream If Data Available or Block
+			pxcStatus sts = capture->ReadStreamAsync(images, &sp[0]);
+			if (sts<PXC_STATUS_NO_ERROR) break;
 		
-		if(face)
-			face->ProcessImageAsync(images,&sp[1]);
+			if(face)
+				face->ProcessImageAsync(images,&sp[1]);
 		
-		//Wait for all ASynchronous Modules To Return
-        sts=sp.SynchronizeEx();
-		//sts=sp->Synchronize();
-        if (sts<PXC_STATUS_NO_ERROR) break;
+			//Wait for all ASynchronous Modules To Return
+			sts=sp.SynchronizeEx();
+		
+			if (sts<PXC_STATUS_NO_ERROR) break;
 
-		for (int i=0;;i++) {
-			pxcUID fid; pxcU64 ts;
-			if (face->QueryFace(i,&fid,&ts)<PXC_STATUS_NO_ERROR) break;
-			PXCFaceAnalysis::Detection::Data data;
-			detector->QueryData(fid,&data);
-			PXCFaceAnalysis::Landmark::LandmarkData ldata;
-			PXCFaceAnalysis::Landmark::PoseData pdata;
+			for (int i=0;;i++) {
+				pxcUID fid; pxcU64 ts;
+				if (face->QueryFace(i,&fid,&ts)<PXC_STATUS_NO_ERROR) break;
+				PXCFaceAnalysis::Detection::Data data;
+				detector->QueryData(fid,&data);
+				PXCFaceAnalysis::Landmark::LandmarkData ldata;
+				PXCFaceAnalysis::Landmark::PoseData pdata;
 			       
-			landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_NOSE_TIP,0,&ldata);
-			landmark->QueryPoseData(fid, &pdata);
-			/****
-			This is where we would put in the calls to our SF Module.
-			Please use function calls instead of writing the code inline.
-			You can however inline the functions.
-			****/
+				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_NOSE_TIP,0,&ldata);
+				landmark->QueryPoseData(fid, &pdata);
+				/****
+				This is where we would put in the calls to our SF Module.
+				Please use function calls instead of writing the code inline.
+				You can however inline the functions.
+				****/
 
-			//Use the detector to limit the input pixels
-			//Use the landmark to get Yaw Pitch Roll and the center coord.
-		}
-		//Render the Depth Image
-		if (!depth_render->RenderFrame(images[1])) break;
-		if (!uv_render->RenderFrame(images[0])) break;
+				//Use the detector to limit the input pixels
+				//Use the landmark to get Yaw Pitch Roll and the center coord.
+			}
+			//Render the Depth Image
+			if (!depth_render->RenderFrame(images[1])) break;
+			if (!uv_render->RenderFrame(images[0])) break;
 		}
 	}
 }

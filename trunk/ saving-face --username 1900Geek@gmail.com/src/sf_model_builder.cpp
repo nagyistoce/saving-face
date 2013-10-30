@@ -35,7 +35,6 @@ namespace SF
 	/*
 	pxcF32 * sf_model_builder::getTransformationMatrix(PXCFaceAnalysis::Landmark::PoseData pdata)
 	{
-
 		pxcF32 tx[3][3] = {{1,0,0},{0,cos(pdata.yaw),-sin(pdata.yaw)},{0,sin(pdata.yaw),cos(pdata.yaw)}};
 		pxcF32 ty[3][3] = {{cos(pdata.pitch),0,sin(pdata.pitch)},{0,1,0},{-sin(pdata.pitch),0,cos(pdata.pitch)}};
 		pxcF32 tz[3][3] = {{cos(pdata.roll),-sin(pdata.roll),0},{sin(pdata.roll),cos(pdata.roll),0},{0,0,1}};
