@@ -7,8 +7,11 @@ namespace SF
 	//A name or part of a name of a person
 	typedef std::string SF_NAME; 
 
-	//An email address
+	 //An email address
 	 typedef std::string SF_EMAIL;
+
+	 //The models gender
+	 typedef std::string SF_GENDER;
 
 	//Describes a real-world bound
 	//Example: SF_BOUND xMin = -0.25 //might mean xMin = 0.25 m to the left

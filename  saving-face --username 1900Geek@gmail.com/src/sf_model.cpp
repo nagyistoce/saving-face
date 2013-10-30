@@ -5,14 +5,7 @@ namespace SF
 	Model::Model(void)
 	{
 		modelArr = 0;
-		//Temp Code For Testing
-		setName("Mr","Bob","Elizabeth","Barker","III");
-		
 		setDefaultParameters();
-		
-		//Temp for testing.
-		//Would not want to do this if loading from a file
-		initModelArray();
 	}
 
 	SF_STS Model::setName(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix)
@@ -22,6 +15,7 @@ namespace SF
 		this->middleName = middleName;
 		this->lastName = lastName;
 		this->suffix = suffix;
+		
 
 		//TODO: error checking and return status
 		return SF_STS_OK;

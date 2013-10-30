@@ -5,6 +5,9 @@
 using namespace std;
 namespace SF
 {
+	//TODO make the code const correct
+
+
 	//Define Defaults
 	//Tweak here to manipulate the default configuration
 	//Will not affect previous instances
@@ -20,25 +23,37 @@ namespace SF
 	
 	class Model
 	{
-
+//Allows for unit testing of private datamembers
+//Refactoring to use structs will make this (TODO)
+//And a whole bunch of setters and getters unneccesary
+//Not sure about viewing these structs in C#
+//May need the getters and setters their, so best to keep them.
+#ifdef _DEBUG
 	public:
-		//For testing access to the constructor will remain public,
-		//This should eventially be handled by the model db manager.
-	
-		SF_MUID muid;
+#else
+	private:
+#endif //_DEBUG
+		
+		//TODO make this a struct and return const version only
 		SF_PUID puid;
 		SF_NAME salutation, firstName, middleName, lastName, suffix;
 		SF_EMAIL emailAddress;
+		SF_GENDER gender;
+		
+		//TODO make this a struct and return const version only
+		SF_MUID muid;
 		SF_BOUND xMin, xMax, yMin, yMax, zMin, zMax;
 		SF_DELTA deltaX, deltaY, deltaZ;
 		SF_ARR_WIDTH xWidth, yWidth, zWidth;
 		SF_ARR_OFFSET  xOffset, yOffset;
 		SF_MODEL_ARR modelArr;
-
+		
+	
 		//Creates a model with the default settings
-		//Generic Model used only if loading from a file, or for troubleshooting.
-		Model(void);
-
+		Model(void);//Should only be used for debug
+#ifndef _DEBUG
+	public:
+#endif
 		//Creates a model with the default settings
 		//Adds Name and email to the model
 		//Generic Model
@@ -52,6 +67,15 @@ namespace SF
 
 		//Destroys the model
 		~Model(void);
+
+		//Set the name of a model simple
+		SF_STS setName(SF_NAME firstName, SF_NAME lastName);
+
+		//Set the gender of a model
+		//Only allow for male or female, for statistics purposes.
+		//If release, include not_specified or other
+		//Stores lowercase version only.
+		SF_STS setGender(SF_GENDER);
 
 		//Set the name of a model
 		SF_STS setName(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix);
@@ -68,8 +92,30 @@ namespace SF
 		//Set the default parameters
 		SF_STS setDefaultParameters();
 
-		//Initialize a blank array
+		//Initialize a blank model array
 		SF_STS initModelArray();
+
+		//Gets the full name as a single string
+		//Default name parts are set to ""
+		SF_NAME getConcatenatedName();
+
+		SF_NAME getSalutation();
+
+		SF_NAME getFirstName();
+
+		SF_NAME getMiddleName();
+
+		SF_NAME getLastName();
+
+		SF_NAME getSuffix();
+
+		//Gets a full name with '_' concatenation instead of spaces
+		SF_NAME getFileVersionName();
+
+		//Returns lower-case only
+		SF_GENDER getGender();
+
+		SF_EMAIL getEmail();
 	};
 }
 
