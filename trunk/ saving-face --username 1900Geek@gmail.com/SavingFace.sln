@@ -8,6 +8,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SavingFaceGUI", "GUI project\SavingFaceGUI\SavingFaceGUI\SavingFaceGUI.csproj", "{14665777-FF2A-4375-B698-B96005EFD486}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SavingFaceDebug", "SavingFaceDebug\SavingFaceDebug.vcxproj", "{6EC1D7B6-CDB9-42E8-9D8D-BA88E68E21ED}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D2337884-5522-46F3-B103-C46FF242A08B} = {D2337884-5522-46F3-B103-C46FF242A08B}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
