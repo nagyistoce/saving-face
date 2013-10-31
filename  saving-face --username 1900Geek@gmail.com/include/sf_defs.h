@@ -97,7 +97,7 @@ namespace SF
 	//Thus this will likely not be used.
 	//Contains YAW PITCH and ROLL data
 	struct SF_YPR{
-		float yaw, pitch, roll;
+		pxcF32 yaw, pitch, roll;
 	};
 
 	//SUCCESS
