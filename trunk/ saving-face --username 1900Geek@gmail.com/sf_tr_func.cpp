@@ -7,7 +7,6 @@ namespace SF
 	//Pass in the nose coord, and the Yaw, Pitch, and Roll
 	SF_TR_MATRIX* calculateTRMatrix(const SF_R3_COORD &rwcReference, const SF_YPR &ypr)
 	{
-
 		//Note depending on the referance frame we made need to apply the inverse of ypr.
 
 		SF_TR_MATRIX *tm = new SF_TR_MATRIX;
@@ -27,19 +26,20 @@ namespace SF
 								temp[3] * tz[0] + temp[4]*tz[3] + temp[5] * tz[6], temp[3] * tz[1] + temp[4]*tz[4] + temp[5] * tz[7], temp[3] * tz[2] + temp[4]*tz[5] + temp[5] * tz[8],
 								temp[6] * tz[0] + temp[7]*tz[3] + temp[8] * tz[6], temp[6] * tz[1] + temp[7]*tz[4] + temp[8] * tz[7], temp[6] * tz[2] + temp[7]*tz[5] + temp[8] * tz[8]};
 
-
 		memcpy(tm->rotMTX, tmMatrix, sizeof(float)*9);
 
+		SF_TR_MATRIX *tr;
+		SF_TR_MATRIX t2;
 		return tm;
 	}
+
 
 	inline SF_SCALAR *MatrixMultiply1b3(SF_SCALAR &MTX1b3, SF_SCALAR &MTX3b3)
 	{
 
+
 		return 0;
 	}
-
-
 
 	//So the Actual Transformation
 	inline SF_MODEL_COORD3D* transformCoord(const SF_R3_COORD &realWorldCoord, const SF_TR_MATRIX *tr_matrix)
