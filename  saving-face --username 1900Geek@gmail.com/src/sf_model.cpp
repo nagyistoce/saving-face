@@ -62,7 +62,6 @@ namespace SF
 	SF_STS Model::setEmail(SF_EMAIL emailAddress)
 	{
 		this->person_info.emailAddress = emailAddress;
-		
 		return SF_STS_OK;
 	}
 

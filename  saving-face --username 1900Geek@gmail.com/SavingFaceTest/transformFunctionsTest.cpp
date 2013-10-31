@@ -48,8 +48,7 @@ namespace SavingFaceTest
 				tm->rotMTX[8]
 			);
 			Logger::WriteMessage(str);
-			//Buggy test fix this.
-			Assert().IsTrue(memcmp(&(tm->trV),&(exp.trV),sizeof(float)*3),L"Translation Vector Fail");
+			Assert().AreEqual(memcmp(&(tm->trV),&(exp.trV),sizeof(float)*3),0,L"Translation Vector Fail");
 		}
 
 	};
