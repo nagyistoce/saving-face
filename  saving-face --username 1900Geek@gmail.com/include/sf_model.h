@@ -65,13 +65,13 @@ namespace SF
 		~Model(void);
 
 		//Set the name of a model simple
-		SF_STS setName(SF_NAME firstName, SF_NAME lastName);
+		SF_STS Model::setName(SF_NAME firstName, SF_NAME lastName);
 
 		//Set the gender of a model
 		//Only allow for male or female, for statistics purposes.
 		//If release, include not_specified or other
 		//Stores lowercase version only.
-		SF_STS setGender(SF_GENDER);
+		SF_STS setGender(SF_GENDER gender);
 
 		//Set the name of a model
 		SF_STS setName(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix);

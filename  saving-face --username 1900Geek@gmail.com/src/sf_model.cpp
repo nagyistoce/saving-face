@@ -21,6 +21,12 @@ namespace SF
 		return SF_STS_OK;
 	}
 
+	SF_STS Model::setName(SF_NAME firstName, SF_NAME lastName)
+	{
+		this->person_info.firstName = firstName;
+		this->person_info.lastName = lastName;
+	}
+
 	SF_STS Model::setDefaultParameters()
 	{
 		this->model_info.xMin = SF_DEFAULT_XMIN;
@@ -85,6 +91,56 @@ namespace SF
 	const Model::Person_Info Model::getPersonInfo()
 	{
 		return person_info;
+	}
+
+	const SF_NAME Model::getConcatenatedName()
+	{
+		return this->person_info.salutation + " " + this->person_info.firstName + " " + this->person_info.middleName + " " + this->person_info.lastName + " " + this->person_info.suffix;
+	}
+
+	const SF_NAME Model::getFileVersionName()
+	{
+		return this->person_info.salutation + "_" + this->person_info.firstName + "_" + this->person_info.middleName + "_" + this->person_info.lastName + "_" + this->person_info.suffix;
+	}
+
+	const SF_NAME Model::getSalutation()
+	{
+		return this->person_info.salutation;
+	}
+
+	const SF_NAME Model::getFirstName()
+	{
+		return this->person_info.firstName;
+	}
+
+	const SF_NAME Model::getMiddleName()
+	{
+		return this->person_info.middleName;
+	}
+
+	const SF_NAME Model::getLastName()
+	{
+		return this->person_info.lastName;
+	}
+
+	const SF_NAME Model::getSuffix()
+	{
+		return this->person_info.suffix;
+	}
+
+	SF_STS Model::setGender(SF_GENDER gender)
+	{
+		this->person_info.gender = gender;
+	}
+
+	const SF_GENDER Model::getGender()
+	{
+		return this->person_info.gender;
+	}
+
+	const SF_EMAIL Model::getEmail()
+	{
+		return this->person_info.emailAddress;
 	}
 
 	Model::~Model(void)
