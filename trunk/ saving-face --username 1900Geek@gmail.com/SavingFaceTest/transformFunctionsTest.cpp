@@ -3,6 +3,7 @@
 #include "sf_tr_func.h"
 #include "sf_defs.h"
 #include "pxcdefs.h"
+#include "sf_model.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -13,6 +14,28 @@ namespace SavingFaceTest
 	public:
 		
 		SF::SF_TR_MATRIX *tm;
+
+		TEST_METHOD(testCoordInModelSpace)
+		{
+			SF::Model *model = new SF::Model();
+			
+
+			SF::SF_MODEL_COORD3D coord3d;
+			SF::Model::Model_Info info = model->getModelInfo();
+
+			coord3d.x = model->getModelInfo().xMin;
+			coord3d.y = model->getModelInfo().yMin;
+			coord3d.z = model->getModelInfo().zMin;
+
+			//Commented out:  Unresolved External Symbol?
+			/*SF::SF_MODEL_COORD3D_INDEX *index = SF::coordInModelSpace(coord3d, &info);
+
+			if (index->x != 0 && index->y != 0 && index->z != 0)
+			{
+				Assert().Fail();
+			}*/
+			Assert().Fail();
+		}
 
 		TEST_METHOD(testCalculateTrMatrix)
 		{
