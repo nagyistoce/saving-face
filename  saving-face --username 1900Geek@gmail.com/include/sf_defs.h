@@ -1,7 +1,8 @@
 #ifndef _SF_TYPE_DEFS
 #define _SF_TYPE_DEFS
 #include <string>
-#include "pxcdefs.h"
+#include "pxcdefs.h" //Included for simplicity
+					 //In the future should not be here at all.
 namespace SF
 {
 	//A name or part of a name of a person
@@ -53,13 +54,13 @@ namespace SF
 	//Defines a magnitude and direction to shift a coord in the real-world xyz plane
 	//to put the point of rotation at the origin
 	typedef PXCPoint3DF32 SF_TR_VECTOR; 
-
 	
 	//A struct containing a translational vector and a rotational matix
 	struct SF_TR_MATRIX{			
-			SF_TR_VECTOR trXYZ;
-			SF_SCALAR trMatrix[9];	
+			SF_TR_VECTOR trV;
+			SF_SCALAR rotMTX[9];
 	};
+
 
 	//Defines what primitive we are storing
 	//In this case a byte
