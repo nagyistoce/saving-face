@@ -16,7 +16,6 @@ namespace SavingFaceTest
 
 		TEST_METHOD(testCalculateTrMatrix)
 		{
-			
 			PXCPoint3DF32 trv = {1,1,1};
 			SF::SF_YPR ypr = {0,0,0};
 			tm = SF::calculateTRMatrix(trv, ypr);
@@ -49,7 +48,8 @@ namespace SavingFaceTest
 				tm->rotMTX[8]
 			);
 			Logger::WriteMessage(str);
-			Assert().AreEqual(tm->trV,exp.trV);
+			//Buggy test fix this.
+			Assert().IsTrue(memcmp(&(tm->trV),&(exp.trV),sizeof(float)*3),L"Translation Vector Fail");
 		}
 
 	};
