@@ -81,10 +81,14 @@ namespace SF
 		face->SetProfile(&pinfo);
 		detector = face->DynamicCast<PXCFaceAnalysis::Detection>();
 		PXCFaceAnalysis::Detection::ProfileInfo dinfo;
+		dinfo.responsiveness = 50;
 		detector->QueryProfile(0,&dinfo);
 		detector->SetProfile(&dinfo);
-
 		landmark = face->DynamicCast<PXCFaceAnalysis::Landmark>();
+		 PXCFaceAnalysis::Landmark::ProfileInfo lInfo={0};
+		landmark->QueryProfile(1, &lInfo);
+		landmark->SetProfile(&lInfo);
+
 		return SF_STS_OK;
 	}
 
@@ -179,15 +183,15 @@ namespace SF
 				if (face->QueryFace(i,&fid,&ts)<PXC_STATUS_NO_ERROR) break;
 				PXCFaceAnalysis::Detection::Data data;
 				detector->QueryData(fid,&data);
-				PXCFaceAnalysis::Landmark::LandmarkData ldata;
+				PXCFaceAnalysis::Landmark::LandmarkData ldata[7];
 				PXCFaceAnalysis::Landmark::PoseData pdata;
 			       
-				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_NOSE_TIP,0,&ldata);
+				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_7POINTS,0,ldata);
 				landmark->QueryPoseData(fid, &pdata);
 				
 				/**Return ypr**/
 				yprFunc(&pdata);
-				landMarkFunc(&ldata.position);
+				landMarkFunc(&ldata[6].position);
 			}
 			//Render the Depth Image
 			if (!depth_render->RenderFrame(images[1])) break;
