@@ -16,6 +16,7 @@ namespace SavingFaceTest
 
 		TEST_METHOD(testCalculateTrMatrix)
 		{
+			//Test is taking entirely too long. find out why.
 			PXCPoint3DF32 trv = {1,1,1};
 			SF::SF_YPR ypr = {0,0,0};
 			SF::calculateTRMatrix(tm,trv, ypr);
@@ -35,7 +36,6 @@ namespace SavingFaceTest
 			char *str = new char[200];
 			sprintf(str, "Translation Vector::\n%f, %f, %f\n", tm.trV.x,tm.trV.y,tm.trV.z);
 			Logger::WriteMessage(str);
-			
 			sprintf(str, "Rotation Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
 				tm.rotMTX[0],
 				tm.rotMTX[1],
