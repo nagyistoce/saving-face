@@ -151,7 +151,7 @@ namespace SF
 		}
 	}
 
-	void SF_Session::tempYPRLoop(void (*function)(SF_YPR*))
+	void SF_Session::tempYPRLoop(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*))
 	{
 		//Currently set to iterate over 200 frames.
 		for (pxcU32 f=0;f<200;f++) {
@@ -168,7 +168,7 @@ namespace SF
 		
 			if(face)
 				face->ProcessImageAsync(images,&sp[1]);
-		
+
 			//Wait for all ASynchronous Modules To Return
 			sts=sp.SynchronizeEx();
 		
@@ -186,7 +186,8 @@ namespace SF
 				landmark->QueryPoseData(fid, &pdata);
 				
 				/**Return ypr**/
-				function(&pdata);
+				yprFunc(&pdata);
+				landMarkFunc(&ldata.position);
 			}
 			//Render the Depth Image
 			if (!depth_render->RenderFrame(images[1])) break;

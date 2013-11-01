@@ -54,7 +54,7 @@ namespace SF
 	SF_STS createColorRenderView();
 	//The following are to be replaced
 	void tempMainLoop();
-	void tempYPRLoop(void (*function)(SF_YPR*));
+	void tempYPRLoop(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*));
 
 	SF_Session();
 	~SF_Session();
