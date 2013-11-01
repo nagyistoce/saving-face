@@ -30,9 +30,6 @@
     <ClCompile Include="src\sf_sdk_session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sf_tr_func.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sf_defs.h">
