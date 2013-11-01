@@ -49,20 +49,7 @@ namespace SF
 		return NULL;
 	}
 
-	//So the Actual Transformation
-	inline SF_MODEL_COORD3D* transformCoord(const SF_R3_COORD &realWorldCoord, const SF_TR_MATRIX *tr_matrix)
-	{
-		SF_MODEL_COORD3D *model_Coord3d = new SF_MODEL_COORD3D();
-		model_Coord3d->x = realWorldCoord.x - tr_matrix->trV.x;
-		model_Coord3d->y = realWorldCoord.y - tr_matrix->trV.y;
-		model_Coord3d->z = realWorldCoord.z - tr_matrix->trV.z;
-
-		model_Coord3d->x = (model_Coord3d->x * tr_matrix->rotMTX[0] + model_Coord3d->y * tr_matrix->rotMTX[1] + model_Coord3d->z * tr_matrix->rotMTX[2]);
-		model_Coord3d->y = (model_Coord3d->x * tr_matrix->rotMTX[3] + model_Coord3d->y * tr_matrix->rotMTX[4] + model_Coord3d->z * tr_matrix->rotMTX[5]);
-		model_Coord3d->z = (model_Coord3d->x * tr_matrix->rotMTX[6] + model_Coord3d->y * tr_matrix->rotMTX[7] + model_Coord3d->z * tr_matrix->rotMTX[8]);
-
-		return NULL;
-	}
+	
 	
 	//Transforms the Coord into indexed model coords
 	//Returns null if outside model space.
