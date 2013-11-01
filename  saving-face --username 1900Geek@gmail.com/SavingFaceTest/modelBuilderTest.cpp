@@ -9,9 +9,10 @@ namespace SavingFaceTest
 	{
 	public:
 		
-		TEST_METHOD(TestMethod1)
+		TEST_METHOD(modelBuilderConstructorTest)
 		{
 			// TODO: Your test code here
+			Assert().Fail();
 		}
 
 	};
