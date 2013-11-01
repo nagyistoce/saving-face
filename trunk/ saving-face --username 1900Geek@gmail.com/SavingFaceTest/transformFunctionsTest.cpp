@@ -12,9 +12,6 @@ namespace SavingFaceTest
 	TEST_CLASS(transformFunctionsTest)
 	{
 	public:
-		
-
-
 		SF::SF_TR_MATRIX tm;
 
 		TEST_METHOD(testCalculateTrMatrix)
