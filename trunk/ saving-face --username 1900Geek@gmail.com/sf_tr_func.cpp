@@ -1,6 +1,9 @@
-#include "sf_tr_func.h"
+#include "sf_defs.h"
+//#include "sf_tr_func.h"
 //#include <xnamath.h>
 
+
+//Logic moved to header
 namespace SF
 {
 	
