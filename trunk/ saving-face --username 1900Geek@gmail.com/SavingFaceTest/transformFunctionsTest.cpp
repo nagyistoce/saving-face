@@ -28,13 +28,12 @@ namespace SavingFaceTest
 			coord3d.z = model->getModelInfo().zMin;
 
 			//Commented out:  Unresolved External Symbol?
-			/*SF::SF_MODEL_COORD3D_INDEX *index = SF::coordInModelSpace(coord3d, &info);
+			SF::SF_MODEL_COORD3D_INDEX *index = SF::coordInModelSpace(coord3d, &info);
 
 			if (index->x != 0 && index->y != 0 && index->z != 0)
 			{
 				Assert().Fail();
-			}*/
-			Assert().Fail();
+			}
 		}
 
 		TEST_METHOD(testCalculateTrMatrix)

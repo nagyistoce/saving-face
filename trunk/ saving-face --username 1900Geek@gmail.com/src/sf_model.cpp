@@ -25,6 +25,7 @@ namespace SF
 	{
 		this->person_info.firstName = firstName;
 		this->person_info.lastName = lastName;
+		return SF_STS_OK;
 	}
 
 	SF_STS Model::setDefaultParameters()
@@ -131,6 +132,7 @@ namespace SF
 	SF_STS Model::setGender(SF_GENDER gender)
 	{
 		this->person_info.gender = gender;
+		return SF_STS_OK;
 	}
 
 	const SF_GENDER Model::getGender()
