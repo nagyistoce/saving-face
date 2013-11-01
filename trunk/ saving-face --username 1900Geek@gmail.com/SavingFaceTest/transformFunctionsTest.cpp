@@ -17,9 +17,12 @@ namespace SavingFaceTest
 		TEST_METHOD(testCalculateTrMatrix)
 		{
 			//Test is taking entirely too long. find out why.
+			//Reason is it is the first test run.
+			//at 1 Million calls only increases by 1 sec run time.
 			PXCPoint3DF32 trv = {1,1,1};
 			SF::SF_YPR ypr = {0,0,0};
-			SF::calculateTRMatrix(tm,trv, ypr);
+			for(int i = 1; i < 1000000; i++)
+				SF::calculateTRMatrix(tm,trv, ypr);
 			SF::SF_TR_MATRIX exp;
 			exp.trV.x = 1;
 			exp.trV.y = 1;
