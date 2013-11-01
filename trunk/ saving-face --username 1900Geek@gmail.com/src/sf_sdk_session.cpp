@@ -85,8 +85,9 @@ namespace SF
 		detector->QueryProfile(0,&dinfo);
 		detector->SetProfile(&dinfo);
 		landmark = face->DynamicCast<PXCFaceAnalysis::Landmark>();
-		 PXCFaceAnalysis::Landmark::ProfileInfo lInfo={0};
+		PXCFaceAnalysis::Landmark::ProfileInfo lInfo={0};
 		landmark->QueryProfile(1, &lInfo);
+		lInfo.labels = PXCFaceAnalysis::Landmark::LABEL_7POINTS;
 		landmark->SetProfile(&lInfo);
 
 		return SF_STS_OK;
@@ -186,7 +187,7 @@ namespace SF
 				PXCFaceAnalysis::Landmark::LandmarkData ldata[7];
 				PXCFaceAnalysis::Landmark::PoseData pdata;
 			       
-				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_7POINTS,0,ldata);
+				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_7POINTS,ldata);
 				landmark->QueryPoseData(fid, &pdata);
 				
 				/**Return ypr**/
