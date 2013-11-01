@@ -1,12 +1,49 @@
 #include "sf_model.h"
 
+/** The model class todo list
+*   Implement error checking on Model Arr Params
+*   Implement Save to file
+*   Implement Read from file
+*/
+
+
 namespace SF
 {
 	Model::Model(void)
 	{
-		this->model_info.modelArr = 0;
+		model_info.modelArr = 0;
 		setDefaultParameters();
 	}
+
+	Model::Model(SF_NAME firstName, SF_NAME lastName,SF_GENDER gender, SF_EMAIL email)
+	{
+		model_info.modelArr = 0;
+		setName(firstName,lastName);
+		setEmail(email);
+		setGender(gender);
+		setDefaultParameters();
+	}
+
+	Model::Model(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix,SF_GENDER gender,  SF_EMAIL email)
+	{
+		model_info.modelArr = 0;
+		setName(salutation,firstName,middleName,lastName,suffix);
+		setEmail(email);
+		setGender(gender);
+		setDefaultParameters();
+	}
+
+	Model::Model(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix,SF_GENDER gender, SF_EMAIL email,
+			SF_BOUND xMin,SF_BOUND xMax,SF_BOUND yMin,SF_BOUND yMax,SF_BOUND zMin,
+			SF_BOUND zMax,SF_DELTA deltaX,SF_DELTA deltaY,SF_DELTA deltaZ)
+	{
+		model_info.modelArr = 0;
+		setName(salutation,firstName,middleName,lastName,suffix);
+		setEmail(email);
+		setGender(gender);
+		setParameters( xMin, xMax, yMin, yMax, zMin, zMax, deltaX, deltaY, deltaZ);
+	}
+
 
 	SF_STS Model::setName(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix)
 	{
@@ -15,9 +52,6 @@ namespace SF
 		this->person_info.middleName = middleName;
 		this->person_info.lastName = lastName;
 		this->person_info.suffix = suffix;
-		
-
-		//TODO: error checking and return status
 		return SF_STS_OK;
 	}
 
@@ -39,6 +73,31 @@ namespace SF
 		this->model_info.deltaX = SF_DEFAULT_DELTAX;
 		this->model_info.deltaY = SF_DEFAULT_DELTAY;
 		this->model_info.deltaZ = SF_DEFAULT_DELTAZ;
+		this->model_info.xWidth = (SF_ARR_WIDTH)(((this->model_info.xMax - this->model_info.xMin)) / this->model_info.deltaX);
+		//Potential bug if value is not a perfect integer
+		//for now assume it is. 
+		//But will likely fail on Apply coord in integration testing if not.
+		this->model_info.yWidth = (SF_ARR_WIDTH)((this->model_info.yMax - this->model_info.yMin) / this->model_info.deltaY);
+		this->model_info.zWidth = (SF_ARR_WIDTH)((this->model_info.zMax - this->model_info.zMin) / this->model_info.deltaZ);
+		this->model_info.xOffset =(this->model_info.yWidth * this->model_info.zWidth);
+		this->model_info.yOffset = this->model_info.zWidth;
+		return SF_STS_OK;
+	}
+
+	SF_STS Model::setParameters(SF_BOUND xMin,SF_BOUND xMax,SF_BOUND yMin,SF_BOUND yMax,SF_BOUND zMin,
+			SF_BOUND zMax,SF_DELTA deltaX,SF_DELTA deltaY,SF_DELTA deltaZ)
+	{
+		//TODO this version requires error checking. Can easily input a bogus parameter at
+		//run time which will cause a crash.
+		this->model_info.xMin = xMin;
+		this->model_info.yMin = yMin;
+		this->model_info.zMin = zMin;
+		this->model_info.xMax = xMax;
+		this->model_info.yMax = yMax;
+		this->model_info.zMax = zMax;
+		this->model_info.deltaX = deltaX;
+		this->model_info.deltaY = deltaY;
+		this->model_info.deltaZ = deltaZ;
 		this->model_info.xWidth = (SF_ARR_WIDTH)(((this->model_info.xMax - this->model_info.xMin)) / this->model_info.deltaX);
 		//Potential bug if value is not a perfect integer
 		//for now assume it is. 
@@ -75,23 +134,23 @@ namespace SF
 	SF_STS Model::streamToFile(ofstream const *fileStream)
 	{
 		//TODO
-		return 0;
+		return SF_STS_FAIL;
 	}
 
 	SF_STS Model::loadFromFile(ifstream const *fileStream)
 	{
 		//TODO
-		return 0;
+		return SF_STS_FAIL;
 	}
 
-	const Model::Model_Info Model::getModelInfo()
+	const Model::Model_Info* Model::getModelInfo()
 	{
-		return model_info;
+		return &model_info;
 	}
 
-	const Model::Person_Info Model::getPersonInfo()
+	const Model::Person_Info* Model::getPersonInfo()
 	{
-		return person_info;
+		return &person_info;
 	}
 
 	const SF_NAME Model::getConcatenatedName()
@@ -150,4 +209,15 @@ namespace SF
 		if(this->model_info.modelArr)
 			delete[] this->model_info.modelArr;
 	}
+
+	const SF_MODEL_ARR Model::getReadOnlyModelArr()
+	{
+		return model_info.modelArr;
+	}
+
+	SF_MODEL_ARR Model::getWritableModelArr()
+	{
+		return model_info.modelArr;
+	}
+
 }

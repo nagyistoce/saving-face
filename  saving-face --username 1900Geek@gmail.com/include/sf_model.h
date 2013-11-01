@@ -5,9 +5,6 @@
 using namespace std;
 namespace SF
 {
-	//TODO make the code const correct
-
-
 	//Define Defaults
 	//Tweak here to manipulate the default configuration
 	//Will not affect previous instances
@@ -46,21 +43,25 @@ namespace SF
 		
 	
 		//Creates a model with the default settings
+		//The reason there is no load from file constructor is
+		//That it eliminates the need for exception handling on
+		//Failed construction
+		Model(void);//Should only be used for debug or load from file.
 
-		Model(void);//Should only be used for debug
 
-		Model(SF_NAME firstName, SF_NAME lastName);
+		Model(SF_NAME firstName, SF_NAME lastName, SF_GENDER gender, SF_EMAIL email = "");
 
 		//Creates a model with the default settings
-		//Adds Name and email to the model
+		//Adds Name
 		//Generic Model
-		Model(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix);
+		Model(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix, SF_GENDER gender, SF_EMAIL email = "");
 		
 		//Create a model with custom settings
 		//Not needed if loading from a file
-		Model(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix,
+		Model(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix, SF_GENDER gender, SF_EMAIL email,
 			SF_BOUND xMin,SF_BOUND xMax,SF_BOUND yMin,SF_BOUND yMax,SF_BOUND zMin,
 			SF_BOUND zMax,SF_DELTA deltaX,SF_DELTA deltaY,SF_DELTA deltaZ);
+
 
 		//Destroys the model
 		~Model(void);
@@ -89,6 +90,9 @@ namespace SF
 		//Set the default parameters
 		SF_STS setDefaultParameters();
 
+		SF_STS setParameters(SF_BOUND xMin,SF_BOUND xMax,SF_BOUND yMin,SF_BOUND yMax,SF_BOUND zMin,
+			SF_BOUND zMax,SF_DELTA deltaX,SF_DELTA deltaY,SF_DELTA deltaZ);
+
 		//Initialize a blank model array
 		SF_STS initModelArray();
 
@@ -96,14 +100,19 @@ namespace SF
 		//Default name parts are set to ""
 		const SF_NAME getConcatenatedName();
 
+		//Gets the salutation Mr. Mrs. Dr. etc...
 		const SF_NAME getSalutation();
 
+		//Gets the first name
 		const SF_NAME getFirstName();
 
+		//Gets the middle name
 		const SF_NAME getMiddleName();
 
+		//Gets the last name
 		const SF_NAME getLastName();
 
+		//Gets the suffix
 		const SF_NAME getSuffix();
 
 		//Gets a full name with '_' concatenation instead of spaces
@@ -112,11 +121,20 @@ namespace SF
 		//Returns lower-case only
 		const SF_GENDER getGender();
 
+		//gets the email address
 		const SF_EMAIL getEmail();
 
-		const Model_Info getModelInfo();
+		//gets a referance to a read only version of model_info
+		const Model_Info* getModelInfo();
 
-		const Person_Info getPersonInfo();
+		//gets a referance to a read only version of person_info
+		const Person_Info* getPersonInfo();
+
+		//Caller must check for null pointer
+		const SF_MODEL_ARR getReadOnlyModelArr();
+
+		//Caller must check for null pointer
+		SF_MODEL_ARR getWritableModelArr();
 
 	private:
 		Model_Info model_info;
