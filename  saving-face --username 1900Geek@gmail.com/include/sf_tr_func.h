@@ -28,7 +28,9 @@ namespace SF
 	//Transforms the Coord into indexed model coords
 	inline void coordInModelSpace(SF_MODEL_COORD3D_INDEX &returnIndexed, const SF_MODEL_COORD3D &md_Coord, const Model::Model_Info *model);
 
-		
+	//3 By 3 Matrix multiplication done in place.
+	//Note cannot pass in the same argument as both the product and an operator.
+	inline void MatrixMultiply3b3(SF_SCALAR* out, const SF_SCALAR* in1,const SF_SCALAR* in2);
 
 
 
