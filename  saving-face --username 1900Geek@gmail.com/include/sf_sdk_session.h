@@ -52,8 +52,9 @@ namespace SF
 	SF_STS loadFaceModule();
 	SF_STS createDepthRenderView();
 	SF_STS createColorRenderView();
+	//The following are to be replaced
 	void tempMainLoop();
-	
+	void tempYPRLoop(void (*function)(SF_YPR*));
 
 	SF_Session();
 	~SF_Session();

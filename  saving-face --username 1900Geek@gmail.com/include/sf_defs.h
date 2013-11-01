@@ -3,6 +3,7 @@
 #include <string>
 #include "pxcdefs.h" //Included for simplicity
 					 //In the future should not be here at all.
+#include "pxcface.h"
 namespace SF
 {
 	//A name or part of a name of a person
@@ -94,9 +95,7 @@ namespace SF
 	typedef long SF_MUID;
 
 	//Contains YAW PITCH and ROLL data
-	struct SF_YPR{
-		pxcF32 yaw, pitch, roll;
-	};
+	typedef PXCFaceAnalysis::Landmark::PoseData SF_YPR;
 
 	//SUCCESS
 	#define SF_STS_OK (1)
