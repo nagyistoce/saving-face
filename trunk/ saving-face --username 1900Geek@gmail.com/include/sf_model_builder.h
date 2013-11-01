@@ -23,5 +23,31 @@ namespace SF
 		sf_model_builder(void);
 		~sf_model_builder(void);
 
+		//Generate a unique ID
+		long generateUID();
+
+		//Make a new model
+		//Adds it to the current model list
+		//This is the only place a model constructor should be called
+		//This will add the model to the database simultaniously
+		SF_MUID addNewModel();//TODO figure out params
+
+		//Ideally this would be in the Model Database.
+		SF_STS deleteModel(SF_MUID);
+
+		//Returns a reference to the model class.
+		//Eleminates the need for wrapper functions
+		Model getModel(SF_MUID);
+
+		//Contains the loop to the camera
+		//Include options to save video
+		//Save model to disk when finished
+		Model buildModel(SF_MUID);//Param list incomplete
+
+
+
+	private:
+		//When implemented will need a referance to the current database
+		//Model_Database *mdb; 
 	};
 }

@@ -34,10 +34,10 @@ namespace SavingFaceTest
 			exp.rotMTX[7] = 0;
 			exp.rotMTX[8] = 1;
 			char *str = new char[200];
-			sprintf(str, "Translation Vector::\n %f, %f, %f\n", tm.trV.x,tm.trV.y,tm.trV.z);
+			sprintf(str, "Translation Vector::\n%f, %f, %f\n", tm.trV.x,tm.trV.y,tm.trV.z);
 			Logger::WriteMessage(str);
 			
-			sprintf(str, "Rotation Matrix Contains::\n %f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
+			sprintf(str, "Rotation Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
 				tm.rotMTX[0],
 				tm.rotMTX[1],
 				tm.rotMTX[2],
@@ -50,7 +50,7 @@ namespace SavingFaceTest
 			);
 			Logger::WriteMessage(str);
 			Assert().AreEqual(memcmp(&(tm.trV),&(exp.trV),sizeof(float)*3),0,L"Translation Vector Fail");
-
+			delete[] str;
 			//Add a test that calculates a rotation with a known output.
 		}
 
@@ -71,11 +71,33 @@ namespace SavingFaceTest
 
 		TEST_METHOD(testMtxMult1b3)
 		{
+			
 			Assert().Fail();
 		}
 
 		TEST_METHOD(testMtxMult3b3)
 		{
+			SF::SF_SCALAR in1[9] ={3,1,3,1,3,1,3,1,3}, in2[9] = {3,2,2,3,2,2,3,2,5}, out[9];
+			char *str = new char[200];
+			//memset(in1,2.0f,sizeof(float)*9);
+			//memset(in2,3.0f,sizeof(float)*9);
+			//memset(out,0.0f,sizeof(float)*9);
+			SF::MatrixMultiply3b3(out,in1,in2);
+			sprintf(str, "Output Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
+				out[0],
+				out[1],
+				out[2],
+				out[3],
+				out[4],
+				out[5],
+				out[6],
+				out[7],
+				out[8]
+			);
+			Logger::WriteMessage(str);
+			delete[] str;
+
+			//TODO assert results
 			Assert().Fail();
 		}
 
