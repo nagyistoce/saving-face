@@ -65,8 +65,27 @@ namespace SavingFaceTest
 		{
 			if(model == nullptr)
 				model = new Model();
-
 			
+			
+			//Test the following via the getters
+			model->setName("Mr.","Bob","Jo-ann","Barker", "III");
+			//TODO Test
+			model->setEmail("BogusPerson@Bogus.net");
+			//TODO Test
+			model->setGender("Male");
+			//TODO Test Success
+			model->setGender("None");
+			//TODO Test Fail
+			
+			//Test these too
+			model->getConcatenatedName();
+			model->getFileVersionName();
+			model->getModelInfo();
+			model->getPersonInfo();
+
+			//included in test defaultConstructorTest
+			//model->setDefaultParameters()
+
 			
 			//TODO Test Name, Email, and Gender Setters and Getters
 
@@ -88,6 +107,12 @@ namespace SavingFaceTest
 
 			//TODO destroy created files after test;
 
+			Assert().Fail();
+		}
+
+
+		TEST_METHOD(testChangeModelParameters)
+		{
 			Assert().Fail();
 		}
 
