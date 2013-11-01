@@ -7,11 +7,17 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 namespace SavingFaceTest
 {
 	void getYPR(SF::SF_YPR *ypr)
-		{
-			static char str[200];
-			sprintf_s(str, "YPR:: %f, %f, %f\n", ypr->yaw, ypr->pitch, ypr->roll);
-			Logger().WriteMessage(str);
-		}
+	{
+		static char str[200];
+		sprintf_s(str, "YPR::\t%f,\t%f,\t%f\n", ypr->yaw, ypr->pitch, ypr->roll);
+		Logger().WriteMessage(str);
+	}
+	void getLandmark(SF::SF_R3_COORD *landmark)
+	{
+		static char str[200];
+		sprintf_s(str, "Nose::\t%f,\t%f,\t%f\n", landmark->x, landmark->y, landmark->z);
+		Logger().WriteMessage(str);
+	}
 
 	TEST_CLASS(sdkSessionTest)
 	{
@@ -45,10 +51,10 @@ namespace SavingFaceTest
 		TEST_METHOD(sdkYPRTest)
 		{
 			startSession();
-			session->tempYPRLoop(&SavingFaceTest::getYPR);
-			Assert().Fail();
-			
+			session->tempYPRLoop(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark);
+			Assert().Fail();	
 		}
+
 		
 		
 	};
