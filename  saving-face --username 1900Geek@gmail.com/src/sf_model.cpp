@@ -190,7 +190,13 @@ namespace SF
 
 	SF_STS Model::setGender(SF_GENDER gender)
 	{
-		this->person_info.gender = gender;
+		person_info.gender = gender;
+		int i = 0;
+		while (person_info.gender[i])
+		{
+			person_info.gender[i] = tolower(person_info.gender[i]);	
+			i++;
+		}
 		return SF_STS_OK;
 	}
 

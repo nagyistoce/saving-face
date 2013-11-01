@@ -98,7 +98,7 @@ namespace SavingFaceTest
 			model = new Model("Shannon","Elizabeth","feMale","Hiddy@Hoe.com");
 			model_info  = model->getModelInfo();
 			person_info = model->getPersonInfo();
-			Assert().IsTrue(person_info->firstName == "Jane");
+			Assert().IsTrue(person_info->firstName == "Shannon");
 			Assert().IsTrue(person_info->lastName == "Elizabeth");
 			Assert().IsTrue(person_info->emailAddress == "Hiddy@Hoe.com");
 			Assert().IsTrue(person_info->gender == "female");
