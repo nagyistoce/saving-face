@@ -17,29 +17,6 @@ namespace SavingFaceTest
 
 		SF::SF_TR_MATRIX tm;
 
-		
-
-		TEST_METHOD(testCoordInModelSpace)
-		{
-			SF::Model *model = new SF::Model();
-			
-
-			SF::SF_MODEL_COORD3D coord3d;
-			SF::Model::Model_Info info = model->getModelInfo();
-
-			coord3d.x = model->getModelInfo().xMin;
-			coord3d.y = model->getModelInfo().yMin;
-			coord3d.z = model->getModelInfo().zMin;
-
-			//Commented out:  Unresolved External Symbol?
-			//SF::SF_MODEL_COORD3D_INDEX *index = SF::coordInModelSpace(coord3d, &info);
-
-			//if (index->x != 0 && index->y != 0 && index->z != 0)
-			//{
-			//	Assert().Fail();
-			//}
-		}
-
 		TEST_METHOD(testCalculateTrMatrix)
 		{
 			
@@ -78,6 +55,53 @@ namespace SavingFaceTest
 			Assert().AreEqual(memcmp(&(tm.trV),&(exp.trV),sizeof(float)*3),0,L"Translation Vector Fail");
 
 			//Add a test that calculates a rotation with a known output.
+		}
+
+		TEST_METHOD(testVectorTranslation)
+		{
+			Assert().Fail();
+		}
+
+		TEST_METHOD(testVectorRotation)
+		{
+			Assert().Fail();
+		}
+
+		TEST_METHOD(testVectorTransform)
+		{
+			Assert().Fail();
+		}
+
+		TEST_METHOD(testMtxMult1b3)
+		{
+			Assert().Fail();
+		}
+
+		TEST_METHOD(testMtxMult3b3)
+		{
+			Assert().Fail();
+		}
+
+
+		TEST_METHOD(testCoordInModelSpace)
+		{
+			SF::Model *model = new SF::Model();
+			
+
+			SF::SF_MODEL_COORD3D coord3d;
+			SF::Model::Model_Info info = model->getModelInfo();
+
+			coord3d.x = model->getModelInfo().xMin;
+			coord3d.y = model->getModelInfo().yMin;
+			coord3d.z = model->getModelInfo().zMin;
+
+			//Commented out:  Unresolved External Symbol?
+			//SF::SF_MODEL_COORD3D_INDEX *index = SF::coordInModelSpace(coord3d, &info);
+
+			//if (index->x != 0 && index->y != 0 && index->z != 0)
+			//{
+			//	Assert().Fail();
+			//}
 		}
 
 
