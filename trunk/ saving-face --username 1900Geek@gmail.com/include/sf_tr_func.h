@@ -5,7 +5,7 @@
 namespace SF
 {
 	//Todo refacator to use XNAMath.h, Allows for SIMD single cycle matrix operations
-	//using 128 bit registers.
+	//using 128 bit registers. Way faster.
 
 	//Function Prototypes
 
@@ -95,6 +95,7 @@ namespace SF
 
 
 	//TODO
+	//Add prototype when finished.
 	inline SF_SCALAR *MatrixMultiply1b3(SF_SCALAR &MTX1b3, SF_SCALAR &MTX3b3)
 	{
 		return 0;
