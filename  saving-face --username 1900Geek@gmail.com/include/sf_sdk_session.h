@@ -55,6 +55,7 @@ namespace SF
 	//The following are to be replaced
 	void tempMainLoop();
 	void tempYPRLoop(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*));
+	void mathematicaFriendlyFileOut();
 
 	SF_Session();
 	~SF_Session();

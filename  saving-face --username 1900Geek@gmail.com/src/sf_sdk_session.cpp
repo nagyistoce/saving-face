@@ -1,5 +1,11 @@
 #include "..\include\sf_sdk_session.h"
 
+//Temp includes
+#include <fstream>
+#include <sstream>
+#include "pxcprojection.h" //To Project Coords to Real-Life and to map depth to image
+#include "pxcmetadata.h"   //Necessary for projection
+
 namespace SF
 {
 	bool SF_Session::createSession()
@@ -198,5 +204,44 @@ namespace SF
 			if (!depth_render->RenderFrame(images[1])) break;
 			if (!uv_render->RenderFrame(images[0])) break;
 		}
+	}
+
+	void SF_Session::mathematicaFriendlyFileOut()
+	{
+		/* Messy Code in the middle of refactoring
+		*  The puropose of this is to get the data along with YPR and Landmarks out into Mathematica
+		*  For further analysis
+		
+		static int incr= 0;//Image number
+		bool bob  =  false;
+		int samples = 0;
+		PXCPoint3DF32 *pos2d = 0;				// array of depth coordinates to be mapped onto color coordinates
+		PXCPoint3DF32 *pos3d = 0;				// array of depth coordinates to be mapped onto color coordinates
+		std::ofstream arrayData;
+		std::stringstream sstrm;
+		sstrm << "Math_Out\\test_1_" << incr << ".csv";
+		arrayData.open(sstrm.str());
+		sstrm.clear();
+		incr ++;
+		//Map depth to real world
+		PXCSmartPtr<PXCProjection> projection;
+		pxcUID prj_value;		// projection serializable identifier
+		session->DynamicCast<PXCMetadata>()->CreateSerializable<PXCProjection>(prj_value, &projection);
+		projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
+		projection->MapDepthToColorCoordinates(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,posc);
+			for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++) {
+                for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
+						//wprintf(L"%f,%f,%f", pos3d[k].x,pos3d[k].y,pos3d[k].z);
+                    int xx=(int)(posc[k].x+0.5f), yy= (int) (posc[k].y+0.5f);
+				    if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;
+                    if (pos2d) if (pos2d[k].z==dvalues[0] || pos2d[k].z==dvalues[1]) continue; // no mapping based on unreliable depth values
+					((pxcU32 *)dcolor.planes[0])[yy*cwidth2+xx] |= 0x0000FF00;
+					samples++; //Count valid samples
+					arrayData << pos3d[k].x << ", " <<  pos3d[k].y << ", " << pos3d[k].z << "\n";//KS write to file
+                }
+			}
+			wprintf(L"Samples in file: %d\n", samples); // Print Num Samples per file to console
+			samples = 0;
+			arrayData.close();//Close the file*/
 	}
 }
