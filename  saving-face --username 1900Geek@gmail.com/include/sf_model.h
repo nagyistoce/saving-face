@@ -35,6 +35,7 @@ namespace SF
 		
 		struct Model_Info
 		{
+			Person_Info *person_info;
 			SF_MUID muid;
 			SF_BOUND xMin, xMax, yMin, yMax, zMin, zMax;
 			SF_DELTA deltaX, deltaY, deltaZ;

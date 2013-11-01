@@ -98,13 +98,16 @@ namespace SF
 	}
 
 	//TODO
-	inline SF_SCALAR *MatrixMultiply3b3(SF_SCALAR &MTX3b31, SF_SCALAR &MTX3b32)
+	inline void MatrixMultiply3b3(SF_SCALAR* out, const SF_SCALAR* in1,const SF_SCALAR* in2)
 	{
-		//Couldn't get this to work for the life of me.
-		/*SF_SCALAR *temp[9] = {MTX3b31[0] * MTX3b32[0] + MTX3b31[1]*MTX3b32[3] + MTX3b31[2] * MTX3b32[6], MTX3b31[0] * MTX3b32[1] + MTX3b31[1]*MTX3b32[4] + MTX3b31[2] * MTX3b32[7], MTX3b31[0] * MTX3b32[2] + MTX3b31[1]*MTX3b32[5] + MTX3b31[2] * MTX3b32[8],
-				MTX3b31[3] * MTX3b32[0] + MTX3b31[4]*MTX3b32[3] + MTX3b31[5] * MTX3b32[6], MTX3b31[3] * MTX3b32[1] + MTX3b31[4]*MTX3b32[4] + MTX3b31[5] * MTX3b32[7], MTX3b31[3] * MTX3b32[2] + MTX3b31[4]*MTX3b32[5] + MTX3b31[5] * MTX3b32[8],
-			    MTX3b31[6] * MTX3b32[0] + MTX3b31[7]*MTX3b32[3] + MTX3b31[8] * MTX3b32[6], MTX3b31[6] * MTX3b32[1] + MTX3b31[7]*MTX3b32[4] + MTX3b31[8] * MTX3b32[7], MTX3b31[6] * MTX3b32[2] + MTX3b31[7]*MTX3b32[5] + MTX3b31[8] * MTX3b32[8]};
-				*/
-		return NULL;
+		out[0] = in1[0] * in2[0] + in1[1]*in2[3] + in1[2] * in2[6];
+		out[1] = in1[0] * in2[1] + in1[1]*in2[4] + in1[2] * in2[7];
+		out[2] = in1[0] * in2[2] + in1[1]*in2[5] + in1[2] * in2[8];
+		out[3] = in1[3] * in2[0] + in1[4]*in2[3] + in1[5] * in2[6];
+		out[4] = in1[3] * in2[1] + in1[4]*in2[4] + in1[5] * in2[7];
+		out[5] = in1[3] * in2[2] + in1[4]*in2[5] + in1[5] * in2[8];
+		out[6] = in1[6] * in2[0] + in1[7]*in2[3] + in1[8] * in2[6];
+		out[7] = in1[6] * in2[1] + in1[7]*in2[4] + in1[8] * in2[7];
+		out[8] = in1[6] * in2[2] + in1[7]*in2[5] + in1[8] * in2[8];
 	}
 }
