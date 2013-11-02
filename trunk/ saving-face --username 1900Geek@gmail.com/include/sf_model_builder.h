@@ -24,6 +24,9 @@ namespace SF
 		~sf_model_builder(void);
 
 		//Generate a unique ID
+		//Note that some random number generators will not repeat until over a billion calls
+		//Or just take the date and time down to the second for person and the second + 1 for a model.
+		//Example 20131101143806 and 20131101143807
 		long generateUID();
 
 		//Make a new model
