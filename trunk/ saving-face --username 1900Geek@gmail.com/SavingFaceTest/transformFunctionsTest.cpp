@@ -118,9 +118,6 @@ namespace SavingFaceTest
 		{
 			SF::SF_SCALAR in1[9] ={3,1,3,1,3,1,3,1,3}, in2[9] = {3,2,2,3,2,2,3,2,5}, out[9];
 			char *str = new char[200];
-			//memset(in1,2.0f,sizeof(float)*9);
-			//memset(in2,3.0f,sizeof(float)*9);
-			//memset(out,0.0f,sizeof(float)*9);
 			SF::MatrixMultiply3b3(out,in1,in2);
 			sprintf(str, "Output Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
 				out[0],

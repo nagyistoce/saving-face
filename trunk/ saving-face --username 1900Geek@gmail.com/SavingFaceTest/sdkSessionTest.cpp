@@ -12,6 +12,7 @@ namespace SavingFaceTest
 		sprintf_s(str, "YPR::\t%f,\t%f,\t%f\n", ypr->yaw, ypr->pitch, ypr->roll);
 		Logger().WriteMessage(str);
 	}
+
 	void getLandmark(SF::SF_R3_COORD *landmark)
 	{
 		static char str[200];
