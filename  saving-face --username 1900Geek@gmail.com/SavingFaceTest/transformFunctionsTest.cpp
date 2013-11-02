@@ -111,7 +111,6 @@ namespace SavingFaceTest
 			{
 				Assert().Fail();
 			}
-			
 		}
 
 		TEST_METHOD(testMtxMult3b3)
