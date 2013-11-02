@@ -18,33 +18,9 @@ namespace SavingFaceTest
 		*/
 
 
-
-		Model *model;
-		//For Best Practices use the test method initializers / cleanup.
-		//Not done here
-		//There are a lot of other tidbits for testing not yet used.
-		
-		//This is potentially bad juju
-		//There may be other attributes not being set by setting a default constructor.
-		//Also this may not even be being called.
-		modelClassTest()
-		{
-			model = 0;
-		}
-
-
-		//Same goes for the destructor
-		~modelClassTest()
-		{
-			if(model) delete model;
-		}
-
-		//Use the Logger mechanism to print out results.
-
 		TEST_METHOD(defaultConstructorTest)
 		{
-			if(model != nullptr)
-				delete model;
+			Model *model;
 			model = new Model();
 			Model::Model_Info  const *model_info  = model->getModelInfo();
 			Model::Person_Info const *person_info = model->getPersonInfo();
@@ -71,8 +47,7 @@ namespace SavingFaceTest
 
 		TEST_METHOD(shortConstructorTest)
 		{
-			if(model != nullptr)
-				delete model;
+			Model *model;
 			model = new Model("Bob","Barker", "Male");
 			Model::Model_Info  const *model_info  = model->getModelInfo();
 			Model::Person_Info const *person_info = model->getPersonInfo();
@@ -93,8 +68,7 @@ namespace SavingFaceTest
 			Assert().IsTrue(person_info->lastName == "Barker");
 			Assert().IsTrue(person_info->emailAddress == "");
 			Assert().IsTrue(person_info->gender == "male");
-			if(model != nullptr)
-				delete model;
+			delete model;
 			model = new Model("Shannon","Elizabeth","feMale","Hiddy@Hoe.com");
 			model_info  = model->getModelInfo();
 			person_info = model->getPersonInfo();
@@ -102,15 +76,37 @@ namespace SavingFaceTest
 			Assert().IsTrue(person_info->lastName == "Elizabeth");
 			Assert().IsTrue(person_info->emailAddress == "Hiddy@Hoe.com");
 			Assert().IsTrue(person_info->gender == "female");
-			if(model != nullptr)
-				delete model;
+			delete model;
 			model = nullptr;
 		}
 
 		TEST_METHOD(fullNameConstructorTest)
 		{
-			//TODO
-			Assert().Fail();
+			Model *model;
+			model = new Model("Mr.","Bob","Bernadine","Barker","Jr","Male","ThePriceIsWrong@B3.com");
+			Model::Model_Info  const *model_info  = model->getModelInfo();
+			Model::Person_Info const *person_info = model->getPersonInfo();
+			Assert().AreEqual(model_info->xMin, SF_DEFAULT_XMIN);
+			Assert().AreEqual(model_info->xMax, SF_DEFAULT_XMAX);
+			Assert().AreEqual(model_info->yMin, SF_DEFAULT_YMIN);
+			Assert().AreEqual(model_info->yMax, SF_DEFAULT_YMAX);
+			Assert().AreEqual(model_info->zMin, SF_DEFAULT_ZMIN);
+			Assert().AreEqual(model_info->zMax, SF_DEFAULT_ZMAX);
+			Assert().AreEqual(model_info->deltaX, SF_DEFAULT_DELTAX);
+			Assert().AreEqual(model_info->deltaY, SF_DEFAULT_DELTAY);
+			Assert().AreEqual(model_info->deltaZ, SF_DEFAULT_DELTAZ);
+			Assert().AreEqual(model_info->xWidth, (SF_ARR_WIDTH)(((SF_DEFAULT_XMAX - SF_DEFAULT_XMIN)) / SF_DEFAULT_DELTAX));
+			Assert().AreEqual(model_info->yWidth, (SF_ARR_WIDTH)(((SF_DEFAULT_YMAX - SF_DEFAULT_YMIN)) / SF_DEFAULT_DELTAY));
+			Assert().AreEqual(model_info->zWidth, (SF_ARR_WIDTH)(((SF_DEFAULT_ZMAX - SF_DEFAULT_ZMIN)) / SF_DEFAULT_DELTAZ));
+			Assert().IsTrue(person_info->salutation == "Mr.");
+			Assert().IsTrue(person_info->firstName == "Bob");
+			Assert().IsTrue(person_info->middleName == "Bernadine");
+			Assert().IsTrue(person_info->lastName == "Barker");
+			Assert().IsTrue(person_info->suffix == "Jr");
+			Assert().IsTrue(person_info->emailAddress == "ThePriceIsWrong@B3.com");
+			Assert().IsTrue(person_info->gender == "male");
+			delete model;
+			model = nullptr;
 		}
 
 		TEST_METHOD(fullySpecifiedConstructorTest)
@@ -125,12 +121,11 @@ namespace SavingFaceTest
 			//SF::SF_STS sts = model->initModelArray();
 			Assert().Fail();
 		}
-		
 
 		TEST_METHOD(TestSettersAndGetters)
 		{
-			if(model == nullptr)
-				model = new Model();
+			Model *model;
+			model = new Model();
 			
 			
 			//Test the following via the getters
@@ -148,7 +143,8 @@ namespace SavingFaceTest
 			model->getFileVersionName();
 			model->getModelInfo();
 			model->getPersonInfo();
-
+			delete model;
+			model = nullptr;
 			//included in test defaultConstructorTest
 			//model->setDefaultParameters()
 
@@ -164,15 +160,18 @@ namespace SavingFaceTest
 
 		TEST_METHOD(TestFileIOStreams)
 		{
-			if(model == nullptr)
-				model = new Model();
+			Model *model;
+			model = new Model();
 			
+
+
 			//TODO test file export;
 
 			//TODO test file import;
 
 			//TODO destroy created files after test;
-
+			delete model;
+			model = nullptr;
 			Assert().Fail();
 		}
 
@@ -180,11 +179,12 @@ namespace SavingFaceTest
 		TEST_METHOD(TestModelArrModifyAndRead)
 		{
 			//Test Read only and read/write
-			if(model == nullptr)
-				model = new Model();
+			Model *model;
+			model = new Model();
 
 			//TODO test model Arr(increment points, readback points, total model value etc)
-
+			delete model;
+			model = nullptr;
 			Assert().Fail();
 		}
 	};
