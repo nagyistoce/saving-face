@@ -76,8 +76,42 @@ namespace SavingFaceTest
 
 		TEST_METHOD(testMtxMult1b3)
 		{
-			//SF::MatrixMultiply1b3();
-			Assert().Fail();
+			SF::SF_MODEL_COORD3D out;
+			SF::SF_TR_MATRIX matrix;
+			SF::SF_R3_COORD tr_coord3d;
+
+			matrix.rotMTX[0] = 3;
+			matrix.rotMTX[1] = 1;
+			matrix.rotMTX[2] = 3;
+			matrix.rotMTX[3] = 1;
+			matrix.rotMTX[4] = 3;
+			matrix.rotMTX[5] = 1;
+			matrix.rotMTX[6] = 3;
+			matrix.rotMTX[7] = 1;
+			matrix.rotMTX[8] = 3;
+
+			tr_coord3d.x = 1;
+			tr_coord3d.y = 2;
+			tr_coord3d.z = 3;
+
+
+			char *str = new char[200];
+
+			SF::MatrixMultiply1b3(out, );
+
+			sprintf(str, "Output Matrix Contains::\n%f, %f, %f", 
+				out.x,
+				out.y,
+				out.z
+			);
+			Logger::WriteMessage(str);
+			delete[] str;
+
+			if (out.x != 14 || out.y != 10 || out.z != 14)
+			{
+				Assert().Fail();
+			}
+			
 		}
 
 		TEST_METHOD(testMtxMult3b3)
@@ -102,15 +136,17 @@ namespace SavingFaceTest
 			Logger::WriteMessage(str);
 			delete[] str;
 
-			//TODO assert results
-			Assert().Fail();
+			if (out[0] != 21 || out[1] != 14 || out[2] != 23 || out[3] != 15 || out[4] != 10 || out[5] != 13 || out[6] != 21 || out[7] != 14 || out[8] != 23)
+			{
+				Assert().Fail();
+			}
 		}
 
 
 		TEST_METHOD(testCoordInModelSpace)
 		{
 			SF::Model *model = new SF::Model();
-			
+			SF::SF_MODEL_COORD3D_INDEX index;
 
 			SF::SF_MODEL_COORD3D coord3d;
 			SF::Model::Model_Info const *info = model->getModelInfo();
@@ -119,16 +155,25 @@ namespace SavingFaceTest
 			coord3d.y = info->yMin;
 			coord3d.z = info->zMin;
 
-			//Commented out:  Unresolved External Symbol?
-			//SF::SF_MODEL_COORD3D_INDEX *index = SF::coordInModelSpace(coord3d, &info);
+			SF::coordInModelSpace(index, coord3d, info);
 
-			//if (index->x != 0 && index->y != 0 && index->z != 0)
-			//{
-			//	Assert().Fail();
-			//}
+			char *str = new char[200];
+			
+			sprintf(str, "Output Model Coord3d Index Contains::\n%f, %f, %f", 
+				index.x,
+				index.y,
+				index.z
+			);
+			Logger::WriteMessage(str);
+			delete[] str;
+			delete model;
+			delete info;
+
+			if (index.x != 0 || index.y != 0 || index.z != 0)
+			{
+				Assert().Fail();
+			}
 		}
-
-
 
 	};
 }

@@ -32,7 +32,8 @@ namespace SF
 	//Note cannot pass in the same argument as both the product and an operator.
 	inline void MatrixMultiply3b3(SF_SCALAR* out, const SF_SCALAR* in1,const SF_SCALAR* in2);
 
-
+	//1 By 3 Matrix multiplication
+	inline void MatrixMultiply1b3(SF_MODEL_COORD3D &model_r3_coord,const SF_R3_COORD &tr_Coord3d, const SF_TR_MATRIX &tr_matrix);
 
 
 	//Implementation
@@ -97,17 +98,17 @@ namespace SF
 	
 	inline void rotateCoord(SF_MODEL_COORD3D &model_r3_coord,const SF_R3_COORD &tr_Coord3d, const SF_TR_MATRIX &tr_matrix)
 	{
-		model_r3_coord.x = (tr_Coord3d.x * tr_matrix.rotMTX[0] + tr_Coord3d.y * tr_matrix.rotMTX[1] + tr_Coord3d.z * tr_matrix.rotMTX[2]);
-		model_r3_coord.y = (tr_Coord3d.x * tr_matrix.rotMTX[3] + tr_Coord3d.y * tr_matrix.rotMTX[4] + tr_Coord3d.z * tr_matrix.rotMTX[5]);
-		model_r3_coord.z = (tr_Coord3d.x * tr_matrix.rotMTX[6] + tr_Coord3d.y * tr_matrix.rotMTX[7] + tr_Coord3d.z * tr_matrix.rotMTX[8]);
+		MatrixMultiply1b3(model_r3_coord, tr_Coord3d, tr_matrix);
 	}
 
 
 	//TODO
 	//Add prototype when finished.
-	inline SF_SCALAR *MatrixMultiply1b3(SF_SCALAR &MTX1b3, SF_SCALAR &MTX3b3)
+	inline void MatrixMultiply1b3(SF_MODEL_COORD3D &model_r3_coord,const SF_R3_COORD &tr_Coord3d, const SF_TR_MATRIX &tr_matrix)
 	{
-		return 0;
+		model_r3_coord.x = (tr_Coord3d.x * tr_matrix.rotMTX[0] + tr_Coord3d.y * tr_matrix.rotMTX[1] + tr_Coord3d.z * tr_matrix.rotMTX[2]);
+		model_r3_coord.y = (tr_Coord3d.x * tr_matrix.rotMTX[3] + tr_Coord3d.y * tr_matrix.rotMTX[4] + tr_Coord3d.z * tr_matrix.rotMTX[5]);
+		model_r3_coord.z = (tr_Coord3d.x * tr_matrix.rotMTX[6] + tr_Coord3d.y * tr_matrix.rotMTX[7] + tr_Coord3d.z * tr_matrix.rotMTX[8]);
 	}
 
 	//TODO
