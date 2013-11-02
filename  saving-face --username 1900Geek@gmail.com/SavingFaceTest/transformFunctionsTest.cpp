@@ -97,7 +97,7 @@ namespace SavingFaceTest
 
 			char *str = new char[200];
 
-			SF::MatrixMultiply1b3(out, );
+			SF::MatrixMultiply1b3(out, tr_coord3d, matrix);
 
 			sprintf(str, "Output Matrix Contains::\n%f, %f, %f", 
 				out.x,
