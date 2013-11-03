@@ -32,6 +32,7 @@ namespace SF
 		//Make a new model
 		//Adds it to the current model list
 		//This is the only place a model constructor should be called
+		//With the exception of test methods
 		//This will add the model to the database simultaniously
 		SF_MUID addNewModel();//TODO figure out params
 
