@@ -139,6 +139,7 @@ namespace SF
 	private:
 		Model_Info model_info;
 		Person_Info person_info;
+		int arrLength;
 	};
 }
 

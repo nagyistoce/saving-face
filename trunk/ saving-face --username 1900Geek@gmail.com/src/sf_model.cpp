@@ -64,6 +64,7 @@ namespace SF
 
 	SF_STS Model::setDefaultParameters()
 	{
+		this->arrLength = -1;
 		this->model_info.xMin = SF_DEFAULT_XMIN;
 		this->model_info.yMin = SF_DEFAULT_YMIN;
 		this->model_info.zMin = SF_DEFAULT_ZMIN;
@@ -89,6 +90,7 @@ namespace SF
 	{
 		//TODO this version requires error checking. Can easily input a bogus parameter at
 		//run time which will cause a crash.
+		this->arrLength = -1;
 		this->model_info.xMin = xMin;
 		this->model_info.yMin = yMin;
 		this->model_info.zMin = zMin;
@@ -118,11 +120,16 @@ namespace SF
 		this->model_info.modelArr = new SF_MODEL_UNIT[this->model_info.xWidth * this->model_info.yWidth * this->model_info.zWidth];
 		//Set model array to zero
 		memset(this->model_info.modelArr,0,this->model_info.xWidth * this->model_info.yWidth * this->model_info.zWidth);
-		if(this->model_info.modelArr)
+		if(this->model_info.modelArr){
+			arrLength = this->model_info.xWidth * this->model_info.yWidth * this->model_info.zWidth;
 			return SF_STS_OK;
+		}
 		//Insert Seperate Fail Condition For Debug and Release
 		else
+		{
+			arrLength = -1;
 			return SF_STS_MEM_ALLOC_FAIL;
+		}
 	}
 	
 	SF_STS Model::setEmail(SF_EMAIL emailAddress)
