@@ -98,7 +98,7 @@ namespace SF
 
 		//Gets the full name as a single string
 		//Default name parts are set to ""
-		const SF_NAME getConcatenatedName();
+		SF_NAME getConcatenatedName();
 
 		//Gets the salutation Mr. Mrs. Dr. etc...
 		const SF_NAME getSalutation();
@@ -116,7 +116,7 @@ namespace SF
 		const SF_NAME getSuffix();
 
 		//Gets a full name with '_' concatenation instead of spaces
-		const SF_NAME getFileVersionName();
+		SF_NAME getFileVersionName();
 
 		//Returns lower-case only
 		const SF_GENDER getGender();

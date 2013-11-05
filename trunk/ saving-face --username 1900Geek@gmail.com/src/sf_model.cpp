@@ -160,14 +160,26 @@ namespace SF
 		return &person_info;
 	}
 
-	const SF_NAME Model::getConcatenatedName()
+	// TODO Omit "_" if name part is "".
+	SF_NAME Model::getConcatenatedName()
 	{
-		return this->person_info.salutation + " " + this->person_info.firstName + " " + this->person_info.middleName + " " + this->person_info.lastName + " " + this->person_info.suffix;
+		string name = person_info.salutation + " " 
+			+ person_info.firstName + " " 
+			+ person_info.middleName + " " 
+			+ person_info.lastName + " " 
+			+ person_info.suffix;
+		return name;
 	}
 
-	const SF_NAME Model::getFileVersionName()
+	// TODO Omit "_" if name part is "". 
+	SF_NAME Model::getFileVersionName()
 	{
-		return this->person_info.salutation + "_" + this->person_info.firstName + "_" + this->person_info.middleName + "_" + this->person_info.lastName + "_" + this->person_info.suffix;
+		string name = person_info.salutation + "_" 
+			+ this->person_info.firstName + "_" 
+			+ this->person_info.middleName + "_" 
+			+ this->person_info.lastName + "_" 
+			+ this->person_info.suffix;
+		return name;
 	}
 
 	const SF_NAME Model::getSalutation()
@@ -199,8 +211,7 @@ namespace SF
 	{
 		person_info.gender = gender;
 		int i = 0;
-		while (person_info.gender[i])
-		{
+		while (person_info.gender[i]){
 			person_info.gender[i] = tolower(person_info.gender[i]);	
 			i++;
 		}
