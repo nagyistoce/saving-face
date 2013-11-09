@@ -160,25 +160,51 @@ namespace SF
 		return &person_info;
 	}
 
-	// TODO Omit "_" if name part is "".
+	//Omits " " if name part is "".
+	//Assumes the user always inputs last name
 	SF_NAME Model::getConcatenatedName()
 	{
-		string name = person_info.salutation + " " 
-			+ person_info.firstName + " " 
-			+ person_info.middleName + " " 
-			+ person_info.lastName + " " 
-			+ person_info.suffix;
+		string name = "";
+		
+		if (this->person_info.salutation != "")
+			name.append(this->person_info.salutation + " ");
+
+		if (this->person_info.firstName != "")
+			name.append(this->person_info.firstName + " ");
+
+		if (this->person_info.middleName != "")
+			name.append(this->person_info.middleName + " ");
+
+		if (this->person_info.lastName != "")
+			name.append(this->person_info.lastName);
+
+		if (this->person_info.suffix != "")
+			name.append(" " + this->person_info.suffix);
+
 		return name;
 	}
 
-	// TODO Omit "_" if name part is "". 
+	//Omits "_" if name part is "". 
+	//Assumes the user always inputs last name
 	SF_NAME Model::getFileVersionName()
 	{
-		string name = person_info.salutation + "_" 
-			+ this->person_info.firstName + "_" 
-			+ this->person_info.middleName + "_" 
-			+ this->person_info.lastName + "_" 
-			+ this->person_info.suffix;
+		string name = "";
+		
+		if (this->person_info.salutation != "")
+			name.append(this->person_info.salutation + "_");
+
+		if (this->person_info.firstName != "")
+			name.append(this->person_info.firstName + "_");
+
+		if (this->person_info.middleName != "")
+			name.append(this->person_info.middleName + "_");
+
+		if (this->person_info.lastName != "")
+			name.append(this->person_info.lastName);
+
+		if (this->person_info.suffix != "")
+			name.append("_" + this->person_info.suffix);
+
 		return name;
 	}
 
