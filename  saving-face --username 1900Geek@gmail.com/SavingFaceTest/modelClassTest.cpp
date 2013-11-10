@@ -188,4 +188,28 @@ namespace SavingFaceTest
 			Assert().Fail();
 		}
 	};
+
+
+	//Moved from transformFunctions test class to here and added () to function calls.
+	//Should use assert are equal or strcmp()
+	//Otherwise you are comparing char* a to char* b which are indeed not equal.
+	TEST_CLASS(modelFunctionsTest)
+	{
+		TEST_METHOD(testModelName)
+		{
+			SF::Model *testModel = new SF::Model("John", "Doe", "JohnDoe@doe.com", "M");
+
+			if (testModel->getGender() != "m")
+				Assert().Fail();
+
+			if (testModel->getFirstName() != "John")
+				Assert().Fail();
+
+			if (testModel->getLastName() != "Doe")
+				Assert().Fail();
+
+			if (testModel->getEmail() != "JohnDoe@doe.com")
+				Assert().Fail();
+		}
+	};
 }
