@@ -77,6 +77,7 @@ namespace SavingFaceTest
 		TEST_METHOD(testMtxMult1b3)
 		{
 			SF::SF_MODEL_COORD3D out;
+			SF::SF_MODEL_COORD3D exp;
 			SF::SF_TR_MATRIX matrix;
 			SF::SF_R3_COORD tr_coord3d;
 
@@ -94,6 +95,9 @@ namespace SavingFaceTest
 			tr_coord3d.y = 2;
 			tr_coord3d.z = 3;
 
+			exp.x = 14;
+			exp.y = 10;
+			exp.z = 14;
 
 			char *str = new char[200];
 
@@ -104,18 +108,17 @@ namespace SavingFaceTest
 				out.y,
 				out.z
 			);
+
+
 			Logger::WriteMessage(str);
 			delete[] str;
 
-			if (out.x != 14 || out.y != 10 || out.z != 14)
-			{
-				Assert().Fail();
-			}
+			Assert().AreEqual(memcmp(&out,&exp,sizeof(float)*3),0,L"1X3 Matrices Multiplication Fail");
 		}
 
 		TEST_METHOD(testMtxMult3b3)
 		{
-			SF::SF_SCALAR in1[9] ={3,1,3,1,3,1,3,1,3}, in2[9] = {3,2,2,3,2,2,3,2,5}, out[9];
+			SF::SF_SCALAR in1[9] ={3,1,3,1,3,1,3,1,3}, in2[9] = {3,2,2,3,2,2,3,2,5}, out[9], exp[9] = {21,14,23,15,10,13,21,14,23};
 			char *str = new char[200];
 			SF::MatrixMultiply3b3(out,in1,in2);
 			sprintf(str, "Output Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
@@ -132,10 +135,7 @@ namespace SavingFaceTest
 			Logger::WriteMessage(str);
 			delete[] str;
 
-			if (out[0] != 21 || out[1] != 14 || out[2] != 23 || out[3] != 15 || out[4] != 10 || out[5] != 13 || out[6] != 21 || out[7] != 14 || out[8] != 23)
-			{
-				Assert().Fail();
-			}
+			Assert().AreEqual(memcmp(&out,&exp,sizeof(float)*3),0,L"3X3 Matrices Multiplication Fail");
 		}
 
 
@@ -146,6 +146,11 @@ namespace SavingFaceTest
 
 			SF::SF_MODEL_COORD3D coord3d;
 			SF::Model::Model_Info const *info = model->getModelInfo();
+
+			SF::SF_MODEL_COORD3D_INDEX exp;
+			exp.x = 0;
+			exp.y = 0;
+			exp.z = 0;
 
 			coord3d.x = info->xMin;
 			coord3d.y = info->yMin;
@@ -165,10 +170,7 @@ namespace SavingFaceTest
 			delete model;
 			delete info;
 
-			if (index.x != 0 || index.y != 0 || index.z != 0)
-			{
-				Assert().Fail();
-			}
+			Assert().AreEqual(memcmp(&index,&exp,sizeof(float)*3),0,L"Coord In Model Space Fail");
 		}
 
 	};
