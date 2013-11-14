@@ -130,17 +130,24 @@ namespace SavingFaceTest
 			
 			//Test the following via the getters
 			model->setName("Mr.","Bob","Jo-ann","Barker", "III");
-			//TODO Test
+			Assert().AreEqual(&(model->getSalutation),"Mr.",L"Salutation Getter Fail");
+			Assert().AreEqual(&(model->getFirstName),"Bob",L"First Name Getter Fail");
+			Assert().AreEqual(&(model->getMiddleName),"Jo-ann",L"Middle Name Getter Fail");
+			Assert().AreEqual(&(model->getLastName),"Barker",L"Last Name Getter Fail");
+			Assert().AreEqual(&(model->getSuffix),"III",L"Suffix Getter Fail");
+			
 			model->setEmail("BogusPerson@Bogus.net");
-			//TODO Test
+			Assert().AreEqual(&(model->getEmail),"BogusPerson@Bogus.net",L"Email Getter Fail");
+
 			model->setGender("Male");
-			//TODO Test Success
+			Assert().AreEqual(&(model->getGender),"m",L"Gender Getter Fail");
+
 			model->setGender("None");
 			//TODO Test Fail
 			
 			//Test these too
-			model->getConcatenatedName();
-			model->getFileVersionName();
+			Assert().AreEqual(&(model->getConcatenatedName), "Mr. Bob Jo-ann Barker III", L"Concatenated Name Getter Fail");
+			Assert().AreEqual(&(model->getConcatenatedName), "Mr._Bob_Jo-ann_Barker_III", L"File Version Name Getter Fail");
 			model->getModelInfo();
 			model->getPersonInfo();
 			delete model;
@@ -150,6 +157,7 @@ namespace SavingFaceTest
 
 			
 			//TODO Test Name, Email, and Gender Setters and Getters
+			
 
 			//TODO Test Model Parameter Getters and Setters
 			//Make Sure it returns an error code if the Model has already been initialized
@@ -186,30 +194,6 @@ namespace SavingFaceTest
 			delete model;
 			model = nullptr;
 			Assert().Fail();
-		}
-	};
-
-
-	//Moved from transformFunctions test class to here and added () to function calls.
-	//Should use assert are equal or strcmp()
-	//Otherwise you are comparing char* a to char* b which are indeed not equal.
-	TEST_CLASS(modelFunctionsTest)
-	{
-		TEST_METHOD(testModelName)
-		{
-			SF::Model *testModel = new SF::Model("John", "Doe", "JohnDoe@doe.com", "M");
-
-			if (testModel->getGender() != "m")
-				Assert().Fail();
-
-			if (testModel->getFirstName() != "John")
-				Assert().Fail();
-
-			if (testModel->getLastName() != "Doe")
-				Assert().Fail();
-
-			if (testModel->getEmail() != "JohnDoe@doe.com")
-				Assert().Fail();
 		}
 	};
 }
