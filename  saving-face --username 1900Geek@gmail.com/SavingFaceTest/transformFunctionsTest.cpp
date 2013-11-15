@@ -58,20 +58,87 @@ namespace SavingFaceTest
 
 		TEST_METHOD(testVectorTranslation)
 		{
-			//SF::translateCoord();
-			Assert().Fail();
+			SF::SF_TR_MATRIX tr;
+			SF::SF_R3_COORD origCoord, out, exp;
+
+			origCoord.x = 10;
+			origCoord.y = 15;
+			origCoord.z = 20;
+
+			tr.trV.x = 5;
+			tr.trV.y = 10;
+			tr.trV.z = 15;
+
+			exp.x = 5;
+			exp.y = 5;
+			exp.z = 5;
+			
+			SF::translateCoord(out, origCoord, tr);
+
+			Assert().AreEqual(memcmp(&(out),&(exp),sizeof(float)*3),0,L"Translation Vector Fail");
 		}
 
 		TEST_METHOD(testVectorRotation)
 		{
-			//SF::rotateCoord();
-			Assert().Fail();
+			SF::SF_MODEL_COORD3D out, exp;
+			SF::SF_R3_COORD tr_coord3d;
+			SF::SF_TR_MATRIX matrix;
+
+			matrix.rotMTX[0] = 3;
+			matrix.rotMTX[1] = 1;
+			matrix.rotMTX[2] = 3;
+			matrix.rotMTX[3] = 1;
+			matrix.rotMTX[4] = 3;
+			matrix.rotMTX[5] = 1;
+			matrix.rotMTX[6] = 3;
+			matrix.rotMTX[7] = 1;
+			matrix.rotMTX[8] = 3;
+
+			tr_coord3d.x = 1;
+			tr_coord3d.y = 2;
+			tr_coord3d.z = 3;
+
+			exp.x = 14;
+			exp.y = 10;
+			exp.z = 14;
+
+			SF::rotateCoord(out, tr_coord3d, matrix);
+
+			Assert().AreEqual(memcmp(&out,&exp,sizeof(float)*3),0,L"Rotate Matrix Fail");
 		}
 
 		TEST_METHOD(testVectorTransform)
 		{
-			//SF::transformCoord();
-			Assert().Fail;
+			SF::SF_TR_MATRIX tr;
+			SF::SF_R3_COORD origCoord;
+			SF::SF_MODEL_COORD3D out, exp;
+
+			origCoord.x = 10;
+			origCoord.y = 15;
+			origCoord.z = 20;
+
+			tr.trV.x = 5;
+			tr.trV.y = 10;
+			tr.trV.z = 15;
+
+			tr.rotMTX[0] = 3;
+			tr.rotMTX[1] = 1;
+			tr.rotMTX[2] = 3;
+			tr.rotMTX[3] = 1;
+			tr.rotMTX[4] = 3;
+			tr.rotMTX[5] = 1;
+			tr.rotMTX[6] = 3;
+			tr.rotMTX[7] = 1;
+			tr.rotMTX[8] = 3;
+
+			exp.x = 35;
+			exp.y = 25;
+			exp.z = 35;
+			
+			SF::transformCoord(out, origCoord, tr);
+
+			Assert().AreEqual(memcmp(&(out),&(exp),sizeof(float)*3),0,L"Transform Vector Fail");
+
 		}
 
 		TEST_METHOD(testMtxMult1b3)

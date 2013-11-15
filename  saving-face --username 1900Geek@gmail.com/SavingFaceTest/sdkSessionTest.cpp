@@ -27,6 +27,7 @@ namespace SavingFaceTest
 
 		void startSession()
 		{
+			/*
 			session = new SF::SF_Session();
 			//modelBuilder = new SF::sf_model_builder();
 
@@ -40,7 +41,7 @@ namespace SavingFaceTest
 				Assert().Fail();
 			session->createDepthRenderView();
 			session->createColorRenderView();
-			session->loadFaceModule();
+			session->loadFaceModule();*/
 		}
 
 
