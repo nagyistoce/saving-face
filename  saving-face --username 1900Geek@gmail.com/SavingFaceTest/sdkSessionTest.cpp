@@ -34,6 +34,8 @@ namespace SavingFaceTest
 				Assert().Fail();			
 			if(!(session->setOptions(NULL, NULL)))
 				Assert().Fail();
+		
+			//This is where we fail.
 			if(!(session->captureStreams()))
 				Assert().Fail();
 			session->createDepthRenderView();
