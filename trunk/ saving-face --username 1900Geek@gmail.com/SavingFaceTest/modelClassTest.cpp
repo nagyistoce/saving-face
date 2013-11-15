@@ -130,24 +130,38 @@ namespace SavingFaceTest
 			
 			//Test the following via the getters
 			model->setName("Mr.","Bob","Jo-ann","Barker", "III");
-			Assert().AreEqual(&(model->getSalutation),"Mr.",L"Salutation Getter Fail");
-			Assert().AreEqual(&(model->getFirstName),"Bob",L"First Name Getter Fail");
-			Assert().AreEqual(&(model->getMiddleName),"Jo-ann",L"Middle Name Getter Fail");
-			Assert().AreEqual(&(model->getLastName),"Barker",L"Last Name Getter Fail");
-			Assert().AreEqual(&(model->getSuffix),"III",L"Suffix Getter Fail");
-			
+			Assert().IsTrue(model->getSalutation() == "Mr");
+			Assert().IsTrue(model->getFirstName() == "Bob");
+			Assert().IsTrue(model->getMiddleName() == "Jo-ann");
+			Assert().IsTrue(model->getLastName() == "Barker");
+			Assert().IsTrue(model->getLastName() == "Barker");
+	
+	
+
+
+
+
+			/*
+			Assert().AreEqual(&(model->getSalutation()),"Mr.",L"Salutation Getter Fail");
+			Assert().AreEqual(&(model->getFirstName()),"Bob",L"First Name Getter Fail");
+			Assert().AreEqual(&(model->getMiddleName()),"Jo-ann",L"Middle Name Getter Fail");
+			Assert().AreEqual(&(model->getLastName()),"Barker",L"Last Name Getter Fail");
+			Assert().AreEqual(&(model->getSuffix()),"III",L"Suffix Getter Fail");
+			*/
+			//Finish this
+			/*
 			model->setEmail("BogusPerson@Bogus.net");
-			Assert().AreEqual(&(model->getEmail),"BogusPerson@Bogus.net",L"Email Getter Fail");
+			Assert().AreEqual(&(model->getEmail()),"BogusPerson@Bogus.net",L"Email Getter Fail");
 
 			model->setGender("Male");
-			Assert().AreEqual(&(model->getGender),"m",L"Gender Getter Fail");
+			Assert().AreEqual(&(model->getGender()),"m",L"Gender Getter Fail");
 
 			model->setGender("None");
 			//TODO Test Fail
 			
 			//Test these too
-			Assert().AreEqual(&(model->getConcatenatedName), "Mr. Bob Jo-ann Barker III", L"Concatenated Name Getter Fail");
-			Assert().AreEqual(&(model->getConcatenatedName), "Mr._Bob_Jo-ann_Barker_III", L"File Version Name Getter Fail");
+			Assert().AreEqual(&(model->getConcatenatedName()), "Mr. Bob Jo-ann Barker III", L"Concatenated Name Getter Fail");
+			Assert().AreEqual(&(model->getConcatenatedName()), "Mr._Bob_Jo-ann_Barker_III", L"File Version Name Getter Fail");
 			model->getModelInfo();
 			model->getPersonInfo();
 			delete model;
@@ -163,6 +177,7 @@ namespace SavingFaceTest
 			//Make Sure it returns an error code if the Model has already been initialized
 
 			//TODO Test concatenated Name Getters
+			*/
 			Assert().Fail();
 		}
 
