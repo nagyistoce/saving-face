@@ -47,8 +47,9 @@ namespace SavingFaceTest
 
 		TEST_METHOD(sdkSessionConstructorTest)
 		{
-			// TODO: Your test code here
-			Assert().Fail();
+			SF::SF_Session *session = new SF::SF_Session();
+			Assert().IsNotNull(session);
+			delete session;
 		}
 
 
