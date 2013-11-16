@@ -10,15 +10,26 @@ public:
 	sf_db(void);
 	~sf_db(void);
 
+	//iterate over all models and save to persistant storage
 	SF_STS saveDatabase();
+
+	//load all models in the path with file extension .mdl
 	SF_STS loadDatabase(string path);
-	SF_STS addModelToDatabase();
-	SF_STS deleteModelFromDatabase();
+
+	//push a model onto the database
+	SF_STS addModelToDatabase(Model *model);
+
+	//remove a model from the database
+	SF_STS deleteModelFromDatabase(SF_MUID *modelID);
 	
+	//Can be simple... Single comparison algorithm... (Recomended)
+	//Simple/Fast case is that all models have identical model_info structs.
+	//More complex is to allow for differnt model resolutions... (Later)
 	//return type yet unknown
 	void compareToModels(/*a function pointer to a model comparison algorithm*/);
 
 private:
+	//Store all models/
 	vector<Model> *db;
 };
 

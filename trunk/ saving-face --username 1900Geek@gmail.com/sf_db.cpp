@@ -9,5 +9,7 @@ sf_db::sf_db(void)
 
 sf_db::~sf_db(void)
 {
+	//TODO
+	//Iterate over all models and call destructor.
 	delete db;
 }
