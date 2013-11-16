@@ -28,6 +28,10 @@ public:
 	//return type yet unknown
 	void compareToModels(/*a function pointer to a model comparison algorithm*/);
 
+	//Returns a reference to the model class.
+	//Eleminates the need for wrapper functions
+	Model getModel(SF_MUID);
+
 private:
 	//Store all models/
 	vector<Model> *db;
