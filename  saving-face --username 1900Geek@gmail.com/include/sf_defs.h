@@ -84,15 +84,17 @@ namespace SF
 		SF_MODEL_COORD x,y,z;
 	};
 
+	typedef long SF_UID_TYPE;
+
 	//Unique Personal Identifier
 	//There is only one you
 	//Labeling people is good
-	typedef long SF_PUID;
+	typedef SF_UID_TYPE SF_PUID;
 
 	//Unique Model Identifier
 	//Potential to have more than one model
 	//Associated with a Person
-	typedef long SF_MUID;
+	typedef SF_UID_TYPE SF_MUID;
 
 	//Contains YAW PITCH and ROLL data
 	typedef PXCFaceAnalysis::Landmark::PoseData SF_YPR;

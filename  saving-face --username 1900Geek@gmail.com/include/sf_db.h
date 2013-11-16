@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include <map>
 #include "sf_model.h"
 
 using namespace SF;
@@ -30,10 +30,10 @@ public:
 
 	//Returns a reference to the model class.
 	//Eleminates the need for wrapper functions
-	Model getModel(SF_MUID);
+	Model *getModel(SF_MUID muid);
 
 private:
 	//Store all models/
-	vector<Model> *db;
+	map<SF_MUID, Model*> db;
 };
 

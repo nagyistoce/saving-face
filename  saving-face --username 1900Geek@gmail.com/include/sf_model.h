@@ -136,6 +136,14 @@ namespace SF
 		//Caller must check for null pointer
 		SF_MODEL_ARR getWritableModelArr();
 
+		void setPersonUID(const SF_PUID puid);
+
+		void setModelUID(const SF_MUID muid);
+
+		SF_PUID getPersonUID();
+
+		SF_MUID getModelUID();
+
 	private:
 		Model_Info model_info;
 		Person_Info person_info;

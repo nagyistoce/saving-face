@@ -28,28 +28,28 @@ namespace SF
 		//Note that some random number generators will not repeat until over a billion calls
 		//Or just take the date and time down to the second for person and the second + 1 for a model.
 		//Example 20131101143806 and 20131101143807
-		long generateUID();
+		SF_UID_TYPE generateUID();
 
 		//Make a new model
 		//Adds it to the current model list
 		//This is the only place a model constructor should be called
 		//With the exception of test methods
-		//This will add the model to the database simultaniously
-		SF_MUID addNewModel();//TODO figure out params
+		//This will add the model to the local database simultaniously
+		SF_MUID addNewModel();
 
 		//Ideally this would be in the Model Database.
-		SF_STS deleteModel(SF_MUID);
+		SF_STS deleteModel(SF_MUID muid);
 
 		//Returns a reference to the model class.
 		//Eleminates the need for wrapper functions
 		//Required because a model should only be added to
 		//the database after a succesful build.
-		Model getModel(SF_MUID);
+		Model *getModel(SF_MUID muid);
 
 		//Contains the loop to the camera
 		//Include options to save video
 		//Save model to disk when finished
-		Model buildModel(SF_MUID);//Param list incomplete
+		Model buildModel(SF_MUID muid);//Param list incomplete
 
 
 
