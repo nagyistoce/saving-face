@@ -126,48 +126,31 @@ namespace SavingFaceTest
 		{
 			Model *model;
 			model = new Model();
-			
-			
-			//Test the following via the getters
+		
 			model->setName("Mr.","Bob","Jo-ann","Barker", "III");
-			Assert().IsTrue(model->getSalutation() == "Mr");
+			Assert().IsTrue(model->getSalutation() == "Mr.");
+			Assert().IsFalse(model->getSalutation() == "Mr");
 			Assert().IsTrue(model->getFirstName() == "Bob");
+			Assert().IsFalse(model->getFirstName() == "bob");
 			Assert().IsTrue(model->getMiddleName() == "Jo-ann");
+			Assert().IsFalse(model->getMiddleName() == "Jo ann");
 			Assert().IsTrue(model->getLastName() == "Barker");
-			Assert().IsTrue(model->getLastName() == "Barker");
-	
-	
-			//Finish this
+			Assert().IsFalse(model->getLastName() == "Baker");
+			Assert().IsTrue(model->getSuffix() == "III");
+			Assert().IsFalse(model->getSuffix() == "II");
 			
 			model->setEmail("BogusPerson@Bogus.net");
 			Assert().IsTrue(model->getEmail() == "BogusPerson@Bogus.net");
 
-			model->setGender("Male");
-			Assert().IsTrue(model->getGender() == "m");
-
-			model->setGender("None");
-			//TODO Test Fail
+			model->setGender("MaLe");
+			Assert().IsTrue(model->getGender() == "male");
+			Assert().IsFalse(model->getGender() == "MaLe");
 			
-			//Test these too
 			Assert().IsTrue(model->getConcatenatedName() == "Mr. Bob Jo-ann Barker III");
 			Assert().IsTrue(model->getFileVersionName() == "Mr._Bob_Jo-ann_Barker_III");
-			model->getModelInfo();
-			model->getPersonInfo();
+			
 			delete model;
 			model = nullptr;
-			//included in test defaultConstructorTest
-			//model->setDefaultParameters()
-
-			
-			//TODO Test Name, Email, and Gender Setters and Getters
-			
-
-			//TODO Test Model Parameter Getters and Setters
-			//Make Sure it returns an error code if the Model has already been initialized
-
-			//TODO Test concatenated Name Getters
-			
-			Assert().Fail();
 		}
 
 		TEST_METHOD(TestFileIOStreams)
