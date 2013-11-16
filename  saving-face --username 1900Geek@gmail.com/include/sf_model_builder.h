@@ -1,6 +1,7 @@
 #pragma once
 #include "sf_defs.h"
 #include "sf_model.h"
+#include "sf_db.h"
 #include <iostream>
 
 namespace SF
@@ -53,7 +54,8 @@ namespace SF
 
 
 	private:
-		//When implemented will need a referance to the current database
-		//Model_Database *mdb; 
+		//temp_db holds the working model while being built, private instance
+		//actual_db holds a reference to the actual database.
+		sf_db temp_db, *actual_db; 
 	};
 }

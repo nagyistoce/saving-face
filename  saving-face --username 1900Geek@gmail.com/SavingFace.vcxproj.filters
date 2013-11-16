@@ -30,7 +30,7 @@
     <ClCompile Include="src\sf_sdk_session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sf_db.cpp">
+    <ClCompile Include="src\sf_db.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

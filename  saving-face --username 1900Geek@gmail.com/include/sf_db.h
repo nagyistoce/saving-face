@@ -1,5 +1,5 @@
 #pragma once
-#include <map>
+#include <vector>
 #include "sf_model.h"
 
 using namespace SF;
@@ -34,6 +34,6 @@ public:
 
 private:
 	//Store all models/
-	map<SF_MUID, Model> db;
+	vector<Model> *db;
 };
 
