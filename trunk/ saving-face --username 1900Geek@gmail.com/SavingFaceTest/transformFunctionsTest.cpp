@@ -120,6 +120,13 @@ namespace SavingFaceTest
 
 		TEST_METHOD(testVectorTransform)
 		{
+			//See above comments.
+			//Should be a realistic test that takes a real Coord in R3
+			//Performs the translation and rotation, with a known correct answer that is
+			//Not divisable by PI/4 and yeilds an answer with the correct magnitude within
+			//an acceptable error range.
+			//This is a vital funtion, and though simply a combination of the previous two tests,
+			//this is the function that will be called during normal operations. 
 			SF::SF_TR_MATRIX tr;
 			SF::SF_R3_COORD origCoord;
 			SF::SF_MODEL_COORD3D out, exp;
@@ -149,7 +156,7 @@ namespace SavingFaceTest
 			SF::transformCoord(out, origCoord, tr);
 
 			Assert().AreEqual(memcmp(&(out),&(exp),sizeof(float)*3),0,L"Transform Vector Fail");
-
+			Assert().Fail(L"Until Updated");
 		}
 
 		TEST_METHOD(testMtxMult1b3)
