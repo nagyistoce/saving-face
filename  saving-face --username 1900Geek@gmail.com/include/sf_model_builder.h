@@ -41,6 +41,8 @@ namespace SF
 
 		//Returns a reference to the model class.
 		//Eleminates the need for wrapper functions
+		//Required because a model should only be added to
+		//the database after a succesful build.
 		Model getModel(SF_MUID);
 
 		//Contains the loop to the camera
