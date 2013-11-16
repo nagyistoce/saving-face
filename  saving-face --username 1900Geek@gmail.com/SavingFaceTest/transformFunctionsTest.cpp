@@ -16,9 +16,6 @@ namespace SavingFaceTest
 
 		TEST_METHOD(testCalculateTrMatrix)
 		{
-			//Test is taking entirely too long. find out why.
-			//Reason is it is the first test run.
-			//at 1 Million calls only increases by 1 sec run time.
 			PXCPoint3DF32 trv = {1,1,1};
 			SF::SF_YPR ypr = {0,0,0};
 			for(int i = 1; i < 1000000; i++)
@@ -56,8 +53,7 @@ namespace SavingFaceTest
 			//Add a test that calculates a rotation matrix with another known output.
 		}
 
-		TEST_METHOD(testVectorTranslation)
-		{
+		TEST_METHOD(testVectorTranslation){
 			SF::SF_TR_MATRIX tr;
 			SF::SF_R3_COORD origCoord, out, exp;
 
@@ -78,11 +74,24 @@ namespace SavingFaceTest
 			Assert().AreEqual(memcmp(&(out),&(exp),sizeof(float)*3),0,L"Translation Vector Fail");
 		}
 
-		TEST_METHOD(testVectorRotation)
-		{
+		TEST_METHOD(testVectorRotation){
 			SF::SF_MODEL_COORD3D out, exp;
 			SF::SF_R3_COORD tr_coord3d;
 			SF::SF_TR_MATRIX matrix;
+
+
+			//I agree that this may be a valid test of the mathematics
+			//However this is not a realistic test of the rotational qualities of the matrix.
+			//The rotation matrix used is not composed of unit vectors,
+			//representing the rotation about an arbitrary axis.
+			//The transform is also not a scalar representation where |in| = |out| as would be expected,
+			//and should be tested for.
+			//Suggest using well known functions such as Sin(PI/4)... with expected outputs... and exceptable error
+			//do to fp calculations... on the order of 10^-10 for our purposes (over kill I know. But any more suggest a serious
+			//flaw in the code).
+			//Better use a calculated tr matrix, with a YPR that is non zero, and not divisable by Pi/4.
+			//So that we know that we are truly rotatating about an axis. And not simply doing matrix, mult.
+			//which is tested elsewhere.
 
 			matrix.rotMTX[0] = 3;
 			matrix.rotMTX[1] = 1;
@@ -105,6 +114,8 @@ namespace SavingFaceTest
 			SF::rotateCoord(out, tr_coord3d, matrix);
 
 			Assert().AreEqual(memcmp(&out,&exp,sizeof(float)*3),0,L"Rotate Matrix Fail");
+
+			Assert().Fail(L"Until Updated");
 		}
 
 		TEST_METHOD(testVectorTransform)
