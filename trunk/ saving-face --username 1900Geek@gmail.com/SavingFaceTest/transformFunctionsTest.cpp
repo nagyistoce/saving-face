@@ -5,6 +5,7 @@
 #include "pxcdefs.h"
 #include "sf_model.h"
 
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace SavingFaceTest
@@ -51,6 +52,8 @@ namespace SavingFaceTest
 			Assert().AreEqual(memcmp(&(tm.trV),&(exp.trV),sizeof(float)*3),0,L"Translation Vector Fail");
 			delete[] str;
 			//Add a test that calculates a rotation matrix with another known output.
+			//Both cases should be tested with arbitrary non unit vectors in testVectorRotation.
+			//Should extract the code into individual functions so as not to duplicate code.
 		}
 
 		TEST_METHOD(testVectorTranslation){
