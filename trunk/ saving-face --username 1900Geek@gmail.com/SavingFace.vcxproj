@@ -69,7 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="sf_db.cpp" />
+    <ClCompile Include="src\sf_db.cpp" />
     <ClCompile Include="src\sf_model.cpp" />
     <ClCompile Include="src\sf_model_builder.cpp" />
     <ClCompile Include="src\sf_sdk_session.cpp" />
