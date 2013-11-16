@@ -53,7 +53,7 @@
     <ClInclude Include="include\sf_sdk_session.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sf_db.h">
+    <ClInclude Include="include\sf_db.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

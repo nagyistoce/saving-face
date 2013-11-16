@@ -270,4 +270,23 @@ namespace SF
 		return model_info.modelArr;
 	}
 
+	void Model::setPersonUID(const SF_PUID puid)
+	{
+		person_info.puid = puid;
+	}
+
+	void Model::setModelUID(const SF_MUID muid)
+	{
+		model_info.muid = muid;
+	}
+
+	SF_PUID Model::getPersonUID()
+	{
+		return person_info.puid;
+	}
+
+	SF_MUID Model::getModelUID()
+	{
+		return model_info.muid;
+	}
 }

@@ -77,13 +77,13 @@
     <ClCompile Include="src\TestCode.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\sf_db.h" />
     <ClInclude Include="include\sf_defs.h" />
     <ClInclude Include="include\sf_model.h" />
     <ClInclude Include="include\sf_model_builder.h" />
     <ClInclude Include="include\sf_sdk_session.h" />
     <ClInclude Include="include\sf_tr_func.h" />
     <ClInclude Include="include\Testing.h" />
-    <ClInclude Include="sf_db.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
