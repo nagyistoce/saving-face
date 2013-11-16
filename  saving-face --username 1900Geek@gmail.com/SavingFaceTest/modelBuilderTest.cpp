@@ -8,8 +8,6 @@ namespace SavingFaceTest
 	TEST_CLASS(modelBuilderTest)
 	{
 	public:
-
-
 		TEST_METHOD(modelBuilderGenUIDTest)
 		{
 			//Look at results by hand.
@@ -19,9 +17,7 @@ namespace SavingFaceTest
 			int i = 0;
 			while(i < 10)
 			{
-				i++;
-				long uid = builder.generateUID();
-				_sleep(1000);
+				_sleep(1000);//Sleep for 1 second.
 				i++;
 				long uid = builder.generateUID();
 				char *str = new char[200];
