@@ -30,6 +30,9 @@
     <ClCompile Include="src\sf_sdk_session.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sf_db.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sf_defs.h">
@@ -48,6 +51,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\sf_sdk_session.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sf_db.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
