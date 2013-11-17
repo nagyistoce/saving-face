@@ -120,6 +120,7 @@ namespace SavingFaceTest
 		{
 			//TODO implement and test
 			//SF::SF_STS sts = model->initModelArray();
+			//Important to test valid indices from zero to arrlength - 1
 			Assert().Fail(L"Not Yet Implemented");
 		}
 
@@ -215,7 +216,7 @@ namespace SavingFaceTest
 			//TODO test model Arr(increment points, readback points, total model value etc)
 			delete model;
 			model = nullptr;
-			Assert().Fail();
+			Assert().Fail(L"Test Not Implemented");
 		}
 	};
 }
