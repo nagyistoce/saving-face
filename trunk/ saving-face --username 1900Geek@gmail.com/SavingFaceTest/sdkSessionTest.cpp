@@ -29,16 +29,13 @@ namespace SavingFaceTest
 		{
 			
 			session = new SF::SF_Session();
-			//modelBuilder = new SF::sf_model_builder();
-
 			if(!(session->createSession()))
-				Assert().Fail();			
+				Assert().Fail(L"Failed To Create Session");			
 			if(!(session->setOptions(NULL, NULL)))
-				Assert().Fail();
-		
+				Assert().Fail(L"Failed to set Options");
 			//This is where we fail.
-			if(!(session->captureStreams()))
-				Assert().Fail();
+			if(session->captureStreams() < SF_STS_OK)
+				Assert().Fail(L"Failed To Locate and Capture Streams");
 			session->createDepthRenderView();
 			session->createColorRenderView();
 			session->loadFaceModule();
@@ -56,13 +53,7 @@ namespace SavingFaceTest
 		TEST_METHOD(sdkYPRTest)
 		{
 			startSession();
-			session->tempYPRLoop(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark);
-			Assert().Fail();	
+			session->tempYPRLoop(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark);	
 		}
-
-		
-		
 	};
-
-	
 }
