@@ -229,6 +229,8 @@ namespace SavingFaceTest
 
 		TEST_METHOD(testCoordInModelSpace)
 		{
+			//Should add More testing here for other known coords
+			//End points would be the ideal thing to check.
 			SF::Model *model = new SF::Model();
 			SF::SF_MODEL_COORD3D_INDEX index;
 
@@ -256,7 +258,6 @@ namespace SavingFaceTest
 			Logger::WriteMessage(str);
 			delete[] str;
 			delete model;
-			delete info;
 
 			Assert().AreEqual(memcmp(&index,&exp,sizeof(float)*3),0,L"Coord In Model Space Fail");
 		}
