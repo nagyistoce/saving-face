@@ -113,12 +113,11 @@ namespace SavingFaceTest
 			SF::rotateCoord(out, tr_coord3d, tm);
 
 			char *str = new char[200];
-			sprintf(str, "Output::\n%f, %f, %f\n", out.x,out.y,out.z);
+			sprintf(str, "Output From Rotate Coord::\n%f, %f, %f\n", out.x,out.y,out.z);
 			Logger::WriteMessage(str);
 
 			Assert().AreEqual(memcmp(&out,&exp,sizeof(float)*3),0,L"Rotate Matrix Fail");
 
-			//Assert().Fail(L"Until Updated");
 		}
 
 		TEST_METHOD(testVectorTransform)
