@@ -203,7 +203,8 @@ namespace SF
 		model_info.zMax = atof(strtok_s(NULL,"&",&next_token));
 		model_info.zMin = atof(strtok_s(NULL,"&",&next_token));
 		model_info.zWidth = atoi(strtok_s(NULL,"&",&next_token));
-		
+		char temp[2];
+		fileStream->read(temp, 1);
 		initModelArray();
 		fileStream->read(model_info.modelArr, arrLength);
 		return SF_STS_FAIL;

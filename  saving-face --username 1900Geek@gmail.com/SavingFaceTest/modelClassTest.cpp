@@ -158,8 +158,8 @@ namespace SavingFaceTest
 		{
 			Model *model;
 			model = new Model("MD.","Punish","Me", "Please", "Sr", "Male","Owww@drPain.com");
-			model->setPersonUID(56489742);
-			model->setModelUID(7986131546);
+			model->setPersonUID(56489742L);
+			model->setModelUID(7986131546L);
 			model->initModelArray();
 			
 			model->getModelInfo()->modelArr[0] = 'A';
@@ -185,7 +185,12 @@ namespace SavingFaceTest
 			Logger().WriteMessage(model->getConcatenatedName().c_str());
 
 			Assert().AreEqual(exp, model->getConcatenatedName(),L"Names are not equal");
-			Logger().WriteMessage(L"\nAddress 0 = " + model->getModelInfo()->modelArr[0]);
+			
+			for(int i = 0; i < 10; i++){
+				char str[200];
+				sprintf_s(str, 200, "\nAddress %d = %x", i, model->getModelInfo()->modelArr[i]);
+				Logger().WriteMessage(str);
+			}
 
 			Assert().IsTrue(model->getModelInfo()->modelArr[0] == 'A',L"Address 0 not equal");
 			Assert().IsTrue(model->getModelInfo()->modelArr[1] == 'B',L"Address 1 not equal");

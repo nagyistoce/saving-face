@@ -93,7 +93,6 @@ namespace SF
 		model_r3_coord.z = (tr_Coord3d.x * tr_matrix.rotMTX[6] + tr_Coord3d.y * tr_matrix.rotMTX[7] + tr_Coord3d.z * tr_matrix.rotMTX[8]);
 	}
 
-	//TODO
 	inline void MatrixMultiply3b3(SF_SCALAR* out, const SF_SCALAR* in1,const SF_SCALAR* in2)
 	{
 		out[0] = in1[0] * in2[0] + in1[1]*in2[3] + in1[2] * in2[6];
