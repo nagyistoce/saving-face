@@ -33,7 +33,6 @@ namespace SavingFaceTest
 				Assert().Fail(L"Failed To Create Session");			
 			if(!(session->setOptions(NULL, NULL)))
 				Assert().Fail(L"Failed to set Options");
-			//This is where we fail.
 			if(session->captureStreams() < SF_STS_OK)
 				Assert().Fail(L"Failed To Locate and Capture Streams");
 			session->createDepthRenderView();
@@ -52,6 +51,8 @@ namespace SavingFaceTest
 
 		TEST_METHOD(sdkYPRTest)
 		{
+			//Pass or Fail
+			//Can't fully test without pre-recorded video.
 			startSession();
 			session->tempYPRLoop(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark);	
 		}
