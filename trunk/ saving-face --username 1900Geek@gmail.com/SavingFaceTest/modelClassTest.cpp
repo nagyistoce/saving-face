@@ -160,6 +160,12 @@ namespace SavingFaceTest
 			model = new Model("MD.","Punish","Me", "Please", "Sr", "Male","Owww@drPain.com");
 			model->setPersonUID(56489742);
 			model->setModelUID(7986131546);
+			model->initModelArray();
+			
+			model->getModelInfo()->modelArr[0] = 'A';
+			model->getModelInfo()->modelArr[1] = 'B';
+			model->getModelInfo()->modelArr[2] = 'C';
+	
 			ofstream *out = new ofstream("TestOutput.mdl");
 			string exp = model->getConcatenatedName();
 			model->streamToFile(out);
@@ -179,10 +185,18 @@ namespace SavingFaceTest
 			Logger().WriteMessage(model->getConcatenatedName().c_str());
 
 			Assert().AreEqual(exp, model->getConcatenatedName(),L"Names are not equal");
-			//TODO destroy created files after test;
+			Logger().WriteMessage(L"\nAddress 0 = " + model->getModelInfo()->modelArr[0]);
+
+			Assert().IsTrue(model->getModelInfo()->modelArr[0] == 'A',L"Address 0 not equal");
+			Assert().IsTrue(model->getModelInfo()->modelArr[1] == 'B',L"Address 1 not equal");
+			Assert().IsTrue(model->getModelInfo()->modelArr[2] == 'C',L"Address 2 not equal");
+			
 			delete model;
 			model = nullptr;
-			Assert().Fail(L"not yet implemented");
+
+			//TODO
+			//Test MUID PUID, All model Params, and array
+			Assert().Fail(L"not finished");
 		}
 
 
