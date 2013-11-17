@@ -161,12 +161,24 @@ namespace SavingFaceTest
 			model->setPersonUID(56489742);
 			model->setModelUID(7986131546);
 			ofstream *out = new ofstream("TestOutput.mdl");
+			string exp = model->getConcatenatedName();
 			model->streamToFile(out);
 			out->flush();
 			out->close();
 			delete out;
-			//TODO test file import;
+			delete model;
+			model = 0;
+			
+			ifstream *in = new ifstream("TestOutput.mdl");
+			model = new Model();
+			model->loadFromFile(in);
+			in->close();
+			Logger().WriteMessage(L"Expected Name: ");
+			Logger().WriteMessage(exp.c_str());
+			Logger().WriteMessage(L"\nReturned Name: ");
+			Logger().WriteMessage(model->getConcatenatedName().c_str());
 
+			Assert().AreEqual(exp, model->getConcatenatedName(),L"Names are not equal");
 			//TODO destroy created files after test;
 			delete model;
 			model = nullptr;
