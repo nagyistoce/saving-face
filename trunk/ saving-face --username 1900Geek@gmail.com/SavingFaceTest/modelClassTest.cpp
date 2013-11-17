@@ -196,11 +196,12 @@ namespace SavingFaceTest
 			Assert().IsTrue(model->getModelInfo()->modelArr[1] == 'B',L"Address 1 not equal");
 			Assert().IsTrue(model->getModelInfo()->modelArr[2] == 'C',L"Address 2 not equal");
 			
+			//TODO
+			//Test MUID PUID, All model Params
+
 			delete model;
 			model = nullptr;
 
-			//TODO
-			//Test MUID PUID, All model Params, and array
 			Assert().Fail(L"not finished");
 		}
 

@@ -56,5 +56,8 @@
     <ClInclude Include="include\sf_db.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\PriorTODOList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

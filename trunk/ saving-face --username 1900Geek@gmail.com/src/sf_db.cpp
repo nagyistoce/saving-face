@@ -9,6 +9,7 @@ sf_db::sf_db(void)
 
 sf_db::~sf_db(void)
 {
+	//TODO delete all remaining database entries.
 }
 
 SF_STS sf_db::addModelToDatabase(Model  *model)
@@ -23,6 +24,7 @@ SF_STS sf_db::addModelToDatabase(Model  *model)
 
 Model *sf_db::getModel(SF_MUID muid)
 {
+	//Check to make sure is valid.
 	return db[muid];
 }
 
