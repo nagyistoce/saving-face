@@ -4,7 +4,8 @@
 #include "sf_defs.h"
 #include "pxcdefs.h"
 #include "sf_model.h"
-
+#define _USE_MATH_DEFINES
+#include "math.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -80,8 +81,16 @@ namespace SavingFaceTest
 		TEST_METHOD(testVectorRotation){
 			SF::SF_MODEL_COORD3D out, exp;
 			SF::SF_R3_COORD tr_coord3d;
-			SF::SF_TR_MATRIX matrix;
+			SF::SF_TR_MATRIX tm;
 
+			tr_coord3d.x = 12;
+			tr_coord3d.y = 8;
+			tr_coord3d.z = 4;
+
+			PXCPoint3DF32 trv = {1,1,1};
+			SF::SF_YPR ypr = {3 * M_PI / 2, 6 * M_PI, M_PI / 2};
+
+			SF::calculateTRMatrix(tm,trv, ypr);
 
 			//I agree that this may be a valid test of the mathematics
 			//However this is not a realistic test of the rotational qualities of the matrix.
@@ -96,29 +105,22 @@ namespace SavingFaceTest
 			//So that we know that we are truly rotatating about an axis. And not simply doing matrix, mult.
 			//which is tested elsewhere.
 
-			matrix.rotMTX[0] = 3;
-			matrix.rotMTX[1] = 1;
-			matrix.rotMTX[2] = 3;
-			matrix.rotMTX[3] = 1;
-			matrix.rotMTX[4] = 3;
-			matrix.rotMTX[5] = 1;
-			matrix.rotMTX[6] = 3;
-			matrix.rotMTX[7] = 1;
-			matrix.rotMTX[8] = 3;
 
-			tr_coord3d.x = 1;
-			tr_coord3d.y = 2;
-			tr_coord3d.z = 3;
+			exp.x = -8.000001f;
+			exp.y = 12.000000f;
+			exp.z = 4.000000f;
+			//In the sprintf print it shows this being the actual values of out
+			//does not match, I think we need to use a floor function for the 1x3 matrix multiplication.
 
-			exp.x = 14;
-			exp.y = 10;
-			exp.z = 14;
+			SF::rotateCoord(out, tr_coord3d, tm);
 
-			SF::rotateCoord(out, tr_coord3d, matrix);
+			char *str = new char[200];
+			sprintf(str, "Output::\n%f, %f, %f\n", out.x,out.y,out.z);
+			Logger::WriteMessage(str);
 
 			Assert().AreEqual(memcmp(&out,&exp,sizeof(float)*3),0,L"Rotate Matrix Fail");
 
-			Assert().Fail(L"Until Updated");
+			//Assert().Fail(L"Until Updated");
 		}
 
 		TEST_METHOD(testVectorTransform)
