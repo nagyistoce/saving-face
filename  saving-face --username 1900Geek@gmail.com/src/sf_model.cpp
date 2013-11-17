@@ -178,7 +178,31 @@ namespace SF
 	{
 		char in[1028];
 		*fileStream >> in;
+		char *next_token = NULL;
+		person_info.puid = atol(strtok_s(in,"&",&next_token));
+		person_info.salutation = strtok_s(NULL, "&",&next_token);
+		person_info.firstName = strtok_s(NULL, "&",&next_token);
+		person_info.middleName = strtok_s(NULL, "&",&next_token);
+		person_info.lastName = strtok_s(NULL, "&",&next_token);
+		person_info.suffix = strtok_s(NULL, "&",&next_token);
+		person_info.emailAddress = strtok_s(NULL, "&",&next_token);
 		
+		model_info.deltaX = atof(strtok_s(NULL,"&",&next_token));
+		model_info.xMax = atof(strtok_s(NULL,"&",&next_token));
+		model_info.xMin = atof(strtok_s(NULL,"&",&next_token));
+		model_info.xOffset = atoi(strtok_s(NULL,"&",&next_token));
+		model_info.xWidth = atoi(strtok_s(NULL,"&",&next_token));
+
+		model_info.deltaY = atof(strtok_s(NULL,"&",&next_token));
+		model_info.yMax = atof(strtok_s(NULL,"&",&next_token));
+		model_info.yMin = atof(strtok_s(NULL,"&",&next_token));
+		model_info.yOffset = atoi(strtok_s(NULL,"&",&next_token));
+		model_info.yWidth = atoi(strtok_s(NULL,"&",&next_token));
+
+		model_info.deltaZ = atof(strtok_s(NULL,"&",&next_token));
+		model_info.zMax = atof(strtok_s(NULL,"&",&next_token));
+		model_info.zMin = atof(strtok_s(NULL,"&",&next_token));
+		model_info.zWidth = atoi(strtok_s(NULL,"&",&next_token));
 		return SF_STS_FAIL;
 	}
 
