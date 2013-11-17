@@ -11,7 +11,7 @@ public:
 	~sf_db(void);
 
 	//iterate over all models and save to persistant storage
-	SF_STS saveDatabase();
+	SF_STS saveDatabase(string path);
 
 	//load all models in the path with file extension .mdl
 	SF_STS loadDatabase(string path);
