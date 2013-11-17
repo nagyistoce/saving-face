@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 #include "sf_model.h"
+#include <fstream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace SF;
@@ -112,14 +113,14 @@ namespace SavingFaceTest
 		TEST_METHOD(fullySpecifiedConstructorTest)
 		{
 			//TODO
-			Assert().Fail();
+			Assert().Fail(L"Not yet implemented");
 		}
 
 		TEST_METHOD(constructModelArrayTest)
 		{
 			//TODO implement and test
 			//SF::SF_STS sts = model->initModelArray();
-			Assert().Fail();
+			Assert().Fail(L"Not Yet Implemented");
 		}
 
 		TEST_METHOD(TestSettersAndGetters)
@@ -156,18 +157,20 @@ namespace SavingFaceTest
 		TEST_METHOD(TestFileIOStreams)
 		{
 			Model *model;
-			model = new Model();
-			
-
-
-			//TODO test file export;
-
+			model = new Model("MD.","Punish","Me", "Please", "Sr", "Male","Owww@drPain.com");
+			model->setPersonUID(56489742);
+			model->setModelUID(7986131546);
+			ofstream *out = new ofstream("TestOutput.mdl");
+			model->streamToFile(out);
+			out->flush();
+			out->close();
+			delete out;
 			//TODO test file import;
 
 			//TODO destroy created files after test;
 			delete model;
 			model = nullptr;
-			Assert().Fail();
+			Assert().Fail(L"not yet implemented");
 		}
 
 

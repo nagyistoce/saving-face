@@ -138,13 +138,24 @@ namespace SF
 		return SF_STS_OK;
 	}
 
-	SF_STS Model::streamToFile(ofstream const *fileStream)
+	SF_STS Model::streamToFile(ofstream *fileStream)
 	{
-		//TODO
+		//The plus one is for the null terminating character
+		char *str = new char[200];
+		sprintf_s(str,200, "%d", person_info.puid);
+		fileStream->write(str, strlen(str)+1);
+		fileStream->write(person_info.salutation.c_str(), person_info.emailAddress.size() + 1);
+		fileStream->write(person_info.firstName.c_str(), person_info.emailAddress.size() + 1);
+		fileStream->write(person_info.middleName.c_str(), person_info.emailAddress.size() + 1);
+		fileStream->write(person_info.lastName.c_str(), person_info.emailAddress.size() + 1);
+		fileStream->write(person_info.suffix.c_str(), person_info.emailAddress.size() + 1);
+		fileStream->write(person_info.emailAddress.c_str(), person_info.emailAddress.size() + 1);
+		fileStream->write(person_info.lastName.c_str(), person_info.emailAddress.size() + 1);
+
 		return SF_STS_FAIL;
 	}
 
-	SF_STS Model::loadFromFile(ifstream const *fileStream)
+	SF_STS Model::loadFromFile(ifstream *fileStream)
 	{
 		//TODO
 		return SF_STS_FAIL;

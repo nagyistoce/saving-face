@@ -14,7 +14,10 @@ namespace SavingFaceTest
 		{
 			//Look at results by hand.
 			//Unlikely to break
-			//Succeed if all are different.
+			//Success if all are different.
+			//Note that these are accurate to one second.
+			//As long as you never make two models in the same second
+			//They will be unique
 			SF::sf_model_builder builder;
 			int i = 0;
 			while(i < 10)
