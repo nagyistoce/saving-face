@@ -106,12 +106,10 @@ namespace SavingFaceTest
 			//which is tested elsewhere.
 
 
-			exp.x = -8.000001f;
-			exp.y = 12.000000f;
-			exp.z = 4.000000f;
-			//In the sprintf print it shows this being the actual values of out
-			//does not match, I think we need to use a floor function for the 1x3 matrix multiplication.
-
+			exp.x = -8;
+			exp.y = 12;
+			exp.z = 4;
+			
 			SF::rotateCoord(out, tr_coord3d, tm);
 
 			char *str = new char[200];
