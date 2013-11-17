@@ -169,9 +169,9 @@ namespace SF
 			model_info.zWidth
 			);
 		fileStream->write(str, strlen(str)+1);
-		//TODO Stream the model array.
-		
-		return SF_STS_FAIL;
+		fileStream->write(model_info.modelArr,arrLength);
+		//TODO put in some checks to make sure the array has been initialized.
+		return SF_STS_OK;
 	}
 
 	SF_STS Model::loadFromFile(ifstream *fileStream)
@@ -203,6 +203,9 @@ namespace SF
 		model_info.zMax = atof(strtok_s(NULL,"&",&next_token));
 		model_info.zMin = atof(strtok_s(NULL,"&",&next_token));
 		model_info.zWidth = atoi(strtok_s(NULL,"&",&next_token));
+		
+		initModelArray();
+		fileStream->read(model_info.modelArr, arrLength);
 		return SF_STS_FAIL;
 	}
 
