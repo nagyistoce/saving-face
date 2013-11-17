@@ -88,7 +88,8 @@ namespace SavingFaceTest
 			tr_coord3d.z = 4;
 
 			PXCPoint3DF32 trv = {1,1,1};
-			SF::SF_YPR ypr = {3 * M_PI / 2, 6 * M_PI, M_PI / 2};
+			//This needs to get updated to use different values eg 0.72 * Pi
+			SF::SF_YPR ypr = {3 * M_PI / 2, 6 * M_PI, M_PI / 2}; 
 
 			SF::calculateTRMatrix(tm,trv, ypr);
 
@@ -116,8 +117,9 @@ namespace SavingFaceTest
 			sprintf(str, "Output From Rotate Coord::\n%f, %f, %f\n", out.x,out.y,out.z);
 			Logger::WriteMessage(str);
 
+			//Check for x < value < y to avoid precision errors.
 			Assert().AreEqual(memcmp(&out,&exp,sizeof(float)*3),0,L"Rotate Matrix Fail");
-
+			Assert().Fail(L"Until Updated");
 		}
 
 		TEST_METHOD(testVectorTransform)
