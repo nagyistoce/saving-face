@@ -141,23 +141,44 @@ namespace SF
 	SF_STS Model::streamToFile(ofstream *fileStream)
 	{
 		//The plus one is for the null terminating character
-		char *str = new char[200];
-		sprintf_s(str,200, "%d", person_info.puid);
-		fileStream->write(str, strlen(str)+1);
-		fileStream->write(person_info.salutation.c_str(), person_info.emailAddress.size() + 1);
-		fileStream->write(person_info.firstName.c_str(), person_info.emailAddress.size() + 1);
-		fileStream->write(person_info.middleName.c_str(), person_info.emailAddress.size() + 1);
-		fileStream->write(person_info.lastName.c_str(), person_info.emailAddress.size() + 1);
-		fileStream->write(person_info.suffix.c_str(), person_info.emailAddress.size() + 1);
-		fileStream->write(person_info.emailAddress.c_str(), person_info.emailAddress.size() + 1);
-		fileStream->write(person_info.lastName.c_str(), person_info.emailAddress.size() + 1);
+		char str[1028];
+		sprintf_s(str,500, "%d&%s&%s&%s&%s&%s&%s&%f&%f&%f&%d&%d&%f&%f&%f&%d&%d&%f&%f&%f&%d", 
+			person_info.puid,
+			person_info.salutation.c_str(),
+			person_info.firstName.c_str(),
+			person_info.middleName.c_str(),
+			person_info.lastName.c_str(),
+			person_info.suffix.c_str(),
+			person_info.emailAddress.c_str(),
 
+			model_info.deltaX,
+			model_info.xMax,
+			model_info.xMin,
+			model_info.xOffset,
+			model_info.xWidth,
+
+			model_info.deltaY,
+			model_info.yMax,
+			model_info.yMin,
+			model_info.yOffset,
+			model_info.yWidth,
+
+			model_info.deltaZ,
+			model_info.zMax,
+			model_info.zMin,
+			model_info.zWidth
+			);
+		fileStream->write(str, strlen(str)+1);
+		//TODO Stream the model array.
+		
 		return SF_STS_FAIL;
 	}
 
 	SF_STS Model::loadFromFile(ifstream *fileStream)
 	{
-		//TODO
+		char in[1028];
+		*fileStream >> in;
+		
 		return SF_STS_FAIL;
 	}
 
