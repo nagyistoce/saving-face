@@ -158,6 +158,7 @@ namespace SavingFaceTest
 		TEST_METHOD(TestFileIOStreams)
 		{
 			Model *model;
+			//I laughed hard at this line -Andy
 			model = new Model("MD.","Punish","Me", "Please", "Sr", "Male","Owww@drPain.com");
 			model->setPersonUID(56489742L);
 			model->setModelUID(7986131546L);
@@ -199,6 +200,21 @@ namespace SavingFaceTest
 			
 			//TODO
 			//Test MUID PUID, All model Params
+			//Assert().IsTrue(model->getModelUID() == 7986131546L,L"MUID is not equal");
+			Assert().IsTrue(model->getPersonUID() == 56489742L,L"PUID is not equal");
+			Assert().IsTrue(model->getSalutation() == "MD.", L"Salutation is not equal");
+			Assert().IsFalse(model->getSalutation() == "MD");
+			Assert().IsTrue(model->getFirstName() == "Punish", L"First name is not equal");
+			Assert().IsFalse(model->getFirstName() == "punish");
+			Assert().IsTrue(model->getMiddleName() == "Me", L"Middle name is not equal");
+			Assert().IsFalse(model->getMiddleName() == "me");
+			Assert().IsTrue(model->getLastName() == "Please", L"Last name is not equal");
+			Assert().IsFalse(model->getLastName() == "please");
+			Assert().IsTrue(model->getSuffix() == "Sr", L"Suffix is not equal");
+			Assert().IsFalse(model->getSuffix() == "Sr.");
+			//Assert().IsTrue(model->getGender() == "m", L"Gender is not equal");
+			//Assert().IsFalse(model->getGender() == "M");
+			Assert().IsTrue(model->getEmail() == "Owww@drPain.com", L"Email is not equal");
 
 			delete model;
 			model = nullptr;
