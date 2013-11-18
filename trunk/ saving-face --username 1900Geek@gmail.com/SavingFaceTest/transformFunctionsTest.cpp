@@ -106,6 +106,12 @@ namespace SavingFaceTest
 			//So that we know that we are truly rotatating about an axis. And not simply doing matrix, mult.
 			//which is tested elsewhere.
 
+			//EDIT - andy
+			//I've been testing the functions on my TI-89 everything checks out
+			//except for the 1x3 * 3x3 matrix multiplication.  It may not be an
+			//issue but if something goes wrong I expect that function to be the
+			//culprit.
+
 		
 			expMin.x = -13.11f;
 			expMin.y = -6.38f;
