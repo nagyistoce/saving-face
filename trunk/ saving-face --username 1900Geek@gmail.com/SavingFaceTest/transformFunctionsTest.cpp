@@ -107,13 +107,13 @@ namespace SavingFaceTest
 			//which is tested elsewhere.
 
 		
-			expMin.x = -13.11;
-			expMin.y = -6.38;
-			expMin.z = 3.41;
+			expMin.x = -13.11f;
+			expMin.y = -6.38f;
+			expMin.z = 3.41f;
 
-			expMax.x = -13.10;
-			expMax.y = -6.37;
-			expMax.z = 3.42;
+			expMax.x = -13.10f;
+			expMax.y = -6.37f;
+			expMax.z = 3.42f;
 			
 			SF::rotateCoord(out, tr_coord3d, tm);
 
@@ -136,36 +136,41 @@ namespace SavingFaceTest
 			//an acceptable error range.
 			//This is a vital funtion, and though simply a combination of the previous two tests,
 			//this is the function that will be called during normal operations. 
-			SF::SF_TR_MATRIX tr;
-			SF::SF_R3_COORD origCoord;
-			SF::SF_MODEL_COORD3D out, exp;
+			SF::SF_MODEL_COORD3D out, expMin, expMax;
+			SF::SF_R3_COORD tr_coord3d;
+			SF::SF_TR_MATRIX tm;
 
-			origCoord.x = 10;
-			origCoord.y = 15;
-			origCoord.z = 20;
+			tr_coord3d.x = 10;
+			tr_coord3d.y = 15;
+			tr_coord3d.z = 20;
 
-			tr.trV.x = 5;
-			tr.trV.y = 10;
-			tr.trV.z = 15;
-
-			tr.rotMTX[0] = 3;
-			tr.rotMTX[1] = 1;
-			tr.rotMTX[2] = 3;
-			tr.rotMTX[3] = 1;
-			tr.rotMTX[4] = 3;
-			tr.rotMTX[5] = 1;
-			tr.rotMTX[6] = 3;
-			tr.rotMTX[7] = 1;
-			tr.rotMTX[8] = 3;
-
-			exp.x = 35;
-			exp.y = 25;
-			exp.z = 35;
+			PXCPoint3DF32 trv = {1.6f,2.1f,-5.5f};
 			
-			SF::transformCoord(out, origCoord, tr);
+			SF::SF_YPR ypr = {0.15f * M_PI, 0.599f * M_PI, 0.052f * M_PI}; 
 
-			Assert().AreEqual(memcmp(&(out),&(exp),sizeof(float)*3),0,L"Transform Vector Fail");
-			Assert().Fail(L"Until Updated");
+			tm.trV.x = 0.2f;
+			tm.trV.y = -3.1f;
+			tm.trV.z = 5.9f;
+
+			SF::calculateTRMatrix(tm,trv, ypr);
+
+			expMin.x = 6.19f;
+			expMin.y = -28.59f;
+			expMin.z = 5.61f;
+
+			expMax.x = 6.20f;
+			expMax.y = -28.58f;
+			expMax.z = 5.62f;
+
+			SF::transformCoord(out, tr_coord3d, tm);
+
+			char *str = new char[200];
+			sprintf(str, "Output From Transform Coord::\n%f, %f, %f\n", out.x,out.y,out.z);
+			Logger::WriteMessage(str);
+
+			Assert().IsTrue(expMax.x >= out.x && out.x >= expMin.x);
+			Assert().IsTrue(expMax.y >= out.y && out.y >= expMin.y);
+			Assert().IsTrue(expMax.z >= out.z && out.z >= expMin.z);
 		}
 
 		TEST_METHOD(testMtxMult1b3)
