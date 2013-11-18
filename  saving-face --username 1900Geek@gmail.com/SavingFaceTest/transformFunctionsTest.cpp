@@ -79,7 +79,7 @@ namespace SavingFaceTest
 		}
 
 		TEST_METHOD(testVectorRotation){
-			SF::SF_MODEL_COORD3D out, exp;
+			SF::SF_MODEL_COORD3D out, expMin, expMax;
 			SF::SF_R3_COORD tr_coord3d;
 			SF::SF_TR_MATRIX tm;
 
@@ -88,8 +88,8 @@ namespace SavingFaceTest
 			tr_coord3d.z = 4;
 
 			PXCPoint3DF32 trv = {1,1,1};
-			//This needs to get updated to use different values eg 0.72 * Pi
-			SF::SF_YPR ypr = {3 * M_PI / 2, 6 * M_PI, M_PI / 2}; 
+			
+			SF::SF_YPR ypr = {0.72f * M_PI, .03f * M_PI, 0.95f * M_PI}; 
 
 			SF::calculateTRMatrix(tm,trv, ypr);
 
@@ -106,10 +106,14 @@ namespace SavingFaceTest
 			//So that we know that we are truly rotatating about an axis. And not simply doing matrix, mult.
 			//which is tested elsewhere.
 
+		
+			expMin.x = -13.11;
+			expMin.y = -6.38;
+			expMin.z = 3.41;
 
-			exp.x = -8;
-			exp.y = 12;
-			exp.z = 4;
+			expMax.x = -13.10;
+			expMax.y = -6.37;
+			expMax.z = 3.42;
 			
 			SF::rotateCoord(out, tr_coord3d, tm);
 
@@ -117,9 +121,10 @@ namespace SavingFaceTest
 			sprintf(str, "Output From Rotate Coord::\n%f, %f, %f\n", out.x,out.y,out.z);
 			Logger::WriteMessage(str);
 
-			//Check for x < value < y to avoid precision errors.
-			Assert().AreEqual(memcmp(&out,&exp,sizeof(float)*3),0,L"Rotate Matrix Fail");
-			Assert().Fail(L"Until Updated");
+
+			Assert().IsTrue(expMax.x >= out.x && out.x >= expMin.x);
+			Assert().IsTrue(expMax.y >= out.y && out.y >= expMin.y);
+			Assert().IsTrue(expMax.z >= out.z && out.z >= expMin.z);
 		}
 
 		TEST_METHOD(testVectorTransform)
