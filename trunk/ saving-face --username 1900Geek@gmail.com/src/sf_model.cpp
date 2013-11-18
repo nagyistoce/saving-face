@@ -140,6 +140,8 @@ namespace SF
 
 	SF_STS Model::streamToFile(ofstream *fileStream)
 	{
+		//Edit - Andy
+		//Gender and MUID is not being saved here, I'm assuming that's intentional.
 		//The plus one is for the null terminating character
 		char str[1028];
 		sprintf_s(str,500, "%d&%s&%s&%s&%s&%s&%s&%f&%f&%f&%d&%d&%f&%f&%f&%d&%d&%f&%f&%f&%d", 
