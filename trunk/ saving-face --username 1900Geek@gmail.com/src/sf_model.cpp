@@ -15,7 +15,7 @@ namespace SF
 		setDefaultParameters();
 	}
 
-	Model::Model(SF_NAME firstName, SF_NAME lastName,SF_GENDER gender, SF_EMAIL email)
+	Model::Model(SF_NAME const firstName, SF_NAME const lastName,SF_GENDER const gender, SF_EMAIL const email)
 	{
 		model_info.modelArr = 0;
 		setName(firstName,lastName);
@@ -24,7 +24,7 @@ namespace SF
 		setDefaultParameters();
 	}
 
-	Model::Model(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix,SF_GENDER gender,  SF_EMAIL email)
+	Model::Model(SF_NAME const salutation, SF_NAME const firstName, SF_NAME const middleName, SF_NAME const lastName, SF_NAME const suffix,SF_GENDER const gender,  SF_EMAIL const email)
 	{
 		model_info.modelArr = 0;
 		setName(salutation,firstName,middleName,lastName,suffix);
@@ -33,7 +33,7 @@ namespace SF
 		setDefaultParameters();
 	}
 
-	Model::Model(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix,SF_GENDER gender, SF_EMAIL email,
+	Model::Model(SF_NAME const salutation, SF_NAME const firstName, const SF_NAME middleName, const SF_NAME lastName, SF_NAME const suffix,SF_GENDER const gender, SF_EMAIL const email,
 			SF_BOUND xMin,SF_BOUND xMax,SF_BOUND yMin,SF_BOUND yMax,SF_BOUND zMin,
 			SF_BOUND zMax,SF_DELTA deltaX,SF_DELTA deltaY,SF_DELTA deltaZ)
 	{
@@ -45,7 +45,7 @@ namespace SF
 	}
 
 
-	SF_STS Model::setName(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix)
+	SF_STS Model::setName(SF_NAME const salutation, SF_NAME const firstName, SF_NAME const middleName, SF_NAME const lastName, const SF_NAME suffix)
 	{
 		this->person_info.salutation = salutation;
 		this->person_info.firstName = firstName;
@@ -55,7 +55,7 @@ namespace SF
 		return SF_STS_OK;
 	}
 
-	SF_STS Model::setName(SF_NAME firstName, SF_NAME lastName)
+	SF_STS Model::setName(SF_NAME const firstName, SF_NAME const lastName)
 	{
 		this->person_info.firstName = firstName;
 		this->person_info.lastName = lastName;
@@ -132,7 +132,7 @@ namespace SF
 		}
 	}
 	
-	SF_STS Model::setEmail(SF_EMAIL emailAddress)
+	SF_STS Model::setEmail(SF_EMAIL const emailAddress)
 	{
 		this->person_info.emailAddress = emailAddress;
 		return SF_STS_OK;
@@ -278,27 +278,12 @@ namespace SF
 		return this->person_info.salutation;
 	}
 
-	const SF_NAME Model::getFirstName()
-	{
-		return this->person_info.firstName;
-	}
+	const SF_NAME Model::getFirstName(){return person_info.firstName;}
+	const SF_NAME Model::getMiddleName(){return person_info.middleName;}
+	const SF_NAME Model::getLastName(){return person_info.lastName;}
+	const SF_NAME Model::getSuffix(){return person_info.suffix;}
 
-	const SF_NAME Model::getMiddleName()
-	{
-		return this->person_info.middleName;
-	}
-
-	const SF_NAME Model::getLastName()
-	{
-		return this->person_info.lastName;
-	}
-
-	const SF_NAME Model::getSuffix()
-	{
-		return this->person_info.suffix;
-	}
-
-	SF_STS Model::setGender(SF_GENDER gender)
+	SF_STS Model::setGender(SF_GENDER const gender)
 	{
 		person_info.gender = gender;
 		int i = 0;
