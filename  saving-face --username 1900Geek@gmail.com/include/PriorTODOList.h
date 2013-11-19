@@ -20,5 +20,9 @@
 * Un-implemented methods... High priority
 * Actually build the model... High priority...
 * Save Video Option... (to be implemented in sf_session first)
-* Save Snapshot... (to be implemented in sf_session first) 
+* Save Snapshot... (to be implemented in sf_session first)
+
+
+*Classes that are Finished and Tested
+*sf_tr_func
 */
