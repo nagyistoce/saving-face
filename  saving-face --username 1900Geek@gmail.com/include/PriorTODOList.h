@@ -9,7 +9,6 @@
 * 
 * TESTS TODO
 * (Medium) TEST_METHOD(constructModelArrayTest) Quick and easy
-* (High)   TEST_METHOD(TestFileIOStreams) Just need to test UID's and Model Params, Quick and Easy
 * (Medium) TEST_METHOD(TestModelArrModifyAndRead)
 * (Low)    TEST_METHOD(fullySpecifiedConstructorTest)
 *

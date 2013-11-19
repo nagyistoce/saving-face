@@ -117,14 +117,6 @@ namespace SavingFaceTest
 			Assert().Fail(L"Not yet implemented");
 		}*/
 
-		
-		TEST_METHOD(constructModelArrayTest)
-		{
-			//TODO implement and test
-			//SF::SF_STS sts = model->initModelArray();
-			//Important to test valid indices from zero to arrlength - 1
-			Assert().Fail(L"Not Yet Implemented");
-		}
 
 		TEST_METHOD(TestSettersAndGetters)
 		{
