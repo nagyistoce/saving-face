@@ -128,46 +128,22 @@ namespace SavingFaceTest
 		TEST_METHOD(testVectorRotation){
 			SF::SF_MODEL_COORD3D out, expMin, expMax;
 			SF::SF_R3_COORD tr_coord3d;
-			SF::SF_TR_MATRIX tm;
+			SF::SF_TR_MATRIX tm,tm_exp;
 
 			tr_coord3d.x = 12;
 			tr_coord3d.y = 8;
 			tr_coord3d.z = 4;
 
-			PXCPoint3DF32 trv = {1,1,1};
-			
-			SF::SF_YPR ypr = {0.72f * M_PI, .03f * M_PI, 0.95f * M_PI}; 
+			getArbitraryNumberTrMatrix(tm,tm_exp);
 
-			SF::calculateTRMatrix(tm,trv, ypr);
+			expMin.x = -12.92519f - ACCEPTABLE_ERROR;
+			expMin.y = -0.00466299f - ACCEPTABLE_ERROR;
+			expMin.z = -7.54583f - ACCEPTABLE_ERROR;
 
-			//I agree that this may be a valid test of the mathematics
-			//However this is not a realistic test of the rotational qualities of the matrix.
-			//The rotation matrix used is not composed of unit vectors,
-			//representing the rotation about an arbitrary axis.
-			//The transform is also not a scalar representation where |in| = |out| as would be expected,
-			//and should be tested for.
-			//Suggest using well known functions such as Sin(PI/4)... with expected outputs... and exceptable error
-			//do to fp calculations... on the order of 10^-10 for our purposes (over kill I know. But any more suggest a serious
-			//flaw in the code).
-			//Better use a calculated tr matrix, with a YPR that is non zero, and not divisable by Pi/4.
-			//So that we know that we are truly rotatating about an axis. And not simply doing matrix, mult.
-			//which is tested elsewhere.
+			expMax.x = -12.92519f + ACCEPTABLE_ERROR;
+			expMax.y = -0.00466299f + ACCEPTABLE_ERROR;
+			expMax.z = -7.54583f + ACCEPTABLE_ERROR;
 
-			//EDIT - andy
-			//I've been testing the functions on my TI-89 everything checks out
-			//except for the 1x3 * 3x3 matrix multiplication.  It may not be an
-			//issue but if something goes wrong I expect that function to be the
-			//culprit.
-
-		
-			expMin.x = -13.11f;
-			expMin.y = -6.38f;
-			expMin.z = 3.41f;
-
-			expMax.x = -13.10f;
-			expMax.y = -6.37f;
-			expMax.z = 3.42f;
-			
 			SF::rotateCoord(out, tr_coord3d, tm);
 
 			char *str = new char[200];
