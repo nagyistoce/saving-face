@@ -28,15 +28,15 @@ namespace SavingFaceTest
 
 		void getArbitraryNumberTrMatrix(SF::SF_TR_MATRIX  &tm,SF::SF_TR_MATRIX &exp)
 		{
-			PXCPoint3DF32 trv = {1,1,1};
+			PXCPoint3DF32 trv = {3.5f,-1.3f,-1.2f};
 			SF::SF_YPR ypr;
 			ypr.yaw = 0.72f * M_PI;
 			ypr.pitch = 0.03f * M_PI;
 			ypr.roll = 0.95f * M_PI;
 			SF::calculateTRMatrix(tm,trv, ypr);
-			exp.trV.x = 1;
-			exp.trV.y = 1;
-			exp.trV.z = 1;
+			exp.trV.x = 3.5f;
+			exp.trV.y = -1.3f;
+			exp.trV.z = -1.2f;
 			exp.rotMTX[0] = -0.9833049f;
 			exp.rotMTX[1] = -0.1557402f;
 			exp.rotMTX[2] = 0.09410831f;
@@ -157,39 +157,26 @@ namespace SavingFaceTest
 		}
 
 		TEST_METHOD(testVectorTransform)
-		{
-			//See above comments.
-			//Should be a realistic test that takes a real Coord in R3
-			//Performs the translation and rotation, with a known correct answer that is
-			//Not divisable by PI/4 and yeilds an answer with the correct magnitude within
-			//an acceptable error range.
-			//This is a vital funtion, and though simply a combination of the previous two tests,
-			//this is the function that will be called during normal operations. 
+		{ 
 			SF::SF_MODEL_COORD3D out, expMin, expMax;
 			SF::SF_R3_COORD tr_coord3d;
-			SF::SF_TR_MATRIX tm;
+			SF::SF_TR_MATRIX tm, tm_exp;
 
 			tr_coord3d.x = 10;
 			tr_coord3d.y = 15;
 			tr_coord3d.z = 20;
 
-			PXCPoint3DF32 trv = {1.6f,2.1f,-5.5f};
-			
-			SF::SF_YPR ypr = {0.15f * M_PI, 0.599f * M_PI, 0.052f * M_PI}; 
+			getArbitraryNumberTrMatrix(tm,tm_exp);
 
-			tm.trV.x = 0.2f;
-			tm.trV.y = -3.1f;
-			tm.trV.z = 5.9f;
+			printTmMatrix(tm);
 
-			SF::calculateTRMatrix(tm,trv, ypr);
+			expMin.x = -7.884954f - ACCEPTABLE_ERROR;
+			expMin.y = -7.267827f - ACCEPTABLE_ERROR;
+			expMin.z = -25.34534f - ACCEPTABLE_ERROR;
 
-			expMin.x = 6.19f;
-			expMin.y = -28.59f;
-			expMin.z = 5.61f;
-
-			expMax.x = 6.20f;
-			expMax.y = -28.58f;
-			expMax.z = 5.62f;
+			expMax.x = -7.884954f + ACCEPTABLE_ERROR;
+			expMax.y = -7.267827f + ACCEPTABLE_ERROR;
+			expMax.z = -25.34534f + ACCEPTABLE_ERROR;
 
 			SF::transformCoord(out, tr_coord3d, tm);
 
