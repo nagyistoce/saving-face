@@ -110,12 +110,14 @@ namespace SavingFaceTest
 			model = nullptr;
 		}
 
+		/* Leave in for later... But not not a priority
 		TEST_METHOD(fullySpecifiedConstructorTest)
 		{
 			//TODO
 			Assert().Fail(L"Not yet implemented");
-		}
+		}*/
 
+		
 		TEST_METHOD(constructModelArrayTest)
 		{
 			//TODO implement and test
@@ -222,7 +224,7 @@ namespace SavingFaceTest
 			Assert().IsTrue(model->getModelInfo()->modelArr[2] == 'C',L"Address 2 not equal");
 			
 			//TODO
-			//Test MUID PUID, All model Params
+			//Test MUID PUID, All model Params, gender(thanks andy, I forgot that one.)
 			Assert().IsTrue(model->getModelUID() == expMUID,L"MUID is not equal");
 			Assert().IsTrue(model->getPersonUID() == 56489742L,L"PUID is not equal");
 			Assert().IsTrue(model->getSalutation() == "MD.", L"Salutation is not equal");
@@ -258,8 +260,6 @@ namespace SavingFaceTest
 
 			delete model;
 			model = nullptr;
-
-			//Assert().Fail(L"not finished");
 		}
 
 
