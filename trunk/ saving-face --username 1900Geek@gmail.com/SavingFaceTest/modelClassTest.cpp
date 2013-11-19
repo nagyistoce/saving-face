@@ -215,8 +215,6 @@ namespace SavingFaceTest
 			Assert().IsTrue(model->getModelInfo()->modelArr[1] == 'B',L"Address 1 not equal");
 			Assert().IsTrue(model->getModelInfo()->modelArr[2] == 'C',L"Address 2 not equal");
 			
-			//TODO
-			//Test MUID PUID, All model Params, gender(thanks andy, I forgot that one.)
 			Assert().IsTrue(model->getModelUID() == expMUID,L"MUID is not equal");
 			Assert().IsTrue(model->getPersonUID() == 56489742L,L"PUID is not equal");
 			Assert().IsTrue(model->getSalutation() == "MD.", L"Salutation is not equal");
