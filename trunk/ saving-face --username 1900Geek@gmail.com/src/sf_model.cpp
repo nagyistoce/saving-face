@@ -309,49 +309,21 @@ namespace SF
 		return SF_STS_OK;
 	}
 
-	const SF_GENDER Model::getGender()
-	{
-		return this->person_info.gender;
-	}
-
-	const SF_EMAIL Model::getEmail()
-	{
-		return this->person_info.emailAddress;
-	}
-
+	
 	Model::~Model(void)
 	{
 		if(this->model_info.modelArr)
 			delete[] this->model_info.modelArr;
 	}
 
-	const SF_MODEL_ARR Model::getReadOnlyModelArr()
-	{
-		return model_info.modelArr;
-	}
+	const SF_MODEL_ARR Model::getReadOnlyModelArr(){return model_info.modelArr;}
+	SF_MODEL_ARR Model::getWritableModelArr(){return model_info.modelArr;}
 
-	SF_MODEL_ARR Model::getWritableModelArr()
-	{
-		return model_info.modelArr;
-	}
+	void Model::setPersonUID(const SF_PUID puid){person_info.puid = puid;}
+	void Model::setModelUID(const SF_MUID muid){model_info.muid = muid;}
+	const SF_PUID Model::getPersonUID(){return person_info.puid;}
+	const SF_MUID Model::getModelUID(){return model_info.muid;}
+	const SF_GENDER Model::getGender(){return person_info.gender;}
+	const SF_EMAIL Model::getEmail(){return person_info.emailAddress;}
 
-	void Model::setPersonUID(const SF_PUID puid)
-	{
-		person_info.puid = puid;
-	}
-
-	void Model::setModelUID(const SF_MUID muid)
-	{
-		model_info.muid = muid;
-	}
-
-	SF_PUID Model::getPersonUID()
-	{
-		return person_info.puid;
-	}
-
-	SF_MUID Model::getModelUID()
-	{
-		return model_info.muid;
-	}
 }

@@ -140,9 +140,9 @@ namespace SF
 
 		void setModelUID(const SF_MUID muid);
 
-		SF_PUID getPersonUID();
+		const SF_PUID getPersonUID();
 
-		SF_MUID getModelUID();
+		const SF_MUID getModelUID();
 
 	private:
 		Model_Info model_info;

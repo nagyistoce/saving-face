@@ -51,9 +51,9 @@ namespace SavingFaceTest
 		void printTmMatrix(SF::SF_TR_MATRIX const &tm)
 		{
 			char *str = new char[200];
-			sprintf(str, "Translation Vector::\n%f, %f, %f\n", tm.trV.x,tm.trV.y,tm.trV.z);
+			sprintf_s(str, 200, "Translation Vector::\n%f, %f, %f\n", tm.trV.x,tm.trV.y,tm.trV.z);
 			Logger::WriteMessage(str);
-			sprintf(str, "Rotation Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f\n", 
+			sprintf_s(str, 200, "Rotation Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f\n", 
 				tm.rotMTX[0],
 				tm.rotMTX[1],
 				tm.rotMTX[2],
@@ -147,7 +147,7 @@ namespace SavingFaceTest
 			SF::rotateCoord(out, tr_coord3d, tm);
 
 			char *str = new char[200];
-			sprintf(str, "Output From Rotate Coord::\n%f, %f, %f\n", out.x,out.y,out.z);
+			sprintf_s(str, 200, "Output From Rotate Coord::\n%f, %f, %f\n", out.x,out.y,out.z);
 			Logger::WriteMessage(str);
 
 
@@ -181,7 +181,7 @@ namespace SavingFaceTest
 			SF::transformCoord(out, tr_coord3d, tm);
 
 			char *str = new char[200];
-			sprintf(str, "Output From Transform Coord::\n%f, %f, %f\n", out.x,out.y,out.z);
+			sprintf_s(str, 200, "Output From Transform Coord::\n%f, %f, %f\n", out.x,out.y,out.z);
 			Logger::WriteMessage(str);
 
 			Assert().IsTrue(expMax.x >= out.x && out.x >= expMin.x);
@@ -218,7 +218,7 @@ namespace SavingFaceTest
 
 			SF::MatrixMultiply1b3(out, tr_coord3d, matrix);
 
-			sprintf(str, "Output Matrix Contains::\n%f, %f, %f", 
+			sprintf_s(str, 200, "Output Matrix Contains::\n%f, %f, %f", 
 				out.x,
 				out.y,
 				out.z
@@ -236,7 +236,7 @@ namespace SavingFaceTest
 			SF::SF_SCALAR in1[9] ={3,1,3,1,3,1,3,1,3}, in2[9] = {3,2,2,3,2,2,3,2,5}, out[9], exp[9] = {21,14,23,15,10,13,21,14,23};
 			char *str = new char[200];
 			SF::MatrixMultiply3b3(out,in1,in2);
-			sprintf(str, "Output Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
+			sprintf_s(str, 200, "Output Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
 				out[0],
 				out[1],
 				out[2],
@@ -277,7 +277,7 @@ namespace SavingFaceTest
 
 			char *str = new char[200];
 			
-			sprintf(str, "Output Model Coord3d Index Contains::\n%f, %f, %f", 
+			sprintf_s(str, 200, "Output Model Coord3d Index Contains::\n%f, %f, %f", 
 				index.x,
 				index.y,
 				index.z
