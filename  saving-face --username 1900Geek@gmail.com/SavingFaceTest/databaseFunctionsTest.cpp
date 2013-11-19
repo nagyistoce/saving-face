@@ -53,13 +53,12 @@ namespace SavingFaceTest
 			modelThree = 0;
 
 			modelOne = new Model();
-
 			modelTwo = new Model();
 			modelThree = new Model();
 
 			modelOne = db->getModel(expMUIDOne);
 
-			if (modelOne == NULL)
+			if (modelOne == nullptr)
 				Logger().WriteMessage(L"\nModel one failed to get from database.");
 			else
 			{
