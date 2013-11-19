@@ -161,8 +161,10 @@ namespace SavingFaceTest
 			//I laughed hard at this line -Andy
 			model = new Model("MD.","Punish","Me", "Please", "Sr", "Male","Owww@drPain.com");
 			model->setPersonUID(56489742L);
-			model->setModelUID(7986131546L);
+			model->setModelUID(7986131546L);  //This value is getting truncated for some reason -Andy
 			model->initModelArray();
+
+			SF_MUID expMUID = model->getModelUID();
 			
 			model->getModelInfo()->modelArr[0] = 'A';
 			model->getModelInfo()->modelArr[1] = 'B';
@@ -170,6 +172,24 @@ namespace SavingFaceTest
 	
 			ofstream *out = new ofstream("TestOutput.mdl");
 			string exp = model->getConcatenatedName();
+
+			SF_DELTA expDeltaX = model->getModelInfo()->deltaX;
+			SF_BOUND expXMax = model->getModelInfo()->xMax;
+			SF_BOUND expXMin = model->getModelInfo()->xMin;
+			SF_ARR_OFFSET expXOffset = model->getModelInfo()->xOffset;
+			SF_ARR_WIDTH expXWidth = model->getModelInfo()->xWidth;
+
+			SF_DELTA expDeltaY = model->getModelInfo()->deltaY;
+			SF_BOUND expYMax = model->getModelInfo()->yMax;
+			SF_BOUND expYMin = model->getModelInfo()->yMin;
+			SF_ARR_OFFSET expYOffset = model->getModelInfo()->yOffset;
+			SF_ARR_WIDTH expYWidth = model->getModelInfo()->yWidth;
+
+			SF_DELTA expDeltaZ = model->getModelInfo()->deltaZ;
+			SF_BOUND expZMax = model->getModelInfo()->zMax;
+			SF_BOUND expZMin = model->getModelInfo()->zMin;
+			SF_ARR_WIDTH expZWidth = model->getModelInfo()->zWidth;
+
 			model->streamToFile(out);
 			out->flush();
 			out->close();
@@ -200,7 +220,7 @@ namespace SavingFaceTest
 			
 			//TODO
 			//Test MUID PUID, All model Params
-			//Assert().IsTrue(model->getModelUID() == 7986131546L,L"MUID is not equal");
+			Assert().IsTrue(model->getModelUID() == expMUID,L"MUID is not equal");
 			Assert().IsTrue(model->getPersonUID() == 56489742L,L"PUID is not equal");
 			Assert().IsTrue(model->getSalutation() == "MD.", L"Salutation is not equal");
 			Assert().IsFalse(model->getSalutation() == "MD");
@@ -212,14 +232,31 @@ namespace SavingFaceTest
 			Assert().IsFalse(model->getLastName() == "please");
 			Assert().IsTrue(model->getSuffix() == "Sr", L"Suffix is not equal");
 			Assert().IsFalse(model->getSuffix() == "Sr.");
-			//Assert().IsTrue(model->getGender() == "m", L"Gender is not equal");
-			//Assert().IsFalse(model->getGender() == "M");
+			Assert().IsTrue(model->getGender() == "male", L"Gender is not equal");
+			Assert().IsFalse(model->getGender() == "Male");
 			Assert().IsTrue(model->getEmail() == "Owww@drPain.com", L"Email is not equal");
+
+			Assert().IsTrue(model->getModelInfo()->deltaX == expDeltaX, L"deltaX is not equal");
+			Assert().IsTrue(model->getModelInfo()->xMax == expXMax, L"xMin is not equal");
+			Assert().IsTrue(model->getModelInfo()->xMin == expXMin, L"xMax is not equal");
+			Assert().IsTrue(model->getModelInfo()->xOffset == expXOffset, L"xOffset is not equal");
+			Assert().IsTrue(model->getModelInfo()->xWidth == expXWidth, L"xWidth is not equal");
+
+			Assert().IsTrue(model->getModelInfo()->deltaY == expDeltaY, L"deltaY is not equal");
+			Assert().IsTrue(model->getModelInfo()->yMax == expYMax, L"yMin is not equal");
+			Assert().IsTrue(model->getModelInfo()->yMin == expYMin, L"yMax is not equal");
+			Assert().IsTrue(model->getModelInfo()->yOffset == expYOffset, L"yOffset is not equal");
+			Assert().IsTrue(model->getModelInfo()->yWidth == expYWidth, L"yWidth is not equal");
+
+			Assert().IsTrue(model->getModelInfo()->deltaZ == expDeltaZ, L"deltaZ is not equal");
+			Assert().IsTrue(model->getModelInfo()->zMax == expZMax, L"zMin is not equal");
+			Assert().IsTrue(model->getModelInfo()->zMin == expZMin, L"zMax is not equal");
+			Assert().IsTrue(model->getModelInfo()->zWidth == expZWidth, L"zWidth is not equal");
 
 			delete model;
 			model = nullptr;
 
-			Assert().Fail(L"not finished");
+			//Assert().Fail(L"not finished");
 		}
 
 

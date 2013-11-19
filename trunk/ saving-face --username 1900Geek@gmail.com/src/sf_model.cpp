@@ -140,12 +140,12 @@ namespace SF
 
 	SF_STS Model::streamToFile(ofstream *fileStream)
 	{
-		//Edit - Andy
-		//Gender and MUID is not being saved here, I'm assuming that's intentional.
+
 		//The plus one is for the null terminating character
 		char str[1028];
-		sprintf_s(str,500, "%d&%s&%s&%s&%s&%s&%s&%f&%f&%f&%d&%d&%f&%f&%f&%d&%d&%f&%f&%f&%d", 
+		sprintf_s(str,500, "%d&%s&%s&%s&%s&%s&%s&%s&%f&%f&%f&%d&%d&%f&%f&%f&%d&%d&%f&%f&%f&%d&%d", 
 			person_info.puid,
+			getGender().c_str(),
 			person_info.salutation.c_str(),
 			person_info.firstName.c_str(),
 			person_info.middleName.c_str(),
@@ -168,7 +168,8 @@ namespace SF
 			model_info.deltaZ,
 			model_info.zMax,
 			model_info.zMin,
-			model_info.zWidth
+			model_info.zWidth,
+			model_info.muid
 			);
 		fileStream->write(str, strlen(str)+1);
 		fileStream->write(model_info.modelArr,arrLength);
@@ -182,6 +183,7 @@ namespace SF
 		*fileStream >> in;
 		char *next_token = NULL;
 		person_info.puid = atol(strtok_s(in,"&",&next_token));
+		setGender(strtok_s(NULL, "&",&next_token));
 		person_info.salutation = strtok_s(NULL, "&",&next_token);
 		person_info.firstName = strtok_s(NULL, "&",&next_token);
 		person_info.middleName = strtok_s(NULL, "&",&next_token);
@@ -205,6 +207,7 @@ namespace SF
 		model_info.zMax = atof(strtok_s(NULL,"&",&next_token));
 		model_info.zMin = atof(strtok_s(NULL,"&",&next_token));
 		model_info.zWidth = atoi(strtok_s(NULL,"&",&next_token));
+		model_info.muid = atol(strtok_s(NULL,"&",&next_token));
 		char temp[2];
 		fileStream->read(temp, 1);
 		initModelArray();
