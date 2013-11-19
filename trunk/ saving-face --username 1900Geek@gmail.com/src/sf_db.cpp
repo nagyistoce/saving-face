@@ -24,17 +24,17 @@ SF_STS sf_db::addModelToDatabase(Model  *model)
 
 Model *sf_db::getModel(SF_MUID muid)
 {
-	std::map<SF_MUID, Model*>::iterator iter;
+	if ( db.find(muid) == db.end() )
+	{
+		//probably should throw an exception
+		return nullptr;
+	} 
 
-    for (iter = db.begin(); iter != db.end(); ++iter)
-    {
-        if (iter->first == muid)
-        {
-            Model *returnModel = iter->second;
-			return returnModel;
-        }
-    }
-    return NULL;
+	else {
+		return db.find(muid)->second;
+	}
+	
+	
 }
 
 //iterate over all models and save to persistant storage
