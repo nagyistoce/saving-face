@@ -69,7 +69,7 @@ SF_STS sf_db::saveDatabase(string path)
 			model->loadFromFile(in);
 			char temp[2];
 			in->read(temp, 1);
-			sts = addModelToDatabase(model);
+			sts = (sts) ? addModelToDatabase(model) : SF_STS_FAIL;
 		}
 
 		in->close();
