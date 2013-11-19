@@ -7,19 +7,76 @@
 #define _USE_MATH_DEFINES
 #include "math.h"
 
+#define ACCEPTABLE_ERROR  0.00001f
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace SavingFaceTest
 {
 	TEST_CLASS(transformFunctionsTest)
 	{
+		
+
+		bool withinTolerance3b3(SF::SF_TR_MATRIX const &tm, SF::SF_TR_MATRIX const &exp)
+		{
+			for(int i = 0; i < 9; i++)
+				if(tm.rotMTX[i] > exp.rotMTX[i] + ACCEPTABLE_ERROR ||
+					tm.rotMTX[i] < exp.rotMTX[i] - ACCEPTABLE_ERROR) 
+					return false;
+			return true;
+		}
+
+		void getArbitraryNumberTrMatrix(SF::SF_TR_MATRIX  &tm,SF::SF_TR_MATRIX &exp)
+		{
+			PXCPoint3DF32 trv = {1,1,1};
+			SF::SF_YPR ypr;
+			ypr.yaw = 0.72f * M_PI;
+			ypr.pitch = 0.03f * M_PI;
+			ypr.roll = 0.95f * M_PI;
+			SF::calculateTRMatrix(tm,trv, ypr);
+			exp.trV.x = 1;
+			exp.trV.y = 1;
+			exp.trV.z = 1;
+			exp.rotMTX[0] = -0.9833049f;
+			exp.rotMTX[1] = -0.1557402f;
+			exp.rotMTX[2] = 0.09410831f;
+			exp.rotMTX[3] = -0.171334f;
+			exp.rotMTX[4] = 0.6182329f;
+			exp.rotMTX[5] = -0.7670937f;
+			exp.rotMTX[6] = 0.06128647f;
+			exp.rotMTX[7] = -0.770411f;
+			exp.rotMTX[8] = -0.6345951f;
+		}
+
+		void printTmMatrix(SF::SF_TR_MATRIX const &tm)
+		{
+			char *str = new char[200];
+			sprintf(str, "Translation Vector::\n%f, %f, %f\n", tm.trV.x,tm.trV.y,tm.trV.z);
+			Logger::WriteMessage(str);
+			sprintf(str, "Rotation Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f\n", 
+				tm.rotMTX[0],
+				tm.rotMTX[1],
+				tm.rotMTX[2],
+				tm.rotMTX[3],
+				tm.rotMTX[4],
+				tm.rotMTX[5],
+				tm.rotMTX[6],
+				tm.rotMTX[7],
+				tm.rotMTX[8]
+			);
+			Logger::WriteMessage(str);
+		}
+
+
 	public:
 		SF::SF_TR_MATRIX tm;
+
+
 
 		TEST_METHOD(testCalculateTrMatrix)
 		{
 			PXCPoint3DF32 trv = {1,1,1};
-			SF::SF_YPR ypr = {0,0,0};
+			SF::SF_YPR ypr = {0,0,0,0};
 			for(int i = 1; i < 1000000; i++)
 				SF::calculateTRMatrix(tm,trv, ypr);
 			SF::SF_TR_MATRIX exp;
@@ -35,46 +92,16 @@ namespace SavingFaceTest
 			exp.rotMTX[6] = 0;
 			exp.rotMTX[7] = 0;
 			exp.rotMTX[8] = 1;
-			char *str = new char[200];
-			sprintf(str, "Translation Vector::\n%f, %f, %f\n", tm.trV.x,tm.trV.y,tm.trV.z);
-			Logger::WriteMessage(str);
-			sprintf(str, "Rotation Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
-				tm.rotMTX[0],
-				tm.rotMTX[1],
-				tm.rotMTX[2],
-				tm.rotMTX[3],
-				tm.rotMTX[4],
-				tm.rotMTX[5],
-				tm.rotMTX[6],
-				tm.rotMTX[7],
-				tm.rotMTX[8]
-			);
-			Logger::WriteMessage(str);
-			Assert().AreEqual(memcmp(&(tm.trV),&(exp.trV),sizeof(float)*3),0,L"Translation Vector Fail");
+			printTmMatrix(tm);
+			Assert().IsTrue(withinTolerance3b3(tm,exp),L"Matrix 1 fail");
 			
-			SF::SF_TR_MATRIX tm2;
-			SF::SF_YPR ypr2;
-			ypr2.yaw = 0.72f * M_PI;
-			ypr2.pitch = 0;
-			ypr2.roll = 0;
-			SF::calculateTRMatrix(tm2,trv, ypr2);
-			
-			sprintf(str, "\nRotation Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
-				tm2.rotMTX[0],
-				tm2.rotMTX[1],
-				tm2.rotMTX[2],
-				tm2.rotMTX[3],
-				tm2.rotMTX[4],
-				tm2.rotMTX[5],
-				tm2.rotMTX[6],
-				tm2.rotMTX[7],
-				tm2.rotMTX[8]
-			);
-			Logger::WriteMessage(str);
-			delete[] str;
-			//Add a test that calculates a rotation matrix with another known output.
-			//Both cases should be tested with arbitrary non unit vectors in testVectorRotation.
-			//Should extract the code into individual functions so as not to duplicate code.
+			getArbitraryNumberTrMatrix(tm,exp);
+			Logger().WriteMessage(L"\nActual Matrix\n");
+			printTmMatrix(tm);
+			Logger().WriteMessage(L"\nExpected Matrix\n");
+			printTmMatrix(exp);
+			Assert().IsTrue(withinTolerance3b3(tm,exp),L"Matrix 2 fail");
+		
 		}
 
 		TEST_METHOD(testVectorTranslation){
