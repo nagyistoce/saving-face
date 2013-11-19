@@ -26,7 +26,7 @@ namespace SavingFaceTest
 				i++;
 				long uid = builder.generateUID();
 				char *str = new char[200];
-				sprintf(str, "MUID:: %d\n", uid);
+				sprintf_s(str, 200, "MUID:: %d\n", uid);
 				Logger::WriteMessage(str);
 			}
 		}
@@ -40,14 +40,14 @@ namespace SavingFaceTest
 			Model *model = modelBuilder->getModel(muid);
 			Assert().IsNotNull(model,L"Failed to retrieve instance");
 			char *str = new char[200];
-			sprintf(str, "Generated a Model With Model ID:: %d\n", muid);
+			sprintf_s(str, 200, "Generated a Model With Model ID:: %d\n", muid);
 			Logger().WriteMessage(str);
 			model->setName("Dr.","","","Who","dat");
 			string s = model->getConcatenatedName();
-			sprintf(str, "Model name:: %s\n", s.c_str());
+			sprintf_s(str, 200, "Model name:: %s\n", s.c_str());
 			Logger().WriteMessage(str);
 			SF_PUID puid = model->getPersonInfo()->puid;
-			sprintf(str, "Model Person ID:: %d\n", puid);
+			sprintf_s(str, 200, "Model Person ID:: %d\n", puid);
 			Logger().WriteMessage(str);
 			Assert().AreEqual(muid, puid, L"Model MUID != PUID");
 		}

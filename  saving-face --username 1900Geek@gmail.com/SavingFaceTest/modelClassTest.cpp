@@ -161,7 +161,10 @@ namespace SavingFaceTest
 			//I laughed hard at this line -Andy
 			model = new Model("MD.","Punish","Me", "Please", "Sr", "Male","Owww@drPain.com");
 			model->setPersonUID(56489742L);
-			model->setModelUID(7986131546L);  //This value is getting truncated for some reason -Andy
+			model->setModelUID(1986131546L);  //This value is getting truncated for some reason -Andy
+			char str[200];   //2147483647 Max Long... It actually was too large. Should have used unsigned, but doesn't matter 
+			sprintf_s(str, 200, "Model UID = %d\n",  model->getModelUID());
+			Logger().WriteMessage(str);
 			model->initModelArray();
 
 			SF_MUID expMUID = model->getModelUID();

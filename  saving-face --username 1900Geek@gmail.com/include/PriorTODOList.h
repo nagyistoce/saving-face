@@ -24,5 +24,5 @@
 
 
 *Classes that are Finished and Tested
-*sf_tr_func
+*sf_tr_func (Well Should add more testing for modelspace coords).
 */
