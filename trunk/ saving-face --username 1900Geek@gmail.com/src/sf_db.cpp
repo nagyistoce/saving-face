@@ -9,7 +9,12 @@ sf_db::sf_db(void)
 
 sf_db::~sf_db(void)
 {
-	//TODO delete all remaining database entries.
+	std::map<SF_MUID, Model*>::iterator iter;
+
+	for (iter = db.begin(); iter != db.end(); iter++) {
+
+		delete iter->second;
+        }
 }
 
 SF_STS sf_db::addModelToDatabase(Model  *model)
