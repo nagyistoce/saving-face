@@ -30,9 +30,9 @@ namespace SavingFaceTest
 		{
 			PXCPoint3DF32 trv = {3.5f,-1.3f,-1.2f};
 			SF::SF_YPR ypr;
-			ypr.yaw = 0.72f * M_PI;
-			ypr.pitch = 0.03f * M_PI;
-			ypr.roll = 0.95f * M_PI;
+			ypr.yaw = 0.72f * (float)M_PI;
+			ypr.pitch = 0.03f * (float)M_PI;
+			ypr.roll = 0.95f * (float)M_PI;
 			SF::calculateTRMatrix(tm,trv, ypr);
 			exp.trV.x = 3.5f;
 			exp.trV.y = -1.3f;
