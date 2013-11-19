@@ -51,6 +51,26 @@ namespace SavingFaceTest
 			);
 			Logger::WriteMessage(str);
 			Assert().AreEqual(memcmp(&(tm.trV),&(exp.trV),sizeof(float)*3),0,L"Translation Vector Fail");
+			
+			SF::SF_TR_MATRIX tm2;
+			SF::SF_YPR ypr2;
+			ypr2.yaw = 0.72f * M_PI;
+			ypr2.pitch = 0;
+			ypr2.roll = 0;
+			SF::calculateTRMatrix(tm2,trv, ypr2);
+			
+			sprintf(str, "\nRotation Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
+				tm2.rotMTX[0],
+				tm2.rotMTX[1],
+				tm2.rotMTX[2],
+				tm2.rotMTX[3],
+				tm2.rotMTX[4],
+				tm2.rotMTX[5],
+				tm2.rotMTX[6],
+				tm2.rotMTX[7],
+				tm2.rotMTX[8]
+			);
+			Logger::WriteMessage(str);
 			delete[] str;
 			//Add a test that calculates a rotation matrix with another known output.
 			//Both cases should be tested with arbitrary non unit vectors in testVectorRotation.
