@@ -36,7 +36,11 @@ namespace SavingFaceTest
 			string expConcatNameTwo = modelTwo->getConcatenatedName();
 			string expConcatNameThree = modelThree->getConcatenatedName();
 
-			db->addModelToDatabase(modelOne);
+			if (db->addModelToDatabase(modelOne))
+				Logger().WriteMessage(L"Model one added to database.");
+			else
+				Logger().WriteMessage(L"Model one failed adding to database.");
+			
 			db->addModelToDatabase(modelTwo);
 			db->addModelToDatabase(modelThree);
 
@@ -49,13 +53,26 @@ namespace SavingFaceTest
 			modelThree = 0;
 
 			modelOne = new Model();
+
 			modelTwo = new Model();
 			modelThree = new Model();
 
 			modelOne = db->getModel(expMUIDOne);
+
+			if (modelOne == NULL)
+				Logger().WriteMessage(L"\nModel one failed to get from database.");
+			else
+			{
+				Logger().WriteMessage(L"\nModel one retrieved from database.");
+				Logger().WriteMessage(modelOne->getFirstName().c_str());
+			}
+
+			
+
 			modelTwo = db->getModel(expMUIDTwo);
 			modelThree = db->getModel(expMUIDThree);
 
+			Assert().IsTrue(expMUIDOne == modelOne->getModelUID(),L"MUID is not equal");
 			Assert().AreEqual(expConcatNameOne, modelOne->getConcatenatedName(),L"Names are not equal");
 			Assert().AreEqual(expConcatNameTwo, modelTwo->getConcatenatedName(),L"Names are not equal");
 			Assert().AreEqual(expConcatNameThree, modelThree->getConcatenatedName(),L"Names are not equal");
@@ -69,7 +86,7 @@ namespace SavingFaceTest
 			Assert().Fail(L"Unfinished");
 		}
 
-		TEST_METHOD(TestDatabaseFileIOStreams)
+		TEST_METHOD(testDatabaseFileIOStreams)
 		{
 			Assert().Fail(L"Unfinished");
 		}
