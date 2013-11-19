@@ -11,8 +11,6 @@
 * (Medium) TEST_METHOD(constructModelArrayTest) Quick and easy
 * (High)   TEST_METHOD(TestFileIOStreams) Just need to test UID's and Model Params, Quick and Easy
 * (Medium) TEST_METHOD(TestModelArrModifyAndRead)
-* (High)   TEST_METHOD(testVectorRotation) See comments, pretty quick but important to know it works
-* (High)   TEST_METHOD(testVectorTransform) See comments, pretty quick but important to know it works
 * (Low)    TEST_METHOD(fullySpecifiedConstructorTest)
 *
 * Class Model
