@@ -11,10 +11,8 @@ namespace SavingFaceTest
 	{
 	public:
 		/*Testing TODO LIST
-		* Finish testing full name, and fully implemented constructors
-		* Test Array construction both default, custom and with bogus values.
+		* Test Array construction both default, custom and with (bogus values)//Currently should crash!.
 		*		(Report Array Sizes through the logger)
-		* Test File input and output
 		* Test read and write to array. Test for roll over behavior.
 		*/
 

@@ -73,13 +73,13 @@ namespace SF
 		//Only allow for male or female, for statistics purposes.
 		//If release, include not_specified or other
 		//Stores lowercase version only.
-		SF_STS setGender(SF_GENDER gender);
+		SF_STS setGender(SF_GENDER const gender);
 
 		//Set the name of a model
-		SF_STS setName(SF_NAME salutation, SF_NAME firstName, SF_NAME middleName, SF_NAME lastName, SF_NAME suffix);
+		SF_STS setName(SF_NAME const salutation, SF_NAME const firstName, SF_NAME const middleName, SF_NAME const lastName, SF_NAME const suffix);
 
 		//Set the email address of a model
-		SF_STS setEmail(SF_EMAIL emailAddress);
+		SF_STS setEmail(SF_EMAIL const emailAddress);
 
 		//Sends the contents of a model to a file.
 		SF_STS streamToFile(ofstream *fileStream);
@@ -150,4 +150,3 @@ namespace SF
 		int arrLength;
 	};
 }
-

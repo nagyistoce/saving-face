@@ -91,7 +91,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\ saving-face --username 1900Geek%40gmail.com\SavingFaceTest\databaseFunctionsTest.cpp" />
+    <ClCompile Include="databaseFunctionsTest.cpp" />
     <ClCompile Include="modelBuilderTest.cpp" />
     <ClCompile Include="modelClassTest.cpp" />
     <ClCompile Include="sdkSessionTest.cpp" />

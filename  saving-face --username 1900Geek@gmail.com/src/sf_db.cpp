@@ -59,6 +59,7 @@ SF_STS sf_db::saveDatabase(string path)
 	{
 		SF_STS sts = SF_STS_OK;
 
+		//Need to examine path to find All .mdl files.
 		ifstream *in = new ifstream(path);
 		Model *model = new Model();
 		char *next_token = NULL;
