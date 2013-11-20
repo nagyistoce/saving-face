@@ -242,19 +242,12 @@ namespace SavingFaceTest
 
 			modelOne->setPersonUID(111111L);
 			modelOne->setModelUID(222222L); 
-			//SF_MUID expMUIDOne = modelOne->getModelUID();
 
 			modelTwo->setPersonUID(333333L);
 			modelTwo->setModelUID(444444L); 
-			//SF_MUID expMUIDTwo = modelTwo->getModelUID();
 
 			modelThree->setPersonUID(555555L);
 			modelThree->setModelUID(666666L); 
-			//SF_MUID expMUIDThree = modelThree->getModelUID();
-			
-			//string expConcatNameOne = modelOne->getConcatenatedName();
-			//string expConcatNameTwo = modelTwo->getConcatenatedName();
-			//string expConcatNameThree = modelThree->getConcatenatedName();
 
 			modelOne->initModelArray();
 			modelTwo->initModelArray();
@@ -305,62 +298,19 @@ namespace SavingFaceTest
 			//A std:string  using the char* constructor.
 			std::string ss(ch);
 
-			//clean up white space
-			for(int i=0; i < (int)ss.length(); i++)
-				if(ss[i] == ' ') ss.erase(i,1);
-
 			Logger().WriteMessage(L"\nPath is:");
 			Logger().WriteMessage(ss.c_str());
 
 			Assert().IsTrue(db->saveDatabase(ss) == SF_STS_OK,L"Failed to save to database");
 
 			sf_db *db2 = new sf_db();
+
 			Assert().IsTrue(db2->loadDatabase(ss) == SF_STS_OK,L"Failed to load to database");
 			//The following asserts that the model exists... and that the UID's are equal
 			Assert().IsTrue(db2->getModel(modelOne->getModelUID())->getModelUID()  == modelOne->getModelUID(),L"Loaded Model UID Not Equal"); 
 			Assert().IsTrue(db2->getModel(modelTwo->getModelUID())->getModelUID()  == modelTwo->getModelUID(),L"Loaded Model UID Not Equal"); 
 			Assert().IsTrue(db2->getModel(modelThree->getModelUID())->getModelUID()  == modelThree->getModelUID(),L"Loaded Model UID Not Equal"); 
 			
-			
-			/* Do not want to delete models, keep for comparison.
-			modelOne = 0;
-			modelTwo = 0;
-			modelThree = 0;
-			db = 0;
-			
-			db = new sf_db();
-			modelOne = new Model();
-			modelTwo = new Model();
-			modelThree = new Model();
-
-			//verify that the model has been reinitialized to default
-			Assert().IsFalse(modelOne->getConcatenatedName().c_str() == expConcatNameOne.c_str(), L"Name should not match the expected name, yet.");
-			Assert().IsFalse(modelTwo->getConcatenatedName().c_str() == expConcatNameTwo.c_str(), L"Name should not match the expected name, yet.");
-			Assert().IsFalse(modelThree->getConcatenatedName().c_str() == expConcatNameThree.c_str(), L"Name should not match the expected name, yet.");
-
-			modelOne = db->getModel(expMUIDOne);
-			modelTwo = db->getModel(expMUIDTwo);
-			modelThree = db->getModel(expMUIDThree);
-
-			Assert().IsFalse(modelOne == nullptr, L"Failed to retrieve model one from database.");
-			Assert().IsFalse(modelTwo == nullptr, L"Failed to retrieve model two from database.");
-			Assert().IsFalse(modelThree == nullptr, L"Failed to retrieve model three from database.");
-
-			//Tests for model 1
-			Assert().AreEqual(expMUIDOne, modelOne->getModelUID(),L"MUID is not equal");
-			Assert().AreEqual(expConcatNameOne, modelOne->getConcatenatedName(),L"Names are not equal");
-			Assert().IsTrue(modelOne->getPersonUID() == 111111L,L"PUID is not equal");
-
-			//Tests for model 2
-			Assert().AreEqual(expMUIDTwo, modelTwo->getModelUID(),L"MUID is not equal");
-			Assert().AreEqual(expConcatNameTwo, modelTwo->getConcatenatedName(),L"Names are not equal");
-			Assert().IsTrue(modelTwo->getPersonUID() == 333333L,L"PUID is not equal");
-
-			//Tests for model 3
-			Assert().AreEqual(expMUIDThree, modelThree->getModelUID(),L"MUID is not equal");
-			Assert().AreEqual(expConcatNameThree, modelThree->getConcatenatedName(),L"Names are not equal");
-			Assert().IsTrue(modelThree->getPersonUID() == 555555L,L"PUID is not equal");
-			*/
 			delete modelOne;
 			delete modelTwo;
 			delete modelThree;
