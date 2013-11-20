@@ -2,8 +2,6 @@
 
 /** The model class todo list
 *   Implement error checking on Model Arr Params
-*   Implement Save to file
-*   Implement Read from file
 */
 
 
@@ -123,18 +121,15 @@ namespace SF
 		if(this->model_info.modelArr){
 			arrLength = this->model_info.xWidth * this->model_info.yWidth * this->model_info.zWidth;
 			return SF_STS_OK;
-		}
-		//Insert Seperate Fail Condition For Debug and Release
-		else
+		}else
 		{
 			arrLength = -1;
 			return SF_STS_MEM_ALLOC_FAIL;
 		}
 	}
 	
-	SF_STS Model::setEmail(SF_EMAIL const emailAddress)
-	{
-		this->person_info.emailAddress = emailAddress;
+	SF_STS Model::setEmail(SF_EMAIL const emailAddress){
+		person_info.emailAddress = emailAddress;
 		return SF_STS_OK;
 	}
 
@@ -215,15 +210,7 @@ namespace SF
 		return SF_STS_FAIL;
 	}
 
-	const Model::Model_Info* Model::getModelInfo()
-	{
-		return &model_info;
-	}
-
-	const Model::Person_Info* Model::getPersonInfo()
-	{
-		return &person_info;
-	}
+	
 
 	//Omits " " if name part is "".
 	//Assumes the user always inputs last name
@@ -278,10 +265,7 @@ namespace SF
 		return this->person_info.salutation;
 	}
 
-	const SF_NAME Model::getFirstName(){return person_info.firstName;}
-	const SF_NAME Model::getMiddleName(){return person_info.middleName;}
-	const SF_NAME Model::getLastName(){return person_info.lastName;}
-	const SF_NAME Model::getSuffix(){return person_info.suffix;}
+	
 
 	SF_STS Model::setGender(SF_GENDER const gender)
 	{
@@ -301,14 +285,24 @@ namespace SF
 			delete[] this->model_info.modelArr;
 	}
 
-	const SF_MODEL_ARR Model::getReadOnlyModelArr(){return model_info.modelArr;}
+	
+
+	
 	SF_MODEL_ARR Model::getWritableModelArr(){return model_info.modelArr;}
 
 	void Model::setPersonUID(const SF_PUID puid){person_info.puid = puid;}
 	void Model::setModelUID(const SF_MUID muid){model_info.muid = muid;}
+	
+	const SF_NAME Model::getFirstName(){return person_info.firstName;}
+	const SF_NAME Model::getMiddleName(){return person_info.middleName;}
+	const SF_NAME Model::getLastName(){return person_info.lastName;}
+	const SF_NAME Model::getSuffix(){return person_info.suffix;}
 	const SF_PUID Model::getPersonUID(){return person_info.puid;}
 	const SF_MUID Model::getModelUID(){return model_info.muid;}
 	const SF_GENDER Model::getGender(){return person_info.gender;}
 	const SF_EMAIL Model::getEmail(){return person_info.emailAddress;}
-
+	const int Model::getArrLength(){return arrLength;}
+	const SF_MODEL_ARR Model::getReadOnlyModelArr(){return model_info.modelArr;}
+	const Model::Model_Info* Model::getModelInfo(){return &model_info;}
+	const Model::Person_Info* Model::getPersonInfo(){return &person_info;}
 }
