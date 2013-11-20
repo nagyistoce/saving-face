@@ -144,6 +144,8 @@ namespace SF
 
 		const SF_MUID getModelUID();
 
+		const int getArrLength();
+
 	private:
 		Model_Info model_info;
 		Person_Info person_info;

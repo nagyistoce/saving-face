@@ -15,7 +15,7 @@ namespace SF
 	{
 		time_t t;
 		time(&t);
-		return t;
+		return (long)t;
 	}
 
 	SF_MUID sf_model_builder::addNewModel()

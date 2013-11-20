@@ -256,8 +256,9 @@ namespace SavingFaceTest
 			//Test Read only and read/write
 			Model *model;
 			model = new Model();
-
-			//TODO test model Arr(increment points, readback points, total model value etc)
+			model->initModelArray();
+			model->getWritableModelArr();
+			for(int i = 0; i < model->getArrLength();i++);
 			delete model;
 			model = nullptr;
 			Assert().Fail(L"Test Not Implemented");

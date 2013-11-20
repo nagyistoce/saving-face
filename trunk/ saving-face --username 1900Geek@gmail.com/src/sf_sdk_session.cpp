@@ -201,6 +201,8 @@ namespace SF
 		}
 	}
 
+
+	
 	void SF_Session::mathematicaFriendlyFileOut()
 	{
 		// Messy Code in the middle of refactoring
@@ -243,7 +245,6 @@ namespace SF
 		projection->MapDepthToColorCoordinates(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,posc);
 		for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++) {
             for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
-					//wprintf(L"%f,%f,%f", pos3d[k].x,pos3d[k].y,pos3d[k].z);
                 int xx=(int)(posc[k].x+0.5f), yy= (int) (posc[k].y+0.5f);
 				if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;
                 if (pos2d) if (pos2d[k].z==dvalues[0] || pos2d[k].z==dvalues[1]) continue; // no mapping based on unreliable depth values

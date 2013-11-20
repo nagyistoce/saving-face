@@ -74,9 +74,9 @@ namespace SavingFaceTest
 			SF_ARR_WIDTH expZWidth = modelOne->getModelInfo()->zWidth;
 
 
-			Assert().IsTrue(db->addModelToDatabase(modelOne), L"Failed to add model to database.");
-			Assert().IsTrue(db->addModelToDatabase(modelTwo), L"Failed to add model to database.");
-			Assert().IsTrue(db->addModelToDatabase(modelThree), L"Failed to add model to database.");
+			Assert().IsTrue(db->addModelToDatabase(modelOne) == SF_STS_OK, L"Failed to add model to database.");
+			Assert().IsTrue(db->addModelToDatabase(modelTwo) == SF_STS_OK, L"Failed to add model to database.");
+			Assert().IsTrue(db->addModelToDatabase(modelThree) == SF_STS_OK, L"Failed to add model to database.");
 
 			modelOne = 0;
 			modelTwo = 0;
@@ -272,9 +272,9 @@ namespace SavingFaceTest
 			modelThree->getModelInfo()->modelArr[1] = 'Y';
 			modelThree->getModelInfo()->modelArr[2] = 'Z';
 
-			Assert().IsTrue(db->addModelToDatabase(modelOne), L"Failed to add model to database.");
-			Assert().IsTrue(db->addModelToDatabase(modelTwo), L"Failed to add model to database.");
-			Assert().IsTrue(db->addModelToDatabase(modelThree), L"Failed to add model to database.");
+			Assert().IsTrue(db->addModelToDatabase(modelOne) == SF_STS_OK, L"Failed to add model to database.");
+			Assert().IsTrue(db->addModelToDatabase(modelTwo) == SF_STS_OK, L"Failed to add model to database.");
+			Assert().IsTrue(db->addModelToDatabase(modelThree) == SF_STS_OK, L"Failed to add model to database.");
 			
 			wchar_t* buffer;
 
@@ -319,7 +319,7 @@ namespace SavingFaceTest
 			std::string ss(ch);
 
 			//clean up white space
-			for(int i=0; i < ss.length(); i++)
+			for(int i=0; i < (int)ss.length(); i++)
 				if(ss[i] == ' ') ss.erase(i,1);
 
 			Logger().WriteMessage(L"\nPath is:");
@@ -327,6 +327,7 @@ namespace SavingFaceTest
 
 			db->saveDatabase(ss);
 			
+		
 
 			/*SF_DELTA expDeltaX = modelOne->getModelInfo()->deltaX;
 			SF_BOUND expXMax = modelOne->getModelInfo()->xMax;
