@@ -3,6 +3,8 @@
 #include "sf_db.h"
 #include "sf_model.h"
 #include <fstream>
+#include <windows.h>
+#include <direct.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace SF;
@@ -264,7 +266,58 @@ namespace SavingFaceTest
 			modelThree->getModelInfo()->modelArr[1] = 'Y';
 			modelThree->getModelInfo()->modelArr[2] = 'Z';
 
-			SF_DELTA expDeltaX = modelOne->getModelInfo()->deltaX;
+			Assert().IsTrue(db->addModelToDatabase(modelOne), L"Failed to add model to database.");
+			Assert().IsTrue(db->addModelToDatabase(modelTwo), L"Failed to add model to database.");
+			Assert().IsTrue(db->addModelToDatabase(modelThree), L"Failed to add model to database.");
+			
+			wchar_t* buffer;
+
+			// Gets the current working directory  
+			if( (buffer = _wgetcwd( NULL, 0 )) == NULL )
+				perror( "_getcwd error" );
+			else
+			{
+				Logger().WriteMessage( L"Path:");
+				Logger().WriteMessage(buffer);
+			}
+	
+			//Creates a folder if it does not exist
+			wchar_t temp[200] = L"";
+			wchar_t temp2[] = L"\testdatabase";
+			wcscat(temp, buffer);
+			wcscat(temp, L"\\testdatabase\\");
+			LPCSTR filePath = (LPCSTR)temp;
+			Logger().WriteMessage(temp);
+
+			DWORD ftyp = GetFileAttributesA((LPCSTR)buffer);
+			free(buffer);
+
+			if (ftyp == INVALID_FILE_ATTRIBUTES)
+			{
+				Logger().WriteMessage(L"creating directory"); //may not exist
+				_wmkdir(temp);
+			}
+			else if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
+			{
+				Logger().WriteMessage(L"directory found"); //this is a directory
+			}
+			
+			//convert from wide char to narrow char array
+			char ch[200];
+			char DefChar = ' ';
+			WideCharToMultiByte(CP_ACP,0,temp,-1, ch,200,&DefChar, NULL);
+    
+			//A std:string  using the char* constructor.
+			std::string ss(ch);
+
+			for(int i=0; i<ss.length(); i++)
+				if(ss[i] == ' ') ss.erase(i,1);
+
+			db->saveDatabase(ss);
+
+
+
+			/*SF_DELTA expDeltaX = modelOne->getModelInfo()->deltaX;
 			SF_BOUND expXMax = modelOne->getModelInfo()->xMax;
 			SF_BOUND expXMin = modelOne->getModelInfo()->xMin;
 			SF_ARR_OFFSET expXOffset = modelOne->getModelInfo()->xOffset;
@@ -282,9 +335,7 @@ namespace SavingFaceTest
 			SF_ARR_WIDTH expZWidth = modelOne->getModelInfo()->zWidth;
 
 
-			Assert().IsTrue(db->addModelToDatabase(modelOne), L"Failed to add model to database.");
-			Assert().IsTrue(db->addModelToDatabase(modelTwo), L"Failed to add model to database.");
-			Assert().IsTrue(db->addModelToDatabase(modelThree), L"Failed to add model to database.");
+			
 
 			db->saveDatabase("testDBOutput.mdf");
 			modelOne = 0;
@@ -427,7 +478,7 @@ namespace SavingFaceTest
 			Assert().IsTrue(modelThree->getModelInfo()->modelArr[0] == 'X',L"Address 0 not equal");
 			Assert().IsTrue(modelThree->getModelInfo()->modelArr[1] == 'Y',L"Address 1 not equal");
 			Assert().IsTrue(modelThree->getModelInfo()->modelArr[2] == 'Z',L"Address 2 not equal");
-
+			*/
 			delete modelOne;
 			delete modelTwo;
 			delete modelThree;
