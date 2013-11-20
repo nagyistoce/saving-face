@@ -257,8 +257,17 @@ namespace SavingFaceTest
 			Model *model;
 			model = new Model();
 			model->initModelArray();
-			model->getWritableModelArr();
-			for(int i = 0; i < model->getArrLength();i++);
+			SF::SF_MODEL_ARR arr = model->getWritableModelArr();
+			for(int i = 0; i < model->getArrLength();i++)
+				arr[i] = (i % 128);
+			char str[2] = {0,0};
+			for(int i = 0; i < model->getArrLength();i++){
+				str[0] = i % 256;
+				Logger().WriteMessage(str);
+				Assert().IsTrue(arr[i] == (i % 128),L"Failed to update model");
+			}
+			arr = model->getReadOnlyModelArr();
+			arr[2] = 2;
 			delete model;
 			model = nullptr;
 			Assert().Fail(L"Test Not Implemented");

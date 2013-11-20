@@ -59,7 +59,7 @@ SF_STS sf_db::saveDatabase(string path)
 	{
 		SF_STS sts = SF_STS_OK;
 
-		//TODO find every .mdf in the path
+		//TODO find every .mdl in the path
 		//load the model and check to see if the muid is already in the map
 		//if not store the loaded model in the map. -Andy
 
