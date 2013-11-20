@@ -311,13 +311,16 @@ namespace SavingFaceTest
 			Assert().IsTrue(db2->getModel(modelTwo->getModelUID())->getModelUID()  == modelTwo->getModelUID(),L"Loaded Model UID Not Equal"); 
 			Assert().IsTrue(db2->getModel(modelThree->getModelUID())->getModelUID()  == modelThree->getModelUID(),L"Loaded Model UID Not Equal"); 
 			
+			Model *modelOut = db2->getModel(modelThree->getModelUID());
+			char str[200]; 
+			sprintf_s(str,200,"\nRetrieved MUID: %d\n", modelOut->getModelUID());
+			Logger().WriteMessage(str);
 			delete modelOne;
 			delete modelTwo;
 			delete modelThree;
 
 			delete db;
 			delete db2;
-			Assert().Fail(L"Unfinished");
 		}
 
 

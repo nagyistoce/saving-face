@@ -74,9 +74,9 @@ SF_STS sf_db::saveDatabase(string path)
 			ifstream *in = new ifstream(filePath);
 			Model *model = new Model();
 			model->loadFromFile(in);
+			in->close();
+			delete in;
 			addModelToDatabase(model);
-			model = 0;
-			in = 0;
 	  } while (FindNextFile(hFind, &ffd) != 0);
 
 	  if (GetLastError() != ERROR_NO_MORE_FILES) {
