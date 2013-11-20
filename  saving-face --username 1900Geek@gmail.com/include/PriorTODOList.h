@@ -1,16 +1,11 @@
 /*
 *Priority number if assigned, followed by the TODO
 * Class sf_db
-* (High) SF_STS saveDatabase(string path);
-*		If a model returns a fail status on save... go back and delete the file.
-* (High) SF_STS loadDatabase(string path);
 * (Low)  SF_STS deleteModelFromDatabase(SF_MUID *modelID);
 * 
 * I will add more as I go through, but these are good to start on.
 * 
 * TESTS TODO
-* (Medium) TEST_METHOD(TestModelArrModifyAndRead)
-* (Low)    TEST_METHOD(fullySpecifiedConstructorTest)
 *
 * Class Model
 * Add params to keep track of comparison tracking. (Figure out the params later)
