@@ -5,6 +5,8 @@
 #include <fstream>
 #include <windows.h>
 #include <direct.h>
+#include <string>
+#include <wchar.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace SF;
@@ -278,34 +280,34 @@ namespace SavingFaceTest
 
 			// Gets the current working directory  
 			if( (buffer = _wgetcwd( NULL, 0 )) == NULL )
-				//perror( "_getcwd error" );
+				//perror( "_getcwd error" );-Should Assert
 				Assert().Fail(L"Failed to get current working directory");
 			else
 			{
 				Logger().WriteMessage( L"Path:");
 				Logger().WriteMessage(buffer);
 			}
-	
+			
 			//append full file path onto temp
 			wchar_t temp[200] = L"";
-			wchar_t temp2[] = L"\testdatabase";
+			//wchar_t temp2[] = L"\testdatabase"; -- Never used. also \t is the escape char for tab
 			wcscat_s(temp, buffer);
 			wcscat_s(temp, L"\\testdatabase\\");
-			LPCSTR filePath = (LPCSTR)temp;
+			Logger().WriteMessage(L"\n");
 			Logger().WriteMessage(temp);
 
-			DWORD ftyp = GetFileAttributesA((LPCSTR)buffer);
-			free(buffer);
+			DWORD ftyp = GetFileAttributesW(temp);
+			delete[] buffer;
 
 			//Creates a folder if it does not exist
 			if (ftyp == INVALID_FILE_ATTRIBUTES)
 			{
-				Logger().WriteMessage(L"creating directory"); //may not exist
+				Logger().WriteMessage(L"\ncreating directory"); //may not exist
 				_wmkdir(temp);
 			}
 			else if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
 			{
-				Logger().WriteMessage(L"directory found"); //this is a directory
+				Logger().WriteMessage(L"\ndirectory found"); //this is a directory
 			}
 			
 			//convert from wide char to narrow char array
@@ -324,8 +326,7 @@ namespace SavingFaceTest
 			Logger().WriteMessage(ss.c_str());
 
 			db->saveDatabase(ss);
-
-
+			
 
 			/*SF_DELTA expDeltaX = modelOne->getModelInfo()->deltaX;
 			SF_BOUND expXMax = modelOne->getModelInfo()->xMax;
