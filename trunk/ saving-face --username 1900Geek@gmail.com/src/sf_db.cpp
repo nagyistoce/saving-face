@@ -41,17 +41,17 @@ Model *sf_db::getModel(SF_MUID muid)
 SF_STS sf_db::saveDatabase(string path)
 {
 	std::map<SF_MUID, Model*>::iterator iter;
-    //std::string* strToReturn = new std::string("");
 
+	SF_STS status = SF_STS_OK;
      for (iter = db.begin(); iter != db.end(); iter++) 
 	 {
 		//saving file as (muid).mdl
 		 ofstream *out = new ofstream(path + db[iter->first]->getFileVersionName() + ".mdl");
-			iter->second->streamToFile(out);
+			status = (!status) ? SF_STS_FAIL : iter->second->streamToFile(out);
 			delete out;
 	 }
 
-	 return SF_STS_FAIL;
+	 return status;
 }
 
 	//load all models in the path with file extension .mdl
