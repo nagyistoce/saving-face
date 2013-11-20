@@ -242,19 +242,19 @@ namespace SavingFaceTest
 
 			modelOne->setPersonUID(111111L);
 			modelOne->setModelUID(222222L); 
-			SF_MUID expMUIDOne = modelOne->getModelUID();
+			//SF_MUID expMUIDOne = modelOne->getModelUID();
 
 			modelTwo->setPersonUID(333333L);
 			modelTwo->setModelUID(444444L); 
-			SF_MUID expMUIDTwo = modelTwo->getModelUID();
+			//SF_MUID expMUIDTwo = modelTwo->getModelUID();
 
 			modelThree->setPersonUID(555555L);
 			modelThree->setModelUID(666666L); 
-			SF_MUID expMUIDThree = modelThree->getModelUID();
+			//SF_MUID expMUIDThree = modelThree->getModelUID();
 			
-			string expConcatNameOne = modelOne->getConcatenatedName();
-			string expConcatNameTwo = modelTwo->getConcatenatedName();
-			string expConcatNameThree = modelThree->getConcatenatedName();
+			//string expConcatNameOne = modelOne->getConcatenatedName();
+			//string expConcatNameTwo = modelTwo->getConcatenatedName();
+			//string expConcatNameThree = modelThree->getConcatenatedName();
 
 			modelOne->initModelArray();
 			modelTwo->initModelArray();
@@ -314,11 +314,20 @@ namespace SavingFaceTest
 
 			Assert().IsTrue(db->saveDatabase(ss) == SF_STS_OK,L"Failed to save to database");
 
+			sf_db *db2 = new sf_db();
+			Assert().IsTrue(db->saveDatabase(ss) == SF_STS_OK,L"Failed to load to database");
+			//The following asserts that the model exists... and that the UID's are equal
+			Assert().IsTrue(db2->getModel(modelOne->getModelUID())->getModelUID()  == modelOne->getModelUID(),L"Loaded Model UID Not Equal"); 
+			Assert().IsTrue(db2->getModel(modelTwo->getModelUID())->getModelUID()  == modelTwo->getModelUID(),L"Loaded Model UID Not Equal"); 
+			Assert().IsTrue(db2->getModel(modelThree->getModelUID())->getModelUID()  == modelThree->getModelUID(),L"Loaded Model UID Not Equal"); 
+			
+			
+			/* Do not want to delete models, keep for comparison.
 			modelOne = 0;
 			modelTwo = 0;
 			modelThree = 0;
 			db = 0;
-
+			
 			db = new sf_db();
 			modelOne = new Model();
 			modelTwo = new Model();
@@ -351,13 +360,13 @@ namespace SavingFaceTest
 			Assert().AreEqual(expMUIDThree, modelThree->getModelUID(),L"MUID is not equal");
 			Assert().AreEqual(expConcatNameThree, modelThree->getConcatenatedName(),L"Names are not equal");
 			Assert().IsTrue(modelThree->getPersonUID() == 555555L,L"PUID is not equal");
-			
+			*/
 			delete modelOne;
 			delete modelTwo;
 			delete modelThree;
 
 			delete db;
-
+			delete db2;
 			Assert().Fail(L"Unfinished");
 		}
 
