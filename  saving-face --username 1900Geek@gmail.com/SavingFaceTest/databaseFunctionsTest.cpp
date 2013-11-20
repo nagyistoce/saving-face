@@ -228,6 +228,10 @@ namespace SavingFaceTest
 
 			//These models really should have a more unique quality to them but
 			//in interest of time I will edit them later. -Andy
+			
+			//Really the only thing necessary to test here is that the files where loaded.
+			//This can be done simply by checking the MUID, the rest is tested in
+			//modelClassTest.cpp->fileIOTest
 			sf_db *db = new sf_db;
 			Model *modelOne, *modelTwo, *modelThree;
 			modelOne = new Model("MD.","Punish","Me", "Please", "Sr", "Male","Owww@drPain.com");
@@ -274,7 +278,8 @@ namespace SavingFaceTest
 
 			// Gets the current working directory  
 			if( (buffer = _wgetcwd( NULL, 0 )) == NULL )
-				perror( "_getcwd error" );
+				//perror( "_getcwd error" );
+				Assert().Fail(L"Failed to get current working directory");
 			else
 			{
 				Logger().WriteMessage( L"Path:");
@@ -312,7 +317,7 @@ namespace SavingFaceTest
 			std::string ss(ch);
 
 			//clean up white space
-			for(int i=0; i<ss.length(); i++)
+			for(int i=0; i < ss.length(); i++)
 				if(ss[i] == ' ') ss.erase(i,1);
 
 			Logger().WriteMessage(L"\nPath is:");

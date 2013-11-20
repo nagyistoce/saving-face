@@ -189,17 +189,6 @@ int wmain(int argc, WCHAR* argv[]) {
 			//Map depth to real world
 			projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
 
-			//Grab the location of the tip of the nose using landmarks
-			PXCFaceAnalysis::Landmark *landmark= face->DynamicCast<PXCFaceAnalysis::Landmark>();
-
-			pxcUID fid; pxcU64 ts;
-			if (face->QueryFace(i,&fid,&ts)<PXC_STATUS_NO_ERROR) break;
- 
-			PXCFaceAnalysis::Landmark::LandmarkData ldata;
-			PXCFaceAnalysis::Landmark::PoseData pdata;
-
-			landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_NOSE_TIP,0,&ldata);
-			landmark->QueryPoseData(fid, &pdata); //Grabbing the yaw, pitch, and roll data.
 			
 			//Map depth to Color
 			projection->MapDepthToColorCoordinates(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,posc);
@@ -210,26 +199,12 @@ int wmain(int argc, WCHAR* argv[]) {
 				    if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;
                     if (pos2d) if (pos2d[k].z==dvalues[0] || pos2d[k].z==dvalues[1]) continue; // no mapping based on unreliable depth values
 					((pxcU32 *)dcolor.planes[0])[yy*cwidth2+xx] |= 0x0000FF00;
-					//samples++; //Count valid samples
 
-					//Each coordinate is subtracted by the point in the nose offset ldata
-					pos3d[k].x = pos3d[k].x - ldata.position.x;
-					pos3d[k].y = pos3d[k].y - ldata.position.y;
-					pos3d[k].z = pos3d[k].z - ldata.position.z;
-
-					//Rotate each point around the origin in x,y,z
-					pos3d[k].{{1,0,0}, {0,cos(pdata.yaw), -sin(pdata.yaw)}, {0, sin(pdata.yaw), cos(pdata.yaw)}};
-					//Error here * KS
-					pos3d[k].{{cos(pdata.pitch),0,sin(pdata.pitch)}, {0, 1, 0}, {-sin(pdata.pitch), 0, cos(pdata.pitch)}};
-					
-					pos3d[k].{{cos(pdata.roll),-sin(pdata.roll),0}, {sin(pdata.roll), cos(pdata.roll), 0}, {0, 0. 1}};
 
 					arrayData << pos3d[k].x << ", " <<  pos3d[k].y << ", " << pos3d[k].z << "\n";//KS write to file
-					//wprintf(L"%f,%f,%f", pos3d[k].x,pos3d[k].y,pos3d[k].z);
+					
                 }
 			}
-			//wprintf(L"Samples in file: %d\n", samples); // Print Num Samples per file to console
-			//samples = 0;
 			arrayData.close();//Close the file
 
             color2->ReleaseAccess(&dcolor);
