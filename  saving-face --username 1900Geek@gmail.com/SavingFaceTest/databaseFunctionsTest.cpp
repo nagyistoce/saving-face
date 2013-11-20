@@ -322,7 +322,5 @@ namespace SavingFaceTest
 			delete db;
 			delete db2;
 		}
-
-
 	};
 }
