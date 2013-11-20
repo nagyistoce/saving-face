@@ -82,13 +82,6 @@ SF_STS sf_db::saveDatabase(string path)
 	  if (GetLastError() != ERROR_NO_MORE_FILES) {
 		status = SF_STS_FAIL;
 	  }
-
-		
-		//TODO find every .mdl in the path
-		//load the model and check to see if the muid is already in the map
-		//if not store the loaded model in the map. -Andy
-
-		//Need to examine path to find All .mdl files.
 		
 		return status;
 	}
