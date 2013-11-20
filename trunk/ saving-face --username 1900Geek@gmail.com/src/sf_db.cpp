@@ -45,8 +45,8 @@ SF_STS sf_db::saveDatabase(string path)
 
      for (iter = db.begin(); iter != db.end(); iter++) 
 	 {
-		//saving file as (muid).mdf
-			ofstream *out = new ofstream(path + to_string(iter->first) + ".mdf");
+		//saving file as (muid).mdl
+		 ofstream *out = new ofstream(path + db[iter->first]->getFileVersionName() + ".mdl");
 			iter->second->streamToFile(out);
 			delete out;
 	 }
@@ -65,7 +65,7 @@ SF_STS sf_db::saveDatabase(string path)
 
 		//Need to examine path to find All .mdl files.
 		ifstream *in = new ifstream(path);
-		
+		return SF_STS_FAIL;
 	}
 
 

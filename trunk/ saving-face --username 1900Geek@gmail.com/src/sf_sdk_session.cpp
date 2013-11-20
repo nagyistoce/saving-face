@@ -35,7 +35,7 @@ namespace SF
 		return true;
 	}
 	
-	//This will fail if you do not have the camera.
+	
 
 	SF_STS SF_Session::captureStreams(){
 		PXCCapture::VideoStream::DataDesc request; 
@@ -79,11 +79,11 @@ namespace SF
 	}
 	
 	SF_STS SF_Session::loadFaceModule(){
-		//Need some error checking here
+	
 		session->CreateImpl<PXCFaceAnalysis>(&face);
 		PXCFaceAnalysis::ProfileInfo pinfo;
 		face->QueryProfile(0,&pinfo);
-		//capture->LocateStreams(&pinfo.inputs);
+		
 		face->SetProfile(&pinfo);
 		detector = face->DynamicCast<PXCFaceAnalysis::Detection>();
 		PXCFaceAnalysis::Detection::ProfileInfo dinfo;
@@ -99,7 +99,7 @@ namespace SF
 		return SF_STS_OK;
 	}
 
-	//Constructor should be no fail.
+	
 	SF_Session::SF_Session(void)
 	{
 		cmdl = 0;
@@ -164,19 +164,14 @@ namespace SF
 
 	void SF_Session::tempYPRLoop(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*))
 	{
-		//Currently set to iterate over 200 frames.
-		for (pxcU32 f=0;f<200;f++) {
+		for (pxcU32 f=0;f<255;f++) {//Currently set to iterate over 255 frames.
 			//Create 2 image instances
-			//Should auto delete as it goes out of scope...
-			//Consider moving to a local variable to eleminate repetitive allocation.
-			PXCSmartArray<PXCImage> images(2);
+			PXCSmartArray<PXCImage> images(2);//Consider moving to a local variable to eleminate repetitive allocation.
+	
+			PXCSmartSPArray sp(2);//Synchronous Pointer
 
-			//Synchronous Pointer
-			PXCSmartSPArray sp(2);
-			//ReadStream If Data Available or Block
-			pxcStatus sts = capture->ReadStreamAsync(images, &sp[0]);
+			pxcStatus sts = capture->ReadStreamAsync(images, &sp[0]);//ReadStream If Data Available or Block
 			if (sts<PXC_STATUS_NO_ERROR) break;
-		
 			if(face)
 				face->ProcessImageAsync(images,&sp[1]);
 
@@ -208,40 +203,54 @@ namespace SF
 
 	void SF_Session::mathematicaFriendlyFileOut()
 	{
-		/* Messy Code in the middle of refactoring
-		*  The puropose of this is to get the data along with YPR and Landmarks out into Mathematica
-		*  For further analysis
+		// Messy Code in the middle of refactoring
+		//*  The puropose of this is to get the data along with YPR and Landmarks out into Mathematica
+		//*  For further analysis
 		
+		//File Output params
 		static int incr= 0;//Image number
-		bool bob  =  false;
-		int samples = 0;
-		PXCPoint3DF32 *pos2d = 0;				// array of depth coordinates to be mapped onto color coordinates
-		PXCPoint3DF32 *pos3d = 0;				// array of depth coordinates to be mapped onto color coordinates
 		std::ofstream arrayData;
 		std::stringstream sstrm;
+		
+
+		PXCCapture::VideoStream::ProfileInfo pcolor;
+		capture->QueryVideoStream(0)->QueryProfile(&pcolor);
+
+		int npoints = pdepth.imageInfo.width*pdepth.imageInfo.height;
+		PXCPoint3DF32 *pos2d = (PXCPoint3DF32 *)new PXCPoint3DF32[npoints];// array of depth coordinates to be mapped onto color coordinates
+		PXCPoint3DF32 *pos3d = 0;				// array of depth coordinates to be mapped onto color coordinates
+		PXCSmartPtr<PXCImage> color2;			// the color image after projection
+		pxcF32 dvalues[2] = {-1};				// special depth values for saturated and low-confidence pixels
+		PXCPointF32 *posc = 0;					// array of mapped color coordinates
+		PXCSmartPtr<PXCAccelerator> accelerator;
+        session->CreateAccelerator(&accelerator);
 		sstrm << "Math_Out\\test_1_" << incr << ".csv";
 		arrayData.open(sstrm.str());
 		sstrm.clear();
 		incr ++;
-		//Map depth to real world
+		accelerator->CreateImage(&pcolor.imageInfo,0,0,&color2);
+		capture->QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_LOW_CONFIDENCE_VALUE,&dvalues[0]);
+    	capture->QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_SATURATION_VALUE,&dvalues[1]);
+		PXCImage::ImageData dcolor;
+        color2->AcquireAccess(PXCImage::ACCESS_READ_WRITE,PXCImage::COLOR_FORMAT_RGB32,&dcolor);
+    	int cwidth2=dcolor.pitches[0]/sizeof(pxcU32); // aligned color width
 		PXCSmartPtr<PXCProjection> projection;
 		pxcUID prj_value;		// projection serializable identifier
+		capture->QueryDevice()->QueryPropertyAsUID(PXCCapture::Device::PROPERTY_PROJECTION_SERIALIZABLE,&prj_value);
+
 		session->DynamicCast<PXCMetadata>()->CreateSerializable<PXCProjection>(prj_value, &projection);
 		projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
 		projection->MapDepthToColorCoordinates(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,posc);
-			for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++) {
-                for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
-						//wprintf(L"%f,%f,%f", pos3d[k].x,pos3d[k].y,pos3d[k].z);
-                    int xx=(int)(posc[k].x+0.5f), yy= (int) (posc[k].y+0.5f);
-				    if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;
-                    if (pos2d) if (pos2d[k].z==dvalues[0] || pos2d[k].z==dvalues[1]) continue; // no mapping based on unreliable depth values
-					((pxcU32 *)dcolor.planes[0])[yy*cwidth2+xx] |= 0x0000FF00;
-					samples++; //Count valid samples
-					arrayData << pos3d[k].x << ", " <<  pos3d[k].y << ", " << pos3d[k].z << "\n";//KS write to file
-                }
-			}
-			wprintf(L"Samples in file: %d\n", samples); // Print Num Samples per file to console
-			samples = 0;
-			arrayData.close();//Close the file*/
-	}
+		for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++) {
+            for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
+					//wprintf(L"%f,%f,%f", pos3d[k].x,pos3d[k].y,pos3d[k].z);
+                int xx=(int)(posc[k].x+0.5f), yy= (int) (posc[k].y+0.5f);
+				if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;
+                if (pos2d) if (pos2d[k].z==dvalues[0] || pos2d[k].z==dvalues[1]) continue; // no mapping based on unreliable depth values
+				((pxcU32 *)dcolor.planes[0])[yy*cwidth2+xx] |= 0x0000FF00;
+				arrayData << pos3d[k].x << ", " <<  pos3d[k].y << ", " << pos3d[k].z << "\n";//KS write to file
+            }
+		}
+		arrayData.close();//Close the file*/
+}
 }
