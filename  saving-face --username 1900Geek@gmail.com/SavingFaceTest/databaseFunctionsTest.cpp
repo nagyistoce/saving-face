@@ -315,7 +315,7 @@ namespace SavingFaceTest
 			Assert().IsTrue(db->saveDatabase(ss) == SF_STS_OK,L"Failed to save to database");
 
 			sf_db *db2 = new sf_db();
-			Assert().IsTrue(db->saveDatabase(ss) == SF_STS_OK,L"Failed to load to database");
+			Assert().IsTrue(db2->loadDatabase(ss) == SF_STS_OK,L"Failed to load to database");
 			//The following asserts that the model exists... and that the UID's are equal
 			Assert().IsTrue(db2->getModel(modelOne->getModelUID())->getModelUID()  == modelOne->getModelUID(),L"Loaded Model UID Not Equal"); 
 			Assert().IsTrue(db2->getModel(modelTwo->getModelUID())->getModelUID()  == modelTwo->getModelUID(),L"Loaded Model UID Not Equal"); 
