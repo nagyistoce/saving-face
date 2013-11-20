@@ -1,5 +1,5 @@
 #include "sf_db.h"
-
+#include <windows.h>
 
 sf_db::sf_db(void)
 {
@@ -14,7 +14,8 @@ sf_db::~sf_db(void)
 
 SF_STS sf_db::addModelToDatabase(Model  *model)
 {
-	if(model)
+	//second condition is to make sure it's not in the database already
+	if(model && db.find(model->getModelUID()) == db.end()) 
 	{
 		db[model->getModelUID()] = model;
 		return SF_STS_OK;
@@ -38,6 +39,7 @@ Model *sf_db::getModel(SF_MUID muid)
 }
 
 //iterate over all models and save to persistant storage
+//TODO:  delete file if database fails to save
 SF_STS sf_db::saveDatabase(string path)
 {
 	std::map<SF_MUID, Model*>::iterator iter;
@@ -57,15 +59,40 @@ SF_STS sf_db::saveDatabase(string path)
 	//load all models in the path with file extension .mdl
 	SF_STS sf_db::loadDatabase(string path)
 	{
-		SF_STS sts = SF_STS_OK;
+		SF_STS status = SF_STS_OK;
+		HANDLE hFind = INVALID_HANDLE_VALUE;
+		WIN32_FIND_DATA ffd;
 
+		hFind = FindFirstFile(path.c_str(), &ffd);
+
+		if (hFind == INVALID_HANDLE_VALUE) 
+		{
+			status = SF_STS_FAIL; //error searching directory
+		}
+
+		do {
+			string filePath = path + ffd.cFileName;
+			ifstream *in = new ifstream(filePath);
+			Model *model = new Model();
+			model->loadFromFile(in);
+			addModelToDatabase(model);
+			model = 0;
+			in = 0;
+
+	  } while (FindNextFile(hFind, &ffd) != 0);
+
+	  if (GetLastError() != ERROR_NO_MORE_FILES) {
+		status = SF_STS_FAIL;
+	  }
+
+		
 		//TODO find every .mdl in the path
 		//load the model and check to see if the muid is already in the map
 		//if not store the loaded model in the map. -Andy
 
 		//Need to examine path to find All .mdl files.
-		ifstream *in = new ifstream(path);
-		return SF_STS_FAIL;
+		
+		return status;
 	}
 
 
