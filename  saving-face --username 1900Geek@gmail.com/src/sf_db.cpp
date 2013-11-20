@@ -45,6 +45,7 @@ SF_STS sf_db::saveDatabase(string path)
 
      for (iter = db.begin(); iter != db.end(); iter++) 
 	 {
+		//saving file as (muid).mdf
 			ofstream *out = new ofstream(path + to_string(iter->first) + ".mdf");
 			iter->second->streamToFile(out);
 			delete out;
@@ -58,21 +59,13 @@ SF_STS sf_db::saveDatabase(string path)
 	{
 		SF_STS sts = SF_STS_OK;
 
+		//TODO find every .mdf in the path
+		//load the model and check to see if the muid is already in the map
+		//if not store the loaded model in the map. -Andy
+
 		//Need to examine path to find All .mdl files.
 		ifstream *in = new ifstream(path);
-		Model *model = new Model();
-		char *next_token = NULL;
 		
-		while(!in->end)
-		{
-			model->loadFromFile(in);
-			char temp[2];
-			in->read(temp, 1);
-			sts = (sts) ? addModelToDatabase(model) : SF_STS_FAIL;
-		}
-
-		in->close();
-		return sts;
 	}
 
 
