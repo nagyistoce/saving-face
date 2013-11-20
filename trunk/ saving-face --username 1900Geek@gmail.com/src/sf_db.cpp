@@ -62,14 +62,13 @@ SF_STS sf_db::saveDatabase(string path)
 		SF_STS status = SF_STS_OK;
 		HANDLE hFind = INVALID_HANDLE_VALUE;
 		WIN32_FIND_DATA ffd;
-
-		hFind = FindFirstFile(path.c_str(), &ffd);
+		string wwcStr = path + "*.mdl";
+		hFind = FindFirstFile(wwcStr.c_str(), &ffd);
 
 		if (hFind == INVALID_HANDLE_VALUE) 
 		{
 			status = SF_STS_FAIL; //error searching directory
-		}
-
+		}else
 		do {
 			string filePath = path + ffd.cFileName;
 			ifstream *in = new ifstream(filePath);
@@ -78,7 +77,6 @@ SF_STS sf_db::saveDatabase(string path)
 			addModelToDatabase(model);
 			model = 0;
 			in = 0;
-
 	  } while (FindNextFile(hFind, &ffd) != 0);
 
 	  if (GetLastError() != ERROR_NO_MORE_FILES) {
