@@ -9,12 +9,7 @@ sf_db::sf_db(void)
 
 sf_db::~sf_db(void)
 {
-	std::map<SF_MUID, Model*>::iterator iter;
-
-	for (iter = db.begin(); iter != db.end(); iter++) {
-
-		delete iter->second;
-        }
+	db.clear();
 }
 
 SF_STS sf_db::addModelToDatabase(Model  *model)
@@ -45,16 +40,15 @@ Model *sf_db::getModel(SF_MUID muid)
 //iterate over all models and save to persistant storage
 SF_STS sf_db::saveDatabase(string path)
 {
-	ofstream *out = new ofstream(path);
-
 	std::map<SF_MUID, Model*>::iterator iter;
-    std::string* strToReturn = new std::string("");
+    //std::string* strToReturn = new std::string("");
 
-     for (iter = db.begin(); iter != db.end(); iter++) {
-
-		iter->second->streamToFile(out);
-		out->write("|", 1);
-        }
+     for (iter = db.begin(); iter != db.end(); iter++) 
+	 {
+			ofstream *out = new ofstream(path + to_string(iter->first) + ".mdf");
+			iter->second->streamToFile(out);
+			delete out;
+	 }
 
 	 return SF_STS_FAIL;
 }
