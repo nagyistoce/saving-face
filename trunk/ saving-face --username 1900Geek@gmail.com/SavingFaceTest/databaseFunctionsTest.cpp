@@ -281,17 +281,18 @@ namespace SavingFaceTest
 				Logger().WriteMessage(buffer);
 			}
 	
-			//Creates a folder if it does not exist
+			//append full file path onto temp
 			wchar_t temp[200] = L"";
 			wchar_t temp2[] = L"\testdatabase";
-			wcscat(temp, buffer);
-			wcscat(temp, L"\\testdatabase\\");
+			wcscat_s(temp, buffer);
+			wcscat_s(temp, L"\\testdatabase\\");
 			LPCSTR filePath = (LPCSTR)temp;
 			Logger().WriteMessage(temp);
 
 			DWORD ftyp = GetFileAttributesA((LPCSTR)buffer);
 			free(buffer);
 
+			//Creates a folder if it does not exist
 			if (ftyp == INVALID_FILE_ATTRIBUTES)
 			{
 				Logger().WriteMessage(L"creating directory"); //may not exist
@@ -310,8 +311,12 @@ namespace SavingFaceTest
 			//A std:string  using the char* constructor.
 			std::string ss(ch);
 
+			//clean up white space
 			for(int i=0; i<ss.length(); i++)
 				if(ss[i] == ' ') ss.erase(i,1);
+
+			Logger().WriteMessage(L"\nPath is:");
+			Logger().WriteMessage(ss.c_str());
 
 			db->saveDatabase(ss);
 
