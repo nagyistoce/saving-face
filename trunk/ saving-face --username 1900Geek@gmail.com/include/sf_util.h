@@ -9,10 +9,8 @@ using namespace std;
 class sf_util
 {
 public:
-	string getFullPath();
+	string getFullPath(string partialPath);
 
-	void makeDirectory();
+	void makeDirectory(string partialPath);
 
-private:
-	string path;
 };
