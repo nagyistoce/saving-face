@@ -33,7 +33,7 @@
     <ClCompile Include="src\sf_db.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\ saving-face --username 1900Geek%40gmail.com\sf_util.cpp">
+    <ClCompile Include="src\sf_util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,7 +62,7 @@
     <ClInclude Include="include\PriorTODOList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\ saving-face --username 1900Geek%40gmail.com\sf_util.h">
+    <ClInclude Include="include\sf_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
