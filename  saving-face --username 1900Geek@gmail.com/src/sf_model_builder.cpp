@@ -22,7 +22,7 @@ namespace SF
 	{
 		Model *model = new Model();
 		SF_UID_TYPE uid = generateUID();
-		model->setModelUID(uid);
+		model->setModelUID(uid + 1L);
 		model->setPersonUID(uid);
 		model->initModelArray();
 		temp_db.addModelToDatabase(model);
