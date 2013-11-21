@@ -37,8 +37,8 @@ void sf_util::makeDirectory(string partialPath)
     int slength = (int)path.length() + 1;
     len = MultiByteToWideChar(CP_ACP, 0, path.c_str(), slength, 0, 0); 
     wchar_t* buffer = new wchar_t[len];
-    MultiByteToWideChar(CP_ACP, 0, path.c_str(), slength, buf, len);
-    LPCWSTR lpcwPath(buf);
+    MultiByteToWideChar(CP_ACP, 0, path.c_str(), slength, buffer, len);
+    LPCWSTR lpcwPath(buffer);
     delete[] buffer;
 
 	DWORD ftyp = GetFileAttributesW(lpcwPath);
