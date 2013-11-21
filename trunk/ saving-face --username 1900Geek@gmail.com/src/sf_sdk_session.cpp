@@ -203,28 +203,31 @@ namespace SF
 
 	void SF_Session::tempGetVertices(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*),void (*getdepth)(const char *test))
 	{
-		PXCSmartPtr<PXCAccelerator> accelerator;
+		if(face == nullptr) return;//No point in continuing
         session->CreateAccelerator(&accelerator);
+		//Begin Loop
+		for (pxcU32 f=0;f<30;f++) {
 
-		for (pxcU32 f=0;f<30;f++) {//Currently set to iterate over 255 frames.
-			//Create 2 image instances
 			PXCSmartArray<PXCImage> images(2);//Consider moving to a local variable to eleminate repetitive allocation.
 	
 			PXCSmartSPArray sp(2);//Synchronous Pointer
-
-			pxcStatus sts = capture->ReadStreamAsync(images, &sp[0]);//ReadStream If Data Available or Block
-			if (sts<PXC_STATUS_NO_ERROR) break;
+			
+			//ReadStream If Data Available or Block
+			if (capture->ReadStreamAsync(images, &sp[0])<PXC_STATUS_NO_ERROR) break;
+			
+			//Process Face YPR and Landmarks
 			if(face)
 				face->ProcessImageAsync(images,&sp[1]);
 
 			//Wait for all ASynchronous Modules To Return
-			sts=sp.SynchronizeEx();
-		
-			if (sts<PXC_STATUS_NO_ERROR) break;
-
+			if (sp.SynchronizeEx()<PXC_STATUS_NO_ERROR) continue;
+			
+			//Begin Processing Image by face.
 			for (int i=0;;i++) {
-				pxcUID fid; pxcU64 ts;
-				if (face->QueryFace(i,&fid,&ts)<PXC_STATUS_NO_ERROR) break;
+				pxcUID fid; 
+				pxcU64 ts;
+				//To limit num faces i = 0;
+				if (face->QueryFace(i,&fid,&ts)<PXC_STATUS_NO_ERROR) break;//No more faces
 				PXCFaceAnalysis::Detection::Data data;
 				detector->QueryData(fid,&data);
 				PXCFaceAnalysis::Landmark::LandmarkData ldata[7];
@@ -235,9 +238,12 @@ namespace SF
 				
 				/**Return ypr**/
 				yprFunc(&pdata);
-				landMarkFunc(&ldata[6].position);
+				landMarkFunc(&ldata[6].position);//Nose
+				
+				
 				//PXCSmartPtr<PXCImage> color2;
 
+				//The following code is just prototyping... and will be replaced
 				//accelerator->CreateImage(&pcolor.imageInfo,0,0,&color2);
 				//PXCImage::ImageData dcolor;
 				PXCImage::ImageData ddepth;
@@ -247,7 +253,11 @@ namespace SF
 				for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++){
 					str += "\n";
 					for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++)
-						str += ((short*)ddepth.planes[0])[y*dwidth2+x];
+					{
+						char temp[10];
+						sprintf_s(temp,10,"%d ", ((short*)ddepth.planes[0])[y*dwidth2+x]);
+						str.append(temp);
+					}
 				}
 				getdepth(str.c_str());
 			}

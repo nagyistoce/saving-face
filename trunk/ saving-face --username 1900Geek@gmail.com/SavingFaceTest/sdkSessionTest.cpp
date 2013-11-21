@@ -15,9 +15,10 @@ namespace SavingFaceTest
 
 	void getdepth(const char *test)
 	{
-		static char str[200];
-		//sprintf_s(str, "YPR::\t%f,\t%f,\t%f\n", ypr->yaw, ypr->pitch, ypr->roll);
-		Logger().WriteMessage(str);
+		static bool doOnce = true;
+		if(doOnce)		
+			Logger().WriteMessage(test);
+		doOnce = false;
 	}
 
 	void getLandmark(SF::SF_R3_COORD *landmark)
