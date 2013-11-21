@@ -322,5 +322,32 @@ namespace SavingFaceTest
 			delete db;
 			delete db2;
 		}
+
+		TEST_METHOD(testDatabaseAddDeleteModel)
+		{
+			sf_db *db = new sf_db;
+			Model *modelOne, *modelTwo;
+			modelOne = new Model("MD.","Punish","Me", "Please", "Sr", "Male","Owww@drPain.com");
+
+			modelOne->setPersonUID(111111L);
+			modelOne->setModelUID(222222L); 
+
+			modelOne->initModelArray();
+
+			db->addModelToDatabase(modelOne);
+
+			modelTwo = db->getModel(modelOne->getModelUID());
+			Assert().IsTrue(modelTwo->getModelUID() == modelOne->getModelUID(), L"Model not found");
+			modelTwo = 0;
+
+			Assert().IsTrue(db->deleteModelFromDatabase(modelOne->getModelUID()), L"Could not delete model");
+			
+			modelTwo = db->getModel(modelOne->getModelUID());
+			Assert().IsTrue(modelTwo == nullptr, L"Model is still in database");
+
+			delete modelOne;
+			delete modelTwo;
+			delete db;
+		}
 	};
 }
