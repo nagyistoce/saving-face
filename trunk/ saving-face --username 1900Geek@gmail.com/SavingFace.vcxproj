@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\ saving-face --username 1900Geek%40gmail.com\sf_util.cpp" />
     <ClCompile Include="src\sf_db.cpp" />
     <ClCompile Include="src\sf_model.cpp" />
     <ClCompile Include="src\sf_model_builder.cpp" />
@@ -77,6 +78,7 @@
     <ClCompile Include="src\TestCode.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\ saving-face --username 1900Geek%40gmail.com\sf_util.h" />
     <ClInclude Include="include\PriorTODOList.h" />
     <ClInclude Include="include\sf_db.h" />
     <ClInclude Include="include\sf_defs.h" />
