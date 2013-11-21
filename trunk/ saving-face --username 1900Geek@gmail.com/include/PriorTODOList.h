@@ -2,6 +2,9 @@
 *Priority number if assigned, followed by the TODO
 * Class sf_db
 * (Low)  SF_STS deleteModelFromDatabase(SF_MUID *modelID);
+
+
+* Class sf_sdk_session
 * (High) Method to get depth vertices data
 * (High) Method to convert YPR to a depth vertice
 * (Medium) Save video
