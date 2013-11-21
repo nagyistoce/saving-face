@@ -13,6 +13,13 @@ namespace SavingFaceTest
 		Logger().WriteMessage(str);
 	}
 
+	void getdepth(const char *test)
+	{
+		static char str[200];
+		//sprintf_s(str, "YPR::\t%f,\t%f,\t%f\n", ypr->yaw, ypr->pitch, ypr->roll);
+		Logger().WriteMessage(str);
+	}
+
 	void getLandmark(SF::SF_R3_COORD *landmark)
 	{
 		static char str[200];
@@ -55,6 +62,12 @@ namespace SavingFaceTest
 			//Can't fully test without pre-recorded video.
 			startSession();
 			session->tempYPRLoop(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark);	
+		}
+
+		TEST_METHOD(sdkVerticesTest)
+		{
+			startSession();
+			session->tempGetVertices(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark, &SavingFaceTest::getdepth);	
 		}
 	};
 }
