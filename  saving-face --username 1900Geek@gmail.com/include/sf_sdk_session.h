@@ -29,6 +29,7 @@ namespace SF
 	PXCSmartPtr<PXCFaceAnalysis::Landmark> landmark;
 	PXCSmartPtr<PXCFaceAnalysis::Detection> detector;
 
+	PXCSmartPtr<PXCAccelerator> accelerator;
 
 	UtilCmdLine *cmdl;
 	PXCCapture::VideoStream::ProfileInfo pcolor;
