@@ -2,7 +2,10 @@
 *Priority number if assigned, followed by the TODO
 * Class sf_db
 * (Low)  SF_STS deleteModelFromDatabase(SF_MUID *modelID);
-* 
+* (High) Method to get depth vertices data
+* (High) Method to convert YPR to a depth vertice
+* (Medium) Save video
+* (Medium) Save Snapshot
 * I will add more as I go through, but these are good to start on.
 * 
 * TESTS TODO
