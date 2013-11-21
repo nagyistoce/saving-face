@@ -54,5 +54,4 @@ void sf_util::makeDirectory(string partialPath)
 		//this already is a directory
 	}
 
-	//delete lpcwPath;
 }
