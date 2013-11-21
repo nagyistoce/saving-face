@@ -34,4 +34,9 @@ namespace SF
 		return temp_db.getModel(muid);
 	}
 
+	SF_STS sf_model_builder::deleteModel(SF_MUID muid)
+	{
+		return temp_db.deleteModelFromDatabase(muid);
+	}
+
 }
