@@ -267,7 +267,11 @@ namespace SF
 		}
 	}
 
+	//TODO figure out arguements and return
+	void SF_Session::getDepthDataFromVertices()
+	{
 
+	}
 	
 	void SF_Session::mathematicaFriendlyFileOut()
 	{

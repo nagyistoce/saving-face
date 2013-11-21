@@ -47,7 +47,7 @@ SF_STS sf_db::saveDatabase(string path)
 	SF_STS status = SF_STS_OK;
      for (iter = db.begin(); iter != db.end(); iter++) 
 	 {
-		//saving file as (muid).mdl
+		//saving file as (file version name).mdl
 		 ofstream *out = new ofstream(path + db[iter->first]->getFileVersionName() + ".mdl");
 			status = (!status) ? SF_STS_FAIL : iter->second->streamToFile(out);
 			delete out;

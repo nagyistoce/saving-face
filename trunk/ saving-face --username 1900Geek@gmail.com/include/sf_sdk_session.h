@@ -59,6 +59,9 @@ namespace SF
 	void tempGetVertices(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*),void (*getdepth)(const char *test));
 	void mathematicaFriendlyFileOut();
 
+	//Figure out arguements
+	void getDepthDataFromVertices();
+
 	SF_Session();
 	~SF_Session();
 	};

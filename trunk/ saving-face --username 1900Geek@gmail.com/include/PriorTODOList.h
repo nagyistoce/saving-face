@@ -17,7 +17,7 @@
 * Add params to keep track of comparison tracking. (Figure out the params later)
 * Add return fail status and do not save, if initModelArr has not been called.
 * 
-* Class Model_Builder
+u* Class Model_Builder
 * Un-implemented methods... High priority
 * Actually build the model... High priority...
 * Save Video Option... (to be implemented in sf_session first)
