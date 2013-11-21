@@ -7,6 +7,7 @@
 #include <direct.h>
 #include <string>
 #include <wchar.h>
+#include "sf_util.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace SF;
@@ -257,55 +258,21 @@ namespace SavingFaceTest
 			Assert().IsTrue(db->addModelToDatabase(modelTwo) == SF_STS_OK, L"Failed to add model to database.");
 			Assert().IsTrue(db->addModelToDatabase(modelThree) == SF_STS_OK, L"Failed to add model to database.");
 			
-			wchar_t* buffer;
+			sf_util *util = new sf_util();
 
-			// Gets the current working directory  
-			if( (buffer = _wgetcwd( NULL, 0 )) == NULL )
-				//perror( "_getcwd error" );-Should Assert
-				Assert().Fail(L"Failed to get current working directory");
-			else
-			{
-				Logger().WriteMessage( L"Path:");
-				Logger().WriteMessage(buffer);
-			}
-			
-			//append full file path onto temp
-			wchar_t temp[200] = L"";
-			wcscat_s(temp, buffer);
-			wcscat_s(temp, L"\\testdatabase\\");
-			Logger().WriteMessage(L"\n");
-			Logger().WriteMessage(temp);
+			string path = util->getFullPath("testdatabase");
+			util->makeDirectory("testdatabase");
 
-			DWORD ftyp = GetFileAttributesW(temp);
-			delete[] buffer;
-
-			//Creates a folder if it does not exist
-			if (ftyp == INVALID_FILE_ATTRIBUTES)
-			{
-				Logger().WriteMessage(L"\ncreating directory"); //may not exist
-				_wmkdir(temp);
-			}
-			else if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
-			{
-				Logger().WriteMessage(L"\ndirectory found"); //this is a directory
-			}
-			
-			//convert from wide char to narrow char array
-			char ch[200];
-			char DefChar = ' ';
-			WideCharToMultiByte(CP_ACP,0,temp,-1, ch,200,&DefChar, NULL);
-    
-			//A std:string  using the char* constructor.
-			std::string ss(ch);
+			delete util;
 
 			Logger().WriteMessage(L"\nPath is:");
-			Logger().WriteMessage(ss.c_str());
+			Logger().WriteMessage(path.c_str());
 
-			Assert().IsTrue(db->saveDatabase(ss) == SF_STS_OK,L"Failed to save to database");
+			Assert().IsTrue(db->saveDatabase(path) == SF_STS_OK,L"Failed to save to database");
 
 			sf_db *db2 = new sf_db();
 
-			Assert().IsTrue(db2->loadDatabase(ss) == SF_STS_OK,L"Failed to load to database");
+			Assert().IsTrue(db2->loadDatabase(path) == SF_STS_OK,L"Failed to load to database");
 			//The following asserts that the model exists... and that the UID's are equal
 			Assert().IsTrue(db2->getModel(modelOne->getModelUID())->getModelUID()  == modelOne->getModelUID(),L"Loaded Model UID Not Equal"); 
 			Assert().IsTrue(db2->getModel(modelTwo->getModelUID())->getModelUID()  == modelTwo->getModelUID(),L"Loaded Model UID Not Equal"); 
