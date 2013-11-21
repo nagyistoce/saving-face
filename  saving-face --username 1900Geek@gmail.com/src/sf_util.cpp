@@ -26,7 +26,7 @@ string sf_util::getFullPath(string partialPath)
 	return ss;
 }
 
-//Appends the partial path onto the current working directory
+//Creates a directory give a partial path as a string.
 void sf_util::makeDirectory(string partialPath)
 {
 			
