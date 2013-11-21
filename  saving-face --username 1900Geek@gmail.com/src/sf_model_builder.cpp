@@ -24,6 +24,7 @@ namespace SF
 		SF_UID_TYPE uid = generateUID();
 		model->setModelUID(uid);
 		model->setPersonUID(uid);
+		model->initModelArray();
 		temp_db.addModelToDatabase(model);
 		return uid;
 	}

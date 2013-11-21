@@ -20,7 +20,7 @@ public:
 	SF_STS addModelToDatabase(Model *model);
 
 	//remove a model from the database
-	SF_STS deleteModelFromDatabase(SF_MUID *modelID);
+	SF_STS deleteModelFromDatabase(SF_MUID modelID);
 	
 	//Can be simple... Single comparison algorithm... (Recomended)
 	//Simple/Fast case is that all models have identical model_info structs.

@@ -1,8 +1,5 @@
 /*
 *Priority number if assigned, followed by the TODO
-* Class sf_db
-* (Low)  SF_STS deleteModelFromDatabase(SF_MUID *modelID);
-
 
 ***** Make sf_util.cpp
 * Extract the code used in databaseFunctionsTest to make functions
@@ -32,4 +29,5 @@ string makeDirectory(string Path)
 
 *Classes that are Finished and Tested
 *sf_tr_func (Well Should add more testing for modelspace coords... But should become self-evident if there is a problem).
+*sf_db (I feel confident this is done -Andy)
 */

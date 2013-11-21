@@ -56,6 +56,19 @@ SF_STS sf_db::saveDatabase(string path)
 	 return status;
 }
 
+SF_STS sf_db::deleteModelFromDatabase(SF_MUID modelID)
+{
+	if (db.find(modelID) != db.end())
+		db.erase(modelID);
+
+	if (db.find(modelID) == db.end())
+	{
+		return SF_STS_OK; //no longer in database
+	}
+
+	return SF_STS_FAIL;
+}
+
 	//load all models in the path with file extension .mdl
 	SF_STS sf_db::loadDatabase(string path)
 	{
