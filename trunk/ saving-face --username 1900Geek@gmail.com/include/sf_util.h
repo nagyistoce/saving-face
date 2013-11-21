@@ -3,6 +3,9 @@
 
 using namespace SF;
 using namespace std;
+//Shouldn't be a class.
+//These are utility functions
+//No need to store the path.
 class sf_util
 {
 public:
