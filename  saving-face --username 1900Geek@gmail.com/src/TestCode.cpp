@@ -1,4 +1,5 @@
-
+#include "Testing.h"
+#ifdef _TEST_CODE
 #include <fstream>
 #include <sstream>
 
@@ -17,9 +18,9 @@
 #include "util_pipeline.h"//To grab the nose landmark
 #include "pxcprojection.h" //To Project Coords to Real-Life and to map depth to image
 #include "pxcmetadata.h" 
-#include "Testing.h"
 
-#ifdef _TEST_CODE
+
+
 
 
 int wmain(int argc, WCHAR* argv[]) {

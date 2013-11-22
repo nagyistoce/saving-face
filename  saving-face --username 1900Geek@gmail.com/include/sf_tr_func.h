@@ -1,3 +1,4 @@
+#pragma once
 #include "sf_defs.h"
 #include "sf_model.h"
 

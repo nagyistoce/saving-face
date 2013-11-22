@@ -1,6 +1,6 @@
 #pragma once
-#include "sf_db.h"
-#include "sf_model.h"
+//#include "sf_db.h"
+//#include "sf_model.h"
 #include "sf_sdk_session.h"
 #include "sf_model_builder.h"
 
@@ -28,7 +28,7 @@ public:
 	//Add Functions as needed
 
 private: 
-	sf_db *db;
+	//sf_db *db;
 	sf_model_builder *mBuilder;
 	SF_Session *session;
 };
