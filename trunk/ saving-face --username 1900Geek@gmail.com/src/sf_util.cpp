@@ -1,14 +1,15 @@
 #include "sf_util.h"
 #include <windows.h>
+#include <direct.h>
 
 //Appends the partial path onto the current working directory
-string sf_util::getFullPath(string partialPath)
+const string SF::getFullPath(string const partialPath)
 {
-	wchar_t* buffer;
-
-	//gets current working directory
-	buffer = _wgetcwd( NULL, 0 );
-
+	string fullPath = _getcwd(NULL, 0);
+	fullPath += "\\" + partialPath + "\\";
+	fullPath += "\\";
+	return fullPath;
+	/*
 	wchar_t temp[200] = L"";
 	wcscat_s(temp, buffer);
 
@@ -23,15 +24,29 @@ string sf_util::getFullPath(string partialPath)
 	ss += "\\" + partialPath +"\\";
 
 	delete[] buffer;
-	return ss;
+	return ss;*/
+}
+
+bool SF::doesDirectoryExist(string const fullPath)
+{
+	if (GetFileAttributesA(fullPath.c_str()) == INVALID_FILE_ATTRIBUTES)
+		return false;
+	else return true;
 }
 
 //Creates a directory give a partial path as a string.
-void sf_util::makeDirectory(string partialPath)
+SF_STS SF::makeDirectory(string const partialPath)
 {
 			
 	string path = getFullPath(partialPath);
-
+	if(doesDirectoryExist(path))
+		return SF_STS_OK;
+	else
+		if(_mkdir(path.c_str()) == 0)
+			return SF_STS_OK;
+	return SF_STS_FAIL;
+}
+	/*
 	//Convert string to LPCWSTR
 	int len;
     int slength = (int)path.length() + 1;
@@ -52,6 +67,16 @@ void sf_util::makeDirectory(string partialPath)
 	else if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
 	{
 		//this already is a directory
-	}
+	}*/
+	
 
+SF_STS SF::removeDirectory(string const partialPath)
+{
+	string path = getFullPath(partialPath);
+	if(!doesDirectoryExist(path))
+		return SF_STS_OK;
+	else
+		if(_rmdir(path.c_str()) == 0)
+			return SF_STS_OK;
+	return SF_STS_FAIL;
 }
