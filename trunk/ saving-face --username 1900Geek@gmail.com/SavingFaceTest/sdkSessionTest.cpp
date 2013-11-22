@@ -69,12 +69,12 @@ namespace SavingFaceTest
 			delete session;
 		}
 
-
+		//NOTE:: Test will run forever if the camera is present
+		//Until it detects a valid face for 30 frames.
 		TEST_METHOD(sdk_YPR_Vertex_Test)
 		{
 			startSession();
 			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,30);
-			//TODO assure all reported YPR/Landmark are valid.
 		}
 
 		

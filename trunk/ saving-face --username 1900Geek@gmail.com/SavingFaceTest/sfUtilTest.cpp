@@ -5,7 +5,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace SavingFaceTest
 {
-	TEST_CLASS(sfUtilTest)
+	TEST_CLASS(utilitiesTest)
 	{
 	public:
 		
