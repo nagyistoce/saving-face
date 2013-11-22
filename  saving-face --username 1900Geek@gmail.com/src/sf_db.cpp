@@ -25,7 +25,7 @@ SF_STS sf_db::addModelToDatabase(Model  *model)
 
 Model *sf_db::getModel(SF_MUID muid)
 {
-	if ( db.find(muid) == db.end() )
+	/*if ( db.find(muid) == db.end() )
 	{
 		//probably should throw an exception
 		return nullptr;
@@ -33,7 +33,8 @@ Model *sf_db::getModel(SF_MUID muid)
 
 	else {
 		return db.find(muid)->second;
-	}
+	}*/
+	return db[muid];
 	
 	
 }
