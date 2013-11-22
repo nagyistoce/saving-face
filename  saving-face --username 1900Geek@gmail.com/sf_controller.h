@@ -1,4 +1,5 @@
 #pragma once
+//Something strange is going on with the includes.
 //#include "sf_db.h"
 //#include "sf_model.h"
 #include "sf_sdk_session.h"
