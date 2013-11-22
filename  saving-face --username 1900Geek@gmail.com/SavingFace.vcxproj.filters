@@ -36,6 +36,9 @@
     <ClCompile Include="src\sf_util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="sf_controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\sf_defs.h">
@@ -63,6 +66,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\sf_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sf_controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
