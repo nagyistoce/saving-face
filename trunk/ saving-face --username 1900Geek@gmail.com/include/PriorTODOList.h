@@ -2,7 +2,7 @@
 *Priority number if assigned, followed by the TODO
 
 * Class sf_sdk_session
-* (Highest) Method to convert YPR to a depth vertice
+* (Highest) Method to convert Nose Landmark to a depth vertice
 * (Medium) Save video
 * (Medium) Save Snapshot
 
