@@ -53,16 +53,20 @@ namespace SF
 	SF_STS loadFaceModule();
 	SF_STS createDepthRenderView();
 	SF_STS createColorRenderView();
+	
+	
 	//The following are to be replaced by a single function that is well written and includes the following options
 	//GetYPR //GetLandmark //Save video //Save Image
 	//Following these... A method to compare the saved video to the finished model.
+	
+	
 	void tempMainLoop();
 	void tempYPRLoop(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*));
 	void tempGetVertices(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*),void (*getdepth)(const char *test));
-	void mathematicaFriendlyFileOut();
-
+	
+	
 	//Figure out arguements
-	void getDepthDataFromVertices();
+	//void getDepthDataFromVertices();
 
 	SF_Session();
 	~SF_Session();

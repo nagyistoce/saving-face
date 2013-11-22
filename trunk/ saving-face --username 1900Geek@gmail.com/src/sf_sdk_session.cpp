@@ -1,4 +1,4 @@
-#include "..\include\sf_sdk_session.h"
+#include "sf_sdk_session.h"
 
 //Temp includes
 #include <fstream>
@@ -205,7 +205,35 @@ namespace SF
 	{
 		if(face == nullptr) return;//No point in continuing
         session->CreateAccelerator(&accelerator);
+		
+		//Create arrays to hold the data
+		PXCPoint3DF32 *pos2d = 0, *pos3d = 0, *posc = 0;
+		int npoints = pdepth.imageInfo.width*pdepth.imageInfo.height; //Num points from Depth Feed
+		pos2d=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints]; 
+		pos3d=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints];
+		posc=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints];
+		
+		//Get Confidence values for Depth
+		pxcF32 dvalues[2] = {-1};
+    	capture->QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_LOW_CONFIDENCE_VALUE,&dvalues[0]);
+    	capture->QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_SATURATION_VALUE,&dvalues[1]);
+
+		//Initialize projection
+		PXCSmartPtr<PXCProjection> projection;
+		pxcUID prj_value;
+		
+		//Fail condition to be dealt with
+		if (capture->QueryDevice()->QueryPropertyAsUID(PXCCapture::Device::PROPERTY_PROJECTION_SERIALIZABLE,&prj_value) < PXC_STATUS_NO_ERROR) return;
+		session->DynamicCast<PXCMetadata>()->CreateSerializable<PXCProjection>(prj_value, &projection);
+		
+		//Init Arrays x and y values for color mapped depth coords
+		int k = 0;
+	    for (float y=0;y<pdepth.imageInfo.height;y++)
+            for (float x=0;x<pdepth.imageInfo.width;x++,k++)
+                pos2d[k].x=x, pos2d[k].y=y;
+
 		//Begin Loop
+		//Make num frames an argument parameter
 		for (pxcU32 f=0;f<30;f++) {
 
 			PXCSmartArray<PXCImage> images(2);//Consider moving to a local variable to eleminate repetitive allocation.
@@ -222,6 +250,7 @@ namespace SF
 			//Wait for all ASynchronous Modules To Return
 			if (sp.SynchronizeEx()<PXC_STATUS_NO_ERROR) continue;
 			
+		
 			//Begin Processing Image by face.
 			for (int i=0;;i++) {
 				pxcUID fid; 
@@ -236,7 +265,7 @@ namespace SF
 				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_7POINTS,ldata);
 				landmark->QueryPoseData(fid, &pdata);
 				
-				/**Return ypr**/
+				//**Return ypr**
 				yprFunc(&pdata);
 				landMarkFunc(&ldata[6].position);//Nose
 				
@@ -250,78 +279,48 @@ namespace SF
 				images[1]->AcquireAccess(PXCImage::ACCESS_READ,&ddepth);
 				int dwidth2=ddepth.pitches[0]/sizeof(pxcU16);
 				std::string str;
-				for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++){
+				/*for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++){
 					str += "\n";
 					for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++)
 					{
 						char temp[10];
 						sprintf_s(temp,10,"%d ", ((short*)ddepth.planes[0])[y*dwidth2+x]);
 						str.append(temp);
-					}
+					}					
+				}*/
+				
+				//Put projection in RealWorld Coords
+				projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
+				
+				//Process individual points
+				//Huge efficiancy can be gained by subsetting the data to relavent area
+				//Based on the relative position of the facial features.
+				for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++) {
+					for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
+						int xx=(int)(posc[k].x+0.5f), yy= (int) (posc[k].y+0.5f);
+						if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;
+						if (pos2d) if (pos2d[k].z==dvalues[0] || pos2d[k].z==dvalues[1]) continue; // no mapping based on unreliable depth values
+						//((pxcU32 *)dcolor.planes[0])[yy*cwidth2+xx] |= 0x0000FF00;
+						//arrayData << pos3d[k].x << ", " <<  pos3d[k].y << ", " << pos3d[k].z << "\n";//KS write to file
+						//*** This is where you send a coordinate for processing **
+                
+					}	
 				}
-				getdepth(str.c_str());
 			}
+			//getdepth(str.c_str());
 			//Render the Depth Image
 			if (!depth_render->RenderFrame(images[1])) break;
 			if (!uv_render->RenderFrame(images[0])) break;
+
 		}
+		
 	}
 
 	//TODO figure out arguements and return
-	void SF_Session::getDepthDataFromVertices()
-	{
+	//void SF_Session::getDepthDataFromVertices()
+	//{
 
-	}
+	//}
 	
-	void SF_Session::mathematicaFriendlyFileOut()
-	{
-		// Messy Code in the middle of refactoring
-		//*  The puropose of this is to get the data along with YPR and Landmarks out into Mathematica
-		//*  For further analysis
-		
-		//File Output params
-		static int incr= 0;//Image number
-		std::ofstream arrayData;
-		std::stringstream sstrm;
-		
 
-		PXCCapture::VideoStream::ProfileInfo pcolor;
-		capture->QueryVideoStream(0)->QueryProfile(&pcolor);
-
-		int npoints = pdepth.imageInfo.width*pdepth.imageInfo.height;
-		PXCPoint3DF32 *pos2d = (PXCPoint3DF32 *)new PXCPoint3DF32[npoints];// array of depth coordinates to be mapped onto color coordinates
-		PXCPoint3DF32 *pos3d = 0;				// array of depth coordinates to be mapped onto color coordinates
-		PXCSmartPtr<PXCImage> color2;			// the color image after projection
-		pxcF32 dvalues[2] = {-1};				// special depth values for saturated and low-confidence pixels
-		PXCPointF32 *posc = 0;					// array of mapped color coordinates
-		PXCSmartPtr<PXCAccelerator> accelerator;
-        session->CreateAccelerator(&accelerator);
-		sstrm << "Math_Out\\test_1_" << incr << ".csv";
-		arrayData.open(sstrm.str());
-		sstrm.clear();
-		incr ++;
-		accelerator->CreateImage(&pcolor.imageInfo,0,0,&color2);
-		capture->QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_LOW_CONFIDENCE_VALUE,&dvalues[0]);
-    	capture->QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_SATURATION_VALUE,&dvalues[1]);
-		PXCImage::ImageData dcolor;
-        color2->AcquireAccess(PXCImage::ACCESS_READ_WRITE,PXCImage::COLOR_FORMAT_RGB32,&dcolor);
-    	int cwidth2=dcolor.pitches[0]/sizeof(pxcU32); // aligned color width
-		PXCSmartPtr<PXCProjection> projection;
-		pxcUID prj_value;		// projection serializable identifier
-		capture->QueryDevice()->QueryPropertyAsUID(PXCCapture::Device::PROPERTY_PROJECTION_SERIALIZABLE,&prj_value);
-
-		session->DynamicCast<PXCMetadata>()->CreateSerializable<PXCProjection>(prj_value, &projection);
-		projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
-		projection->MapDepthToColorCoordinates(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,posc);
-		for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++) {
-            for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
-                int xx=(int)(posc[k].x+0.5f), yy= (int) (posc[k].y+0.5f);
-				if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;
-                if (pos2d) if (pos2d[k].z==dvalues[0] || pos2d[k].z==dvalues[1]) continue; // no mapping based on unreliable depth values
-				((pxcU32 *)dcolor.planes[0])[yy*cwidth2+xx] |= 0x0000FF00;
-				arrayData << pos3d[k].x << ", " <<  pos3d[k].y << ", " << pos3d[k].z << "\n";//KS write to file
-            }
-		}
-		arrayData.close();//Close the file*/
-}
 }
