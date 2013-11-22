@@ -111,6 +111,8 @@ namespace SF
 		if(cmdl) delete cmdl;
 	}
 
+
+	//After test is altered to support camera loop. This function will go away.
 	//Use this as a template for other functions. Like detect or build model.
 	//Raw Model for detection and Model Capture
 	//Currently all it does is display the feeds
@@ -162,6 +164,8 @@ namespace SF
 		}
 	}
 
+
+	//After test is altered to support camera loop. This function will go away.
 	void SF_Session::tempYPRLoop(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*))
 	{
 		for (pxcU32 f=0;f<255;f++) {//Currently set to iterate over 255 frames.
@@ -203,15 +207,23 @@ namespace SF
 
 	void SF_Session::camera_loop
 		(
-			void (*yprFunc)(SF_YPR*),
-			void (*landMarkFunc)(SF_R3_COORD*),
+			void (*yprFunc)(SF_YPR*, SF_R3_COORD*),
 			void (*processVertex)(SF_R3_COORD&),
 			void (*saveImage)(PXCImage::ImageData&),
-			void (*newFrame)(), 
+			void (*newFrame)(int), 
 			bool (*continueProcessing)(),
+			int numFrames,
 			bool multiface
 		)	
 	{
+		//TODO::If needed add support to determine own nose coord and YPR
+		//TODO::Add support for save image
+		//TODO::Notify of newFrame() at end of frame.
+		//TODO::Check for continueProcessing() at the end of each frame.
+		//TODO::If multiface is false. process face 0 only. (Primarily for Model Builder)
+		//TODO::(Later)...implement in seperate class...Compare multiple faces in the same frame.
+		//TODO::(RE-FACTOR)... this will be a messy function anyways, but clean it up.
+
 		if(face == nullptr) return;//No point in continuing
         session->CreateAccelerator(&accelerator);
 		
@@ -244,8 +256,7 @@ namespace SF
 
 		//Begin Loop
 		//Make num frames an argument parameter
-		for (pxcU32 f=0;f<10;f++) {
-
+		for (pxcU32 f=0;(numFrames==0)? true:255;f++) {
 			PXCSmartArray<PXCImage> images(2);//Consider moving to a local variable to eleminate repetitive allocation.
 	
 			PXCSmartSPArray sp(2);//Synchronous Pointer
@@ -289,8 +300,8 @@ namespace SF
 				landmark->QueryPoseData(fid, &pdata);
 				
 				//**Return ypr**
-				yprFunc(&pdata);
-				landMarkFunc(&ldata[6].position);//Nose
+				yprFunc(&pdata,&ldata[6].position);
+				//landMarkFunc(&ldata[6].position);//Nose
 				
 				
 				//PXCSmartPtr<PXCImage> color2;
@@ -327,6 +338,10 @@ namespace SF
 			if (!depth_render->RenderFrame(images[1])) break;
 			if (!uv_render->RenderFrame(images[0])) break;
 
+
+			if(continueProcessing)
+				if(!continueProcessing())
+					break;
 		}
 		
 	}
