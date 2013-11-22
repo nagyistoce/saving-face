@@ -62,7 +62,17 @@ namespace SF
 	
 	void tempMainLoop();
 	void tempYPRLoop(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*));
-	void tempGetVertices(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*),void (*getdepth)(const char *test));
+	void camera_loop
+		(
+			void (*yprFunc)(SF_YPR*),
+			void (*landMarkFunc)(SF_R3_COORD*),
+			void (*processVertex)(SF_R3_COORD&),
+			void (*saveImage)(PXCImage::ImageData&),
+			void (*newFrame)(), 
+			bool (*continueProcessing)(),
+			bool multiface = false
+			//Add functionality to playback video... (Later)
+		);
 	
 	
 	//Figure out arguements

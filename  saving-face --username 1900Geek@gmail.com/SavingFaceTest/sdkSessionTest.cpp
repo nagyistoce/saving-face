@@ -63,12 +63,14 @@ namespace SavingFaceTest
 			//Can't fully test without pre-recorded video.
 			startSession();
 			session->tempYPRLoop(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark);	
+			Assert().Fail(L"Refactor to use new permanent camera loop");
 		}
 
 		TEST_METHOD(sdkVerticesTest)
 		{
 			startSession();
-			session->tempGetVertices(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark, &SavingFaceTest::getdepth);	
+			//session->tempGetVertices(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark, &SavingFaceTest::getdepth);
+			Assert().Fail(L"Refactor to use new permanent camera loop");
 		}
 	};
 }
