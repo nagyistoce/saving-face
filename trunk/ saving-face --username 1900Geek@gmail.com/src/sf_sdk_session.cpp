@@ -217,9 +217,7 @@ namespace SF
 		)	
 	{
 		//TODO::If needed add support to determine own nose coord and YPR
-		//TODO::Add support for save image
-		//TODO::Notify of newFrame() at end of frame.
-		//TODO::Check for continueProcessing() at the end of each frame.
+		//TODO::Add support for save image... Should save only on last frame.
 		//TODO::If multiface is false. process face 0 only. (Primarily for Model Builder)
 		//TODO::(Later)...implement in seperate class...Compare multiple faces in the same frame.
 		//TODO::(RE-FACTOR)... this will be a messy function anyways, but clean it up.
@@ -257,7 +255,11 @@ namespace SF
 		//Begin Loop
 		//Make num frames an argument parameter
 		for (pxcU32 f=0;(numFrames==0)? true:255;f++) {
-			PXCSmartArray<PXCImage> images(2);//Consider moving to a local variable to eleminate repetitive allocation.
+			if(newFrame)
+				newFrame(f);
+			
+
+			PXCSmartArray<PXCImage> images(2);
 	
 			PXCSmartSPArray sp(2);//Synchronous Pointer
 			
@@ -280,13 +282,15 @@ namespace SF
 				    pos2d[k].z=((short*)ddepth.planes[0])[y*dwidth2+x];
 
 			//Put projection in RealWorld Coords
-			projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
+			projection->ProjectImageToRealWorld(
+				pdepth.imageInfo.width*pdepth.imageInfo.height,
+				pos2d,pos3d);
 			
 			//Map depth to Color
 			projection->MapDepthToColorCoordinates(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,posc);
 		
 			//Begin Processing Image by face.
-			for (int i=0;;i++) {
+			for (int i=0;multiface?true:i<1;i++) {
 				pxcUID fid; 
 				pxcU64 ts;
 				//To limit num faces i = 0;
@@ -299,11 +303,15 @@ namespace SF
 				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_7POINTS,ldata);
 				landmark->QueryPoseData(fid, &pdata);
 				
-				//**Return ypr**
+				//**Return ypr and landmark**
+				//may need to return landmark array if not good enough.
+				//Note that face detection is tunable.
+				//If needed try that first.
 				yprFunc(&pdata,&ldata[6].position);
-				//landMarkFunc(&ldata[6].position);//Nose
 				
 				
+				//**** TO Be Deleted when sure it is not needed.
+				//If we want to draw on the image...Keep
 				//PXCSmartPtr<PXCImage> color2;
 
 				//The following code is just prototyping... and will be replaced
@@ -338,7 +346,7 @@ namespace SF
 			if (!depth_render->RenderFrame(images[1])) break;
 			if (!uv_render->RenderFrame(images[0])) break;
 
-
+			//Check for terminating condition
 			if(continueProcessing)
 				if(!continueProcessing())
 					break;
