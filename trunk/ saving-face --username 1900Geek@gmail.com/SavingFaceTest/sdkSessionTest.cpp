@@ -6,10 +6,10 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace SavingFaceTest
 {
-	void getYPR(SF::SF_YPR *ypr)
+	void getYPR(SF::SF_YPR *ypr, SF::SF_R3_COORD *nose)
 	{
 		static char str[200];
-		sprintf_s(str, "YPR::\t%f,\t%f,\t%f\n", ypr->yaw, ypr->pitch, ypr->roll);
+		sprintf_s(str, "YPR::\t%f,\t%f,\t%f\nNose::\t%f,\t%f,\t%f\n", ypr->yaw, ypr->pitch, ypr->roll,nose->x,nose->y,nose->z);
 		Logger().WriteMessage(str);
 	}
 
@@ -20,12 +20,19 @@ namespace SavingFaceTest
 			Logger().WriteMessage(test);
 		doOnce = false;
 	}
-
+	
+	//Obsolete
 	void getLandmark(SF::SF_R3_COORD *landmark)
 	{
 		static char str[200];
 		sprintf_s(str, "Nose::\t%f,\t%f,\t%f\n", landmark->x, landmark->y, landmark->z);
 		Logger().WriteMessage(str);
+	}
+
+	void processVertex(SF::SF_R3_COORD &vertex)
+	{
+		//Required function
+		//Implement later
 	}
 
 	TEST_CLASS(sdkSessionTest)
@@ -62,8 +69,9 @@ namespace SavingFaceTest
 			//Pass or Fail
 			//Can't fully test without pre-recorded video.
 			startSession();
-			session->tempYPRLoop(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark);	
-			Assert().Fail(L"Refactor to use new permanent camera loop");
+			//session->tempYPRLoop(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark);	
+			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,30);
+			//Assert().Fail(L"Refactor to use new permanent camera loop");
 		}
 
 		TEST_METHOD(sdkVerticesTest)
