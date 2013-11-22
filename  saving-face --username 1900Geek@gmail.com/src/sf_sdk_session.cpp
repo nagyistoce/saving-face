@@ -218,10 +218,9 @@ namespace SF
 	{
 		//TODO::If needed add support to determine own nose coord and YPR
 		//TODO::Add support for save image... Should save only on last frame.
-		//TODO::If multiface is false. process face 0 only. (Primarily for Model Builder)
 		//TODO::(Later)...implement in seperate class...Compare multiple faces in the same frame.
 		//TODO::(RE-FACTOR)... this will be a messy function anyways, but clean it up.
-
+		//TODO::Ensure ypr and landmark are valid... If not decrement frame count and continue.
 		if(face == nullptr) return;//No point in continuing
         session->CreateAccelerator(&accelerator);
 		
@@ -254,7 +253,7 @@ namespace SF
 
 		//Begin Loop
 		//Make num frames an argument parameter
-		for (pxcU32 f=0;(numFrames==0)? true:255;f++) {
+		for (pxcU32 f=0;(numFrames== 0)?true:f < numFrames;f++) {
 			if(newFrame)
 				newFrame(f);
 			
