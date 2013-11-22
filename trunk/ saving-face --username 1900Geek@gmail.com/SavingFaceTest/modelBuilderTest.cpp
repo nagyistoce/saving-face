@@ -36,7 +36,7 @@ namespace SavingFaceTest
 			sf_model_builder *modelBuilder = new sf_model_builder();
 			SF_MUID muid = modelBuilder->addNewModel();
 			if(muid <= 0)
-			Assert().Fail(L"Failed to instantiate model");
+				Assert().Fail(L"Failed to instantiate model");
 			Model *model = modelBuilder->getModel(muid);
 			Assert().IsNotNull(model,L"Failed to retrieve instance");
 			char *str = new char[200];
