@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="sf_controller.cpp" />
     <ClCompile Include="src\sf_db.cpp" />
     <ClCompile Include="src\sf_model.cpp" />
     <ClCompile Include="src\sf_model_builder.cpp" />
@@ -87,6 +88,7 @@
     <ClInclude Include="include\sf_tr_func.h" />
     <ClInclude Include="include\sf_util.h" />
     <ClInclude Include="include\Testing.h" />
+    <ClInclude Include="sf_controller.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
