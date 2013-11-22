@@ -201,7 +201,16 @@ namespace SF
 		}
 	}
 
-	void SF_Session::tempGetVertices(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*),void (*getdepth)(const char *test))
+	void SF_Session::camera_loop
+		(
+			void (*yprFunc)(SF_YPR*),
+			void (*landMarkFunc)(SF_R3_COORD*),
+			void (*processVertex)(SF_R3_COORD&),
+			void (*saveImage)(PXCImage::ImageData&),
+			void (*newFrame)(), 
+			bool (*continueProcessing)(),
+			bool multiface
+		)	
 	{
 		if(face == nullptr) return;//No point in continuing
         session->CreateAccelerator(&accelerator);
@@ -290,7 +299,6 @@ namespace SF
 				//accelerator->CreateImage(&pcolor.imageInfo,0,0,&color2);
 				//PXCImage::ImageData dcolor;
 				
-				std::string str;
 				/*for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++){
 					str += "\n";
 					for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++)
@@ -306,23 +314,13 @@ namespace SF
 				//Huge efficiancy can be gained by subsetting the data to relavent area
 				//Based on the relative position of the facial features.
 				for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++) {
-					{
-						//Temp
-						str.append("\n");
 					for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
 						int xx=(int)(posc[k].x+0.5f), yy= (int) (posc[k].y+0.5f);
 						if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;
 						if (pos2d) if (pos2d[k].z==dvalues[0] || pos2d[k].z==dvalues[1]) continue; // no mapping based on unreliable depth values
-						//((pxcU32 *)dcolor.planes[0])[yy*cwidth2+xx] |= 0x0000FF00;
-						//arrayData << pos3d[k].x << ", " <<  pos3d[k].y << ", " << pos3d[k].z << "\n";//KS write to file
-						//*** This is where you send a coordinate for processing **
-						char temp[40];
-						sprintf_s(temp,40,"(%f, %f, %f) ",  pos3d[k].x,  pos3d[k].y,  pos3d[k].z);
-						str.append(temp);
-					}	
+						processVertex(pos3d[k]);
 					}
 				}
-				getdepth(str.c_str());
 			}
 			
 			//Render the Depth Image
@@ -332,12 +330,5 @@ namespace SF
 		}
 		
 	}
-
-	//TODO figure out arguements and return
-	//void SF_Session::getDepthDataFromVertices()
-	//{
-
-	//}
-	
 
 }
