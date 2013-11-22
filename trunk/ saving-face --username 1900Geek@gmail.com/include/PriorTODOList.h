@@ -2,15 +2,16 @@
 *Priority number if assigned, followed by the TODO
 
 * Class sf_sdk_session
-* (High) Method to get depth vertices data
-* (High) Method to convert YPR to a depth vertice
+* (Highest) Method to convert YPR to a depth vertice
 * (Medium) Save video
 * (Medium) Save Snapshot
-* I will add more as I go through, but these are good to start on.
+
+
 *
 * Class Model_Builder
+* Implement functions that recieve YPR and Nose/calculate and save the Tr_Matrix to a local pointer.
+* Make a process vertice method... and build the model. (Major milestone).
 * Un-implemented methods... High priority (Most depend on sf_sdk functionality)
-* Actually build the model... High priority...
 * Save Video Option... (to be implemented in sf_session first)
 * Save Snapshot... (to be implemented in sf_session first)... Save the image of the last frame used to build.
 * 
