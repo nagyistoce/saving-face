@@ -64,12 +64,18 @@ namespace SF
 	void tempYPRLoop(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*));
 	void camera_loop
 		(
-			void (*yprFunc)(SF_YPR*),
-			void (*landMarkFunc)(SF_R3_COORD*),
+			//Call back to process the YPR, and landmark data.
+			void (*yprFunc)(SF_YPR*, SF_R3_COORD*),
+			//void (*landMarkFunc)(SF_R3_COORD*),
+			//Call back to process a vertex
 			void (*processVertex)(SF_R3_COORD&),
+			//Call back to a function to save the image
 			void (*saveImage)(PXCImage::ImageData&),
-			void (*newFrame)(), 
+			//Call back to specify processing a new frame and give the frame number
+			void (*newFrame)(int), 
+			//Call back to check to see if a stop condition has been reached
 			bool (*continueProcessing)(),
+			int numFrames = 0,
 			bool multiface = false
 			//Add functionality to playback video... (Later)
 		);
