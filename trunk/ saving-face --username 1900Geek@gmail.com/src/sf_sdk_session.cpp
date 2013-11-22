@@ -165,45 +165,7 @@ namespace SF
 	}
 
 
-	//After test is altered to support camera loop. This function will go away.
-	void SF_Session::tempYPRLoop(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*))
-	{
-		for (pxcU32 f=0;f<255;f++) {//Currently set to iterate over 255 frames.
-			//Create 2 image instances
-			PXCSmartArray<PXCImage> images(2);//Consider moving to a local variable to eleminate repetitive allocation.
 	
-			PXCSmartSPArray sp(2);//Synchronous Pointer
-
-			pxcStatus sts = capture->ReadStreamAsync(images, &sp[0]);//ReadStream If Data Available or Block
-			if (sts<PXC_STATUS_NO_ERROR) break;
-			if(face)
-				face->ProcessImageAsync(images,&sp[1]);
-
-			//Wait for all ASynchronous Modules To Return
-			sts=sp.SynchronizeEx();
-		
-			if (sts<PXC_STATUS_NO_ERROR) break;
-
-			for (int i=0;;i++) {
-				pxcUID fid; pxcU64 ts;
-				if (face->QueryFace(i,&fid,&ts)<PXC_STATUS_NO_ERROR) break;
-				PXCFaceAnalysis::Detection::Data data;
-				detector->QueryData(fid,&data);
-				PXCFaceAnalysis::Landmark::LandmarkData ldata[7];
-				PXCFaceAnalysis::Landmark::PoseData pdata;
-			       
-				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_7POINTS,ldata);
-				landmark->QueryPoseData(fid, &pdata);
-				
-				/**Return ypr**/
-				yprFunc(&pdata);
-				landMarkFunc(&ldata[6].position);
-			}
-			//Render the Depth Image
-			if (!depth_render->RenderFrame(images[1])) break;
-			if (!uv_render->RenderFrame(images[0])) break;
-		}
-	}
 
 	void SF_Session::camera_loop
 		(
@@ -253,9 +215,8 @@ namespace SF
 
 		//Begin Loop
 		//Make num frames an argument parameter
-		for (pxcU32 f=0;(numFrames== 0)?true:f < numFrames;f++) {
-			if(newFrame)
-				newFrame(f);
+		for (pxcU32 f=0;(numFrames == 0)?true:f < numFrames;) {
+			
 			
 
 			PXCSmartArray<PXCImage> images(2);
@@ -302,6 +263,13 @@ namespace SF
 				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_7POINTS,ldata);
 				landmark->QueryPoseData(fid, &pdata);
 				
+				if(pdata.yaw<-1000)//Did not get quality data.
+				{
+					continue;
+				}
+				++f;
+				if(newFrame)//Only on good face recognized.
+					newFrame(f);
 				//**Return ypr and landmark**
 				//may need to return landmark array if not good enough.
 				//Note that face detection is tunable.

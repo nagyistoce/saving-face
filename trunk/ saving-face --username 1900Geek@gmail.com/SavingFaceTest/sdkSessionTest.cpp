@@ -31,8 +31,14 @@ namespace SavingFaceTest
 
 	void processVertex(SF::SF_R3_COORD &vertex)
 	{
-		//Required function
-		//Implement later
+		static int i = 0;
+		//Have too limit output. Gets huge fast.
+		if(i < 1000){
+			static char str[200];
+			sprintf_s(str, "Vertex::\t%f,\t%f,\t%f\n", vertex.x, vertex.y, vertex.z);
+			Logger().WriteMessage(str);
+			i++;
+		}
 	}
 
 	TEST_CLASS(sdkSessionTest)
@@ -64,21 +70,13 @@ namespace SavingFaceTest
 		}
 
 
-		TEST_METHOD(sdkYPRTest)
+		TEST_METHOD(sdk_YPR_Vertex_Test)
 		{
-			//Pass or Fail
-			//Can't fully test without pre-recorded video.
 			startSession();
-			//session->tempYPRLoop(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark);	
 			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,30);
-			//Assert().Fail(L"Refactor to use new permanent camera loop");
+			//TODO assure all reported YPR/Landmark are valid.
 		}
 
-		TEST_METHOD(sdkVerticesTest)
-		{
-			startSession();
-			//session->tempGetVertices(&SavingFaceTest::getYPR,&SavingFaceTest::getLandmark, &SavingFaceTest::getdepth);
-			Assert().Fail(L"Refactor to use new permanent camera loop");
-		}
+		
 	};
 }

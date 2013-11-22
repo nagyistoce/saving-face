@@ -59,9 +59,9 @@ namespace SF
 	//GetYPR //GetLandmark //Save video //Save Image
 	//Following these... A method to compare the saved video to the finished model.
 	
-	
+	//Kill this function after sf_test_main no longer uses it.
 	void tempMainLoop();
-	void tempYPRLoop(void (*yprFunc)(SF_YPR*),void (*landMarkFunc)(SF_R3_COORD*));
+	
 	void camera_loop
 		(
 			//Call back to process the YPR, and landmark data.
