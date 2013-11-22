@@ -188,12 +188,18 @@ namespace SF
 		
 		//Create arrays to hold the data
 		PXCPoint3DF32 *pos2d = 0, *pos3d = 0;
-		PXCPointF32 *posc = 0;
+		PXCPointF32 *posc = 0, *posc2 = 0, *posd = 0;
+
+
+
 		int npoints = pdepth.imageInfo.width*pdepth.imageInfo.height; //Num points from Depth Feed
 		pos2d=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints]; 
 		pos3d=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints];
 		posc=(PXCPointF32 *)new PXCPointF32[npoints];
-		
+		posd=(PXCPointF32 *)new PXCPointF32[pcolor.imageInfo.width*pcolor.imageInfo.width];
+		posc2=(PXCPointF32 *)new PXCPointF32[pcolor.imageInfo.width*pcolor.imageInfo.width];
+
+
 		//Get Confidence values for Depth
 		pxcF32 dvalues[2] = {-1};
     	capture->QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_LOW_CONFIDENCE_VALUE,&dvalues[0]);
@@ -241,14 +247,14 @@ namespace SF
                 for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++)
 				    pos2d[k].z=((short*)ddepth.planes[0])[y*dwidth2+x];
 
-			//Put projection in RealWorld Coords
-			projection->ProjectImageToRealWorld(
-				pdepth.imageInfo.width*pdepth.imageInfo.height,
-				pos2d,pos3d);
+						//Put projection in RealWorld Coords
+			projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
 			
 			//Map depth to Color
 			projection->MapDepthToColorCoordinates(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,posc);
-		
+			
+			//Map color to depth
+			
 			//Begin Processing Image by face.
 			for (int i=0;multiface?true:i<1;i++) {
 				pxcUID fid; 
@@ -264,9 +270,13 @@ namespace SF
 				landmark->QueryPoseData(fid, &pdata);
 				
 				if(pdata.yaw<-1000)//Did not get quality data.
-				{
 					continue;
-				}
+				SF_R3_COORD nose, noseCoord;
+				noseCoord.x = int(ldata[6].position.x *.5);
+				noseCoord.y = (int)(ldata[6].position.y* .5);
+				nose = pos3d[(int)(pdepth.imageInfo.width* ldata[6].position.x *.5) + (int)(ldata[6].position.y* .5)];
+				if(nose.x > 2)//Not valid Depth
+					continue;
 				++f;
 				if(newFrame)//Only on good face recognized.
 					newFrame(f);
@@ -274,7 +284,21 @@ namespace SF
 				//may need to return landmark array if not good enough.
 				//Note that face detection is tunable.
 				//If needed try that first.
-				yprFunc(&pdata,&ldata[6].position);
+				
+				
+				//The following would be the best solution... But sad to say
+				//It is still not implemented/
+				//PXCPointF32 no;
+				//no.x = ldata[6].position.x;
+				//no.y = ldata[6].position.y;
+				//projection->MapColorCoordinatesToDepth(1, &no, posd);
+
+				
+				
+				//Note this is not entirely accurate.
+				//yprFunc(&pdata,&noseCoord);
+				yprFunc(&pdata,&nose);
+				//yprFunc(&pdata,&ldata[6].position);
 				
 				
 				//**** TO Be Deleted when sure it is not needed.
