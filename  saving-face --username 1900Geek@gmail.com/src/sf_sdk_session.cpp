@@ -207,11 +207,12 @@ namespace SF
         session->CreateAccelerator(&accelerator);
 		
 		//Create arrays to hold the data
-		PXCPoint3DF32 *pos2d = 0, *pos3d = 0, *posc = 0;
+		PXCPoint3DF32 *pos2d = 0, *pos3d = 0;
+		PXCPointF32 *posc = 0;
 		int npoints = pdepth.imageInfo.width*pdepth.imageInfo.height; //Num points from Depth Feed
 		pos2d=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints]; 
 		pos3d=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints];
-		posc=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints];
+		posc=(PXCPointF32 *)new PXCPointF32[npoints];
 		
 		//Get Confidence values for Depth
 		pxcF32 dvalues[2] = {-1};
@@ -234,7 +235,7 @@ namespace SF
 
 		//Begin Loop
 		//Make num frames an argument parameter
-		for (pxcU32 f=0;f<30;f++) {
+		for (pxcU32 f=0;f<10;f++) {
 
 			PXCSmartArray<PXCImage> images(2);//Consider moving to a local variable to eleminate repetitive allocation.
 	
@@ -250,6 +251,19 @@ namespace SF
 			//Wait for all ASynchronous Modules To Return
 			if (sp.SynchronizeEx()<PXC_STATUS_NO_ERROR) continue;
 			
+			PXCImage::ImageData ddepth;
+				images[1]->AcquireAccess(PXCImage::ACCESS_READ,&ddepth);
+				int dwidth2=ddepth.pitches[0]/sizeof(pxcU16);
+
+            for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++)
+                for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++)
+				    pos2d[k].z=((short*)ddepth.planes[0])[y*dwidth2+x];
+
+			//Put projection in RealWorld Coords
+			projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
+			
+			//Map depth to Color
+			projection->MapDepthToColorCoordinates(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,posc);
 		
 			//Begin Processing Image by face.
 			for (int i=0;;i++) {
@@ -275,9 +289,7 @@ namespace SF
 				//The following code is just prototyping... and will be replaced
 				//accelerator->CreateImage(&pcolor.imageInfo,0,0,&color2);
 				//PXCImage::ImageData dcolor;
-				PXCImage::ImageData ddepth;
-				images[1]->AcquireAccess(PXCImage::ACCESS_READ,&ddepth);
-				int dwidth2=ddepth.pitches[0]/sizeof(pxcU16);
+				
 				std::string str;
 				/*for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++){
 					str += "\n";
@@ -289,13 +301,14 @@ namespace SF
 					}					
 				}*/
 				
-				//Put projection in RealWorld Coords
-				projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
 				
 				//Process individual points
 				//Huge efficiancy can be gained by subsetting the data to relavent area
 				//Based on the relative position of the facial features.
 				for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++) {
+					{
+						//Temp
+						str.append("\n");
 					for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
 						int xx=(int)(posc[k].x+0.5f), yy= (int) (posc[k].y+0.5f);
 						if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;
@@ -303,11 +316,15 @@ namespace SF
 						//((pxcU32 *)dcolor.planes[0])[yy*cwidth2+xx] |= 0x0000FF00;
 						//arrayData << pos3d[k].x << ", " <<  pos3d[k].y << ", " << pos3d[k].z << "\n";//KS write to file
 						//*** This is where you send a coordinate for processing **
-                
+						char temp[40];
+						sprintf_s(temp,40,"(%f, %f, %f) ",  pos3d[k].x,  pos3d[k].y,  pos3d[k].z);
+						str.append(temp);
 					}	
+					}
 				}
+				getdepth(str.c_str());
 			}
-			//getdepth(str.c_str());
+			
 			//Render the Depth Image
 			if (!depth_render->RenderFrame(images[1])) break;
 			if (!uv_render->RenderFrame(images[0])) break;
