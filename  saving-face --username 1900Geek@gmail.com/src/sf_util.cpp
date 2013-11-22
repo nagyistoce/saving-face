@@ -2,6 +2,10 @@
 #include <windows.h>
 #include <direct.h>
 
+//Note keeping with the full path for the moment because we where already doing it.
+//Would also work with partial paths only.
+
+
 //Appends the partial path onto the current working directory
 const string SF::getFullPath(string const partialPath)
 {
