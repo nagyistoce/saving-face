@@ -11,7 +11,6 @@ const string SF::getFullPath(string const partialPath)
 {
 	string fullPath = _getcwd(NULL, 0);
 	fullPath += "\\" + partialPath + "\\";
-	fullPath += "\\";
 	return fullPath;
 	/*
 	wchar_t temp[200] = L"";
