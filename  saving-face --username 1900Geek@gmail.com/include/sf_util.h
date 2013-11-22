@@ -3,14 +3,11 @@
 
 using namespace SF;
 using namespace std;
-//Shouldn't be a class.
-//These are utility functions
-//No need to store the path.
-class sf_util
+
+namespace SF
 {
-public:
-	string getFullPath(string partialPath);
-
-	void makeDirectory(string partialPath);
-
-};
+	const string getFullPath(string const partialPath);
+	bool doesDirectoryExist(string const fullPath);
+	SF_STS removeDirectory(string const partialPath);
+	SF_STS makeDirectory(string const partialPath);
+}

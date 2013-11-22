@@ -258,12 +258,10 @@ namespace SavingFaceTest
 			Assert().IsTrue(db->addModelToDatabase(modelTwo) == SF_STS_OK, L"Failed to add model to database.");
 			Assert().IsTrue(db->addModelToDatabase(modelThree) == SF_STS_OK, L"Failed to add model to database.");
 			
-			sf_util *util = new sf_util();
 
-			string path = util->getFullPath("testdatabase");
-			util->makeDirectory("testdatabase");
+			string path = getFullPath("testdatabase");
+			makeDirectory("testdatabase");
 
-			delete util;
 
 			Logger().WriteMessage(L"\nPath is:");
 			Logger().WriteMessage(path.c_str());
