@@ -9,7 +9,7 @@ namespace SavingFaceTest
 	void getYPR(SF::SF_YPR *ypr, SF::SF_R3_COORD *nose)
 	{
 		static char str[200];
-		sprintf_s(str, "YPR::\t%f,\t%f,\t%f\nNose::\t%f,\t%f,\t%f\n", ypr->yaw, ypr->pitch, ypr->roll,nose->x,nose->y,nose->z);
+		sprintf_s(str, "YPR::\t%f,\t%f,\t%f Nose::\t%f,\t%f,\t%f\n", ypr->yaw, ypr->pitch, ypr->roll,nose->x,nose->y,nose->z);
 		Logger().WriteMessage(str);
 	}
 
@@ -75,6 +75,7 @@ namespace SavingFaceTest
 		{
 			startSession();
 			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,30);
+			Assert().Fail(L"Until valid nose coord can be verified");
 		}
 
 		
