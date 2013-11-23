@@ -148,8 +148,66 @@ namespace SF
 		return SF_STS_OK;
 	}
 
+	SF_STS SF_Session::updateProjections(){
+		if(projection->ProjectImageToRealWorld(
+			nPointsDepth,
+			depthXYZCoords,
+			depthR3Coords)
+			 < PXC_STATUS_NO_ERROR) 
+			 return SF_STS_FAIL;
+		if(projection->MapDepthToColorCoordinates(
+			nPointsDepth,
+			depthXYZCoords,
+			depthXYToColorXY
+			) < PXC_STATUS_NO_ERROR) 
+			return SF_STS_FAIL;
+		return SF_STS_OK;
+	}
 	
-	
+	SF_R3_COORD *SF_Session::getLandmarkCoord(SF_R3_COORD *landmark){
+		//Most of this is Trouble shooting code... And will be removed when done		
+		SF_R3_COORD *nose, *noseCoord;
+		//nose = new SF_R3_COORD;
+		noseCoord = new SF_R3_COORD;
+		noseCoord->x = int(landmark->x *.5);
+		noseCoord->y = (int)(landmark->y* .5);
+		nose = &depthR3Coords[(depthWidth) * (int)(landmark->y/2) + (int)(landmark->x/2)];
+				
+		//Troubleshooting code;
+		depthXYZCoords[(depthWidth) * (int)(landmark->y/2) + (int)(landmark->x/2)];
+		depthXYToColorXY[(depthWidth) * (int)(landmark->y/2) + (int)(landmark->x/2)];
+		SF_R3_COORD nose2;
+		PXCPointF32 noseT;
+		projection->ProjectImageToRealWorld(
+			1,
+			&depthXYZCoords[depthWidth * (int)(landmark->y/2) + (int)(landmark->x/2)],
+			&nose2);
+		//Should be close to the color coords.
+		//A plan... If the out put of this ~= nose color coords. Then the real world mapping should be the nose.
+		//This is not a one to one correspondance... Also if that particular one was saturated. Then it won't exist.
+		//Then we would need to try a new frame.
+				
+		projection->MapDepthToColorCoordinates(
+			1,
+			&depthXYZCoords[(depthWidth) * (int)(landmark->y/2) + (int)(landmark->x/2)],
+			&noseT);
+
+		//Temp fail case so that the tests don't immediatly crash.
+		//Normal fail case would be to return null.
+		return nose;
+	}
+
+	void SF_Session::drawCrossHairsOnLandmark(SF_R3_COORD &landmark, PXCImage::ImageData &image)
+	{
+		int colorByteWidth=image.pitches[0]; // aligned color width
+		for(int i = 0; i < colorByteWidth; i++)
+			image.planes[0][((int)(landmark.y)* colorByteWidth)+ i] = 0xFF;
+		for(int i = 0; i < colorHeight; i++){
+			image.planes[0][i*colorByteWidth+ (int)(landmark.x)*3] = 0xFF;
+			image.planes[0][i*colorByteWidth+ (int)(landmark.x)*3+1] = 0xFF;
+			image.planes[0][i*colorByteWidth+ (int)(landmark.x)*3+2] = 0xFF;
+		}
+	}
 
 	void SF_Session::camera_loop
 		(
@@ -191,14 +249,7 @@ namespace SF
 				for (pxcU32 x=0;x<depthWidth;x++,k++)
 				    depthXYZCoords[k].z=((short*)depthImageData.planes[0])[y*dwidth2+x];
 
-			//Put projection in RealWorld Coords
-			projection->ProjectImageToRealWorld(nPointsDepth,depthXYZCoords,depthR3Coords);
-			
-			//We are going to have to use a trick with this to get the nose coords.
-			//Map depth to Color
-			pxcStatus sts = projection->MapDepthToColorCoordinates(nPointsDepth,depthXYZCoords,depthXYToColorXY);
-			
-			//Map color to depth
+			if(updateProjections() < SF_STS_OK) continue;
 			
 			//Begin Processing Image by face.
 			for (int i=0;multiface?true:i<1;i++) {
@@ -218,93 +269,26 @@ namespace SF
 					continue;
 				
 				//This is not working... What is wrong.
-				SF_R3_COORD nose, noseCoord;
-				noseCoord.x = int(ldata[6].position.x *.5);
-				noseCoord.y = (int)(ldata[6].position.y* .5);
-				nose = depthR3Coords[(depthWidth) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)];
-				
-				//Troubleshooting code;
-				depthXYZCoords[(depthWidth) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)];
-				depthXYToColorXY[(depthWidth) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)];
-				SF_R3_COORD nose2;
-				PXCPointF32 noseT;
-				projection->ProjectImageToRealWorld(
-					1,
-					&depthXYZCoords[depthWidth * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)],
-					&nose2);
-				//Should be close to the color coords.
-				//A plan... If the out put of this ~= nose color coords. Then the real world mapping should be the nose.
-				//This is not a one to one correspondance... Also if that particular one was saturated. Then it won't exist.
-				//Then we would need to try a new frame.
-				
-				projection->MapDepthToColorCoordinates(
-					1,
-					&depthXYZCoords[(depthWidth) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)],
-					&noseT);
-
-				
+				SF_R3_COORD *nose;
+				nose = getLandmarkCoord(&ldata[6].position);
+				if(nose == nullptr) continue;
 
 				PXCImage::ImageData colorData;
 				//Temp Draw Nose on Color
-				
 				//Note that the current format is RGB24 we want RGB32
 				images[0]->AcquireAccess(PXCImage::ACCESS_READ_WRITE,&colorData);
-				colorData.format;
-				int colorByteWidth=colorData.pitches[0]; // aligned color width
-				for(int i = 0; i < colorByteWidth; i++)
-					colorData.planes[0][((int)(ldata[6].position.y)* colorByteWidth)+ i] = 0xFF;
-				for(int i = 0; i < colorHeight; i++){
-					colorData.planes[0][i*colorByteWidth+ (int)(ldata[6].position.x)*3] = 0xFF;
-					colorData.planes[0][i*colorByteWidth+ (int)(ldata[6].position.x)*3+1] = 0xFF;
-					colorData.planes[0][i*colorByteWidth+ (int)(ldata[6].position.x)*3+2] = 0xFF;
-				}
-				
+				drawCrossHairsOnLandmark(ldata[6].position, colorData);
 				images[0]->ReleaseAccess(&colorData);
-				if(nose.x > 2)//Not valid Depth
-					continue;
+				
+				//Temp Check while trouble shooting
+				if(nose->x > 2) continue;//Not valid Depth
+
+				//Verify All items needed for gaurenteed success before proceding.
 				++f;
-				if(newFrame)//Only on good face recognized.
-					newFrame(f);
-				//**Return ypr and landmark**
-				//may need to return landmark array if not good enough.
-				//Note that face detection is tunable.
-				//If needed try that first.
+				//Note::Consider if there is more than one face... HAHA you would get BradJolina
+				if(newFrame) newFrame(f);
 				
-				
-				//The following would be the best solution... But sad to say
-				//It is still not implemented/
-				//PXCPointF32 no;
-				//no.x = ldata[6].position.x;
-				//no.y = ldata[6].position.y;
-				//projection->MapColorCoordinatesToDepth(1, &no, posd);
-
-				
-				
-				
-				//Note this is not entirely accurate.
-				//yprFunc(&pdata,&noseCoord);
-				yprFunc(&pdata,&nose2);
-				//yprFunc(&pdata,&ldata[6].position);
-				
-				
-				//**** TO Be Deleted when sure it is not needed.
-				//If we want to draw on the image...Keep
-				//PXCSmartPtr<PXCImage> color2;
-
-				//The following code is just prototyping... and will be replaced
-				//accelerator->CreateImage(&pcolor.imageInfo,0,0,&color2);
-				//PXCImage::ImageData dcolor;
-				
-				/*for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++){
-					str += "\n";
-					for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++)
-					{
-						char temp[10];
-						sprintf_s(temp,10,"%d ", ((short*)ddepth.planes[0])[y*dwidth2+x]);
-						str.append(temp);
-					}					
-				}*/
-				
+				yprFunc(&pdata,nose);
 				
 				//Process individual points
 				//Huge efficiancy can be gained by subsetting the data to relavent area

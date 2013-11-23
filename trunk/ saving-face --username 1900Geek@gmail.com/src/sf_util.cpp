@@ -12,22 +12,6 @@ const string SF::getFullPath(string const partialPath)
 	string fullPath = _getcwd(NULL, 0);
 	fullPath += "\\" + partialPath + "\\";
 	return fullPath;
-	/*
-	wchar_t temp[200] = L"";
-	wcscat_s(temp, buffer);
-
-	//convert from wide char to narrow char array
-	char ch[200];
-	char DefChar = ' ';
-	WideCharToMultiByte(CP_ACP,0,temp,-1, ch,200,&DefChar, NULL);
-    
-	//A std:string  using the char* constructor.
-	std::string ss(ch);
-
-	ss += "\\" + partialPath +"\\";
-
-	delete[] buffer;
-	return ss;*/
 }
 
 bool SF::doesDirectoryExist(string const fullPath)
@@ -49,30 +33,7 @@ SF_STS SF::makeDirectory(string const partialPath)
 			return SF_STS_OK;
 	return SF_STS_FAIL;
 }
-	/*
-	//Convert string to LPCWSTR
-	int len;
-    int slength = (int)path.length() + 1;
-    len = MultiByteToWideChar(CP_ACP, 0, path.c_str(), slength, 0, 0); 
-    wchar_t* buffer = new wchar_t[len];
-    MultiByteToWideChar(CP_ACP, 0, path.c_str(), slength, buffer, len);
-    wstring wstrPath(buffer);
-	LPCWSTR lpcwPath = wstrPath.c_str();
-    delete[] buffer;
-
-	DWORD ftyp = GetFileAttributesW(lpcwPath);
-
-	//Creates a folder if it does not exist
-	if (ftyp == INVALID_FILE_ATTRIBUTES)
-	{
-		_wmkdir(lpcwPath);
-	}
-	else if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
-	{
-		//this already is a directory
-	}*/
 	
-
 SF_STS SF::removeDirectory(string const partialPath)
 {
 	string path = getFullPath(partialPath);

@@ -19,44 +19,6 @@ namespace SF
 	{
 	public:
 	
-	PXCSmartPtr<PXCSession> session;
-	PXCSmartPtr<UtilCapture> capture;
-
-	//SDK Easy Render Views...
-	PXCSmartPtr<UtilRender> depth_render;
-	PXCSmartPtr<UtilRender> uv_render;
-
-	//Face Analysis Module
-	PXCSmartPtr<PXCFaceAnalysis> face;
-	PXCSmartPtr<PXCFaceAnalysis::Landmark> landmark;
-	PXCSmartPtr<PXCFaceAnalysis::Detection> detector;
-
-	PXCSmartPtr<PXCAccelerator> accelerator;
-
-	UtilCmdLine *cmdl;
-	PXCCapture::VideoStream::ProfileInfo colorProfile;
-	PXCCapture::VideoStream::ProfileInfo depthProfile;
-
-	//Holds depth x,y coords and z value
-	PXCPoint3DF32 *depthXYZCoords;
-	//Holds R3 Coordinate Projection Data
-	PXCPoint3DF32 *depthR3Coords;
-	//Holds Conversion from depth XY to Color XY
-	PXCPointF32 *depthXYToColorXY; 
-
-	PXCSmartPtr<PXCProjection> projection;
-	pxcUID prj_uid;
-
-	int depthWidth;
-	int depthHeight;
-	int colorWidth;
-	int colorHeight;
-	int nPointsDepth;
-	int nPointsColor;
-
-	pxcF32 depthSaturation;
-	pxcF32 depthLowConfidence;
-
 	//Create the PCSDK Session
 	bool createSession();
 
@@ -104,6 +66,47 @@ namespace SF
 
 	private:
 		SF_STS initLoop();
+		SF_R3_COORD *getLandmarkCoord(SF_R3_COORD *landmark);
+		void drawCrossHairsOnLandmark(SF_R3_COORD &landmark, PXCImage::ImageData &image);
+		SF_STS updateProjections();
+
+		PXCSmartPtr<PXCSession> session;
+		PXCSmartPtr<UtilCapture> capture;
+
+		//SDK Easy Render Views...
+		PXCSmartPtr<UtilRender> depth_render;
+		PXCSmartPtr<UtilRender> uv_render;
+
+		//Face Analysis Module
+		PXCSmartPtr<PXCFaceAnalysis> face;
+		PXCSmartPtr<PXCFaceAnalysis::Landmark> landmark;
+		PXCSmartPtr<PXCFaceAnalysis::Detection> detector;
+
+		PXCSmartPtr<PXCAccelerator> accelerator;
+
+		UtilCmdLine *cmdl;
+		PXCCapture::VideoStream::ProfileInfo colorProfile;
+		PXCCapture::VideoStream::ProfileInfo depthProfile;
+
+		//Holds depth x,y coords and z value
+		PXCPoint3DF32 *depthXYZCoords;
+		//Holds R3 Coordinate Projection Data
+		PXCPoint3DF32 *depthR3Coords;
+		//Holds Conversion from depth XY to Color XY
+		PXCPointF32 *depthXYToColorXY; 
+
+		PXCSmartPtr<PXCProjection> projection;
+		pxcUID prj_uid;
+
+		int depthWidth;
+		int depthHeight;
+		int colorWidth;
+		int colorHeight;
+		int nPointsDepth;
+		int nPointsColor;
+
+		pxcF32 depthSaturation;
+		pxcF32 depthLowConfidence;
 	};
 
 }
