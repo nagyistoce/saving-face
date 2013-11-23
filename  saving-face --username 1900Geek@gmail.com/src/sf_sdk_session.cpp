@@ -169,8 +169,8 @@ namespace SF
 		SF_R3_COORD *nose, *noseCoord;
 		//nose = new SF_R3_COORD;
 		noseCoord = new SF_R3_COORD;
-		noseCoord->x = int(landmark->x *.5);
-		noseCoord->y = (int)(landmark->y* .5);
+		noseCoord->x = (landmark->x *.5f);
+		noseCoord->y = (landmark->y* .5f);
 		nose = &depthR3Coords[(depthWidth) * (int)(landmark->y/2) + (int)(landmark->x/2)];
 				
 		//Troubleshooting code;
@@ -201,9 +201,9 @@ namespace SF
 	{
 		int drawLength = 10;
 		int colorByteWidth=image.pitches[0]; // aligned color width
-		for(int i = ((landmark.x -drawLength)*3<0?0:(landmark.x -drawLength)*3); i < colorByteWidth && i < (landmark.x + drawLength)*3; i++)
+		for(int i = (((int)landmark.x -drawLength)*3<0?0:((int)landmark.x -drawLength)*3); i < colorByteWidth && i < ((int)landmark.x + drawLength)*3; i++)
 			image.planes[0][((int)(landmark.y)* colorByteWidth)+ i] = 0xFF;
-		for(int i = ((landmark.y -drawLength)<0?0:(landmark.y -drawLength)); i < colorByteWidth && i < (landmark.y + drawLength); i++){
+		for(int i = (((int)landmark.y -drawLength)<0?0:((int)landmark.y -drawLength)); i < colorByteWidth && i < ((int)landmark.y + drawLength); i++){
 			image.planes[0][i*colorByteWidth+ (int)(landmark.x)*3] = 0xFF;
 			image.planes[0][i*colorByteWidth+ (int)(landmark.x)*3+1] = 0xFF;
 			image.planes[0][i*colorByteWidth+ (int)(landmark.x)*3+2] = 0xFF;
@@ -310,8 +310,6 @@ namespace SF
 					}
 				}
 			}
-			
-			
 			
 			//Render the Depth Image
 			if (!depth_render->RenderFrame(images[1])) break;
