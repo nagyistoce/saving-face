@@ -286,16 +286,14 @@ namespace SF
 				images[0]->AcquireAccess(PXCImage::ACCESS_READ_WRITE,&colorData);
 				colorData.format;
 				int cwidth2=colorData.pitches[0]; // aligned color width
-				colorData.planes[0][(int)((int)(ldata[6].position.y) * cwidth2) + (int)((int)(ldata[6].position.x) * 3)] = 0xFFFFFF;
-				colorData.planes[0][(int)((int)(ldata[6].position.y)      * cwidth2) + (int)((int)(ldata[6].position.x +1) * 3)] = 0xFFFFFF;
-				colorData.planes[0][(int)((int)(ldata[6].position.y)      * cwidth2) + (int)((int)(ldata[6].position.x -1) * 3)] = 0xFFFFFF;
-				colorData.planes[0][(int)((int)(ldata[6].position.y +1 ) * cwidth2) + (int)((int)(ldata[6].position.x * 3))] = 0xFFFFFF;
-				colorData.planes[0][(int)((int)(ldata[6].position.y +1 ) * cwidth2) + (int)((int)(ldata[6].position.x +1) * 3)] = 0xFFFFFF;
-				colorData.planes[0][(int)((int)(ldata[6].position.y +1 ) * cwidth2) + (int)((int)(ldata[6].position.x -1) * 3)] = 0xFFFFFF;
-				colorData.planes[0][(int)((int)(ldata[6].position.y -1 ) * cwidth2) + (int)((int)(ldata[6].position.x) * 3)] = 0xFFFFFF;
-				colorData.planes[0][(int)((int)(ldata[6].position.y -1 ) * cwidth2) + (int)((int)(ldata[6].position.x +1) * 3)] = 0xFFFFFF;
-				colorData.planes[0][(int)((int)(ldata[6].position.y -1 ) * cwidth2) + (int)((int)(ldata[6].position.x -1) * 3)] = 0xFFFFFF;
-
+				for(int i = 0; i < cwidth2; i++)
+					colorData.planes[0][((int)(ldata[6].position.y)* cwidth2)+ i] = 0xFF;
+				for(int i = 0; i < pcolor.imageInfo.height; i++){
+					colorData.planes[0][i*cwidth2+ (int)(ldata[6].position.x)*3] = 0xFF;
+					colorData.planes[0][i*cwidth2+ (int)(ldata[6].position.x)*3+1] = 0xFF;
+					colorData.planes[0][i*cwidth2+ (int)(ldata[6].position.x)*3+2] = 0xFF;
+				}
+				
 				images[0]->ReleaseAccess(&colorData);
 				if(nose.x > 2)//Not valid Depth
 					continue;
