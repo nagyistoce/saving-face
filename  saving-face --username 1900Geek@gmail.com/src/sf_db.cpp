@@ -25,20 +25,10 @@ SF_STS sf_db::addModelToDatabase(Model  *model)
 		return SF_STS_FAIL;
 }
 
+//The caller should check for null.
 Model *sf_db::getModel(SF_MUID muid)
 {
-	/*if ( db.find(muid) == db.end() )
-	{
-		//probably should throw an exception
-		return nullptr;
-	} 
-
-	else {
-		return db.find(muid)->second;
-	}*/
 	return db[muid];
-	
-	
 }
 
 //iterate over all models and save to persistant storage
