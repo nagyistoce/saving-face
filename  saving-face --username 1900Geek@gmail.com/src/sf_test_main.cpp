@@ -6,7 +6,7 @@
 #include "sf_sdk_session.h"
 #include "sf_model_builder.h"
 
-#ifdef _SF_TEST_MAIN
+#ifdef Obsolete
 
 SF::SF_Session *session;
 SF::sf_model_builder *modelBuilder;

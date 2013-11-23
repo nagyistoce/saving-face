@@ -225,30 +225,24 @@ namespace SF
 		//Begin Loop
 		//Make num frames an argument parameter
 		for (pxcU32 f=0;(numFrames == 0)?true:f < numFrames;) {
-			
-			
-
 			PXCSmartArray<PXCImage> images(2);
-	
 			PXCSmartSPArray sp(2);//Synchronous Pointer
 			
 			//ReadStream If Data Available or Block
 			if (capture->ReadStreamAsync(images, &sp[0])<PXC_STATUS_NO_ERROR) break;
 			
 			//Process Face YPR and Landmarks
-			if(face)
-				face->ProcessImageAsync(images,&sp[1]);
-
+			face->ProcessImageAsync(images,&sp[1]);//TODO Check return status. If Fail continue
 			//Wait for all ASynchronous Modules To Return
 			if (sp.SynchronizeEx()<PXC_STATUS_NO_ERROR) continue;
 			
-			PXCImage::ImageData ddepth;
-				images[1]->AcquireAccess(PXCImage::ACCESS_READ,&ddepth);
-				int dwidth2=ddepth.pitches[0]/sizeof(pxcU16);
+			PXCImage::ImageData depthImageData;
+			images[1]->AcquireAccess(PXCImage::ACCESS_READ,&depthImageData);
+			int dwidth2=depthImageData.pitches[0]/sizeof(pxcU16);
 
             for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++)
                 for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++)
-				    pos2d[k].z=((short*)ddepth.planes[0])[y*dwidth2+x];
+				    pos2d[k].z=((short*)depthImageData.planes[0])[y*dwidth2+x];
 
 			//Put projection in RealWorld Coords
 			projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
@@ -270,8 +264,8 @@ namespace SF
 				PXCFaceAnalysis::Landmark::LandmarkData ldata[7];
 				PXCFaceAnalysis::Landmark::PoseData pdata;
 			       
-				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_7POINTS,ldata);
-				landmark->QueryPoseData(fid, &pdata);
+				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_7POINTS,ldata);//Check Return Status and Break
+				landmark->QueryPoseData(fid, &pdata);//Check Return Status and Break
 				
 				if(pdata.yaw<-1000)//Did not get quality data.
 					continue;
