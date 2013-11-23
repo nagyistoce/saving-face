@@ -197,6 +197,11 @@ namespace SF
 		return nose;
 	}
 
+	void SF_Session::getDepthPixelFromColorImage(SF::SF_MODEL_COORD3D &depthOut, PXCPoint3DF32 &depthCoords, PXCPointF32 &colorPixel, PXCImage::ImageData &image)
+	{
+		image.
+	}
+
 	void SF_Session::drawCrossHairsOnLandmark(SF_R3_COORD &landmark, PXCImage::ImageData &image)
 	{
 		int drawLength = 10;

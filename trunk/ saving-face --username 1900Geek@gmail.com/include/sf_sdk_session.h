@@ -42,7 +42,9 @@ namespace SF
 	//GetYPR //GetLandmark //Save video //Save Image
 	//Following these... A method to compare the saved video to the finished model.
 	
-	
+	//Takes a color point from color image and maps it to a depth point from the depth image
+	void getDepthPixelFromColorImage(SF::SF_MODEL_COORD3D &depthOut, PXCPoint3DF32 &depthCoords, PXCPointF32 &colorPixel, PXCImage::ImageData &image);
+
 	void camera_loop
 		(
 			//Call back to process the YPR, and landmark data.
