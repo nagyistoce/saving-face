@@ -122,7 +122,7 @@ namespace SavingFaceTest
 		TEST_METHOD(ExportToCSV)
 		{
 			startSession();
-			session->camera_loop(&saveYPR,&saveVertex,NULL,*onNewFrame,NULL,10);
+			session->camera_loop(&saveYPR,&saveVertex,NULL,*onNewFrame,NULL,30);
 		}
 #endif
 

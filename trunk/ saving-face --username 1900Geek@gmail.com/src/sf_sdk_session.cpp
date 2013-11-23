@@ -276,7 +276,25 @@ namespace SF
 				SF_R3_COORD nose, noseCoord;
 				noseCoord.x = int(ldata[6].position.x *.5);
 				noseCoord.y = (int)(ldata[6].position.y* .5);
-				nose = pos3d[(int)(pdepth.imageInfo.width * noseCoord.x + noseCoord.y)];
+				nose = pos3d[(int)(pdepth.imageInfo.width * ldata[6].position.y *.5) + (int)(ldata[6].position.x *.5)];
+				
+				
+				PXCImage::ImageData colorData;
+				//Temp Draw Nose on Color
+				
+				images[0]->AcquireAccess(PXCImage::ACCESS_READ_WRITE,&colorData);
+				int cwidth2=colorData.pitches[0]/4; // aligned color width
+				((pxcU32 *)colorData.planes[0])[(int)(ldata[6].position.y      * cwidth2) + (int)(ldata[6].position.x)] = 0xFF000000;
+				((pxcU32 *)colorData.planes[0])[(int)(ldata[6].position.y      * cwidth2) + (int)(ldata[6].position.x + 1)] = 0xFF000000;
+				((pxcU32 *)colorData.planes[0])[(int)(ldata[6].position.y      * cwidth2) + (int)(ldata[6].position.x - 1)] = 0xFF000000;
+				((pxcU32 *)colorData.planes[0])[(int)((ldata[6].position.y +1 ) * cwidth2) + (int)(ldata[6].position.x)] = 0xFF000000;
+				((pxcU32 *)colorData.planes[0])[(int)((ldata[6].position.y +1 ) * cwidth2) + (int)(ldata[6].position.x + 1)] = 0xFF000000;
+				((pxcU32 *)colorData.planes[0])[(int)((ldata[6].position.y +1 ) * cwidth2) + (int)(ldata[6].position.x - 1)] = 0xFF000000;
+				((pxcU32 *)colorData.planes[0])[(int)((ldata[6].position.y -1 ) * cwidth2) + (int)(ldata[6].position.x)] |= 0xFF000000;
+				((pxcU32 *)colorData.planes[0])[(int)((ldata[6].position.y -1 ) * cwidth2) + (int)(ldata[6].position.x + 1)] = 0xFF000000;
+				((pxcU32 *)colorData.planes[0])[(int)((ldata[6].position.y -1 ) * cwidth2) + (int)(ldata[6].position.x - 1)] = 0xFF000000;
+
+				images[0]->ReleaseAccess(&colorData);
 				if(nose.x > 2)//Not valid Depth
 					continue;
 				++f;
@@ -295,6 +313,7 @@ namespace SF
 				//no.y = ldata[6].position.y;
 				//projection->MapColorCoordinatesToDepth(1, &no, posd);
 
+				
 				
 				
 				//Note this is not entirely accurate.
@@ -334,6 +353,8 @@ namespace SF
 					}
 				}
 			}
+			
+			
 			
 			//Render the Depth Image
 			if (!depth_render->RenderFrame(images[1])) break;
