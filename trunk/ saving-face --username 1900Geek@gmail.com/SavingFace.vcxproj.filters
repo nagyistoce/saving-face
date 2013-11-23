@@ -53,9 +53,6 @@
     <ClInclude Include="include\sf_tr_func.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Testing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\sf_sdk_session.h">
       <Filter>Header Files</Filter>
     </ClInclude>

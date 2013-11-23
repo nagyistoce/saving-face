@@ -18,8 +18,7 @@
 #include "pxcprojection.h" //To Project Coords to Real-Life and to map depth to image
 #include "pxcmetadata.h" 
 #include "Testing.h"
-#ifdef _TEST_CODE
-
+#ifdef Obsolete
 
 
 
