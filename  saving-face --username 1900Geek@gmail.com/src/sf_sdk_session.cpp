@@ -87,7 +87,8 @@ namespace SF
 		face->SetProfile(&pinfo);
 		detector = face->DynamicCast<PXCFaceAnalysis::Detection>();
 		PXCFaceAnalysis::Detection::ProfileInfo dinfo;
-		dinfo.responsiveness = 50;
+		//Tune performance here 100 = fastest
+		dinfo.responsiveness = 0;
 		detector->QueryProfile(0,&dinfo);
 		detector->SetProfile(&dinfo);
 		landmark = face->DynamicCast<PXCFaceAnalysis::Landmark>();
