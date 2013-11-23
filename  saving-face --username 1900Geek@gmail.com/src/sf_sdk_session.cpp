@@ -3,8 +3,7 @@
 //Temp includes
 #include <fstream>
 #include <sstream>
-#include "pxcprojection.h" //To Project Coords to Real-Life and to map depth to image
-#include "pxcmetadata.h"   //Necessary for projection
+
 
 namespace SF
 {
@@ -165,7 +164,44 @@ namespace SF
 		}
 	}
 
+	SF_STS SF_Session::initLoop()
+	{
+		if(face == nullptr) return SF_STS_FAIL;//No point in continuing
+        //TODO use accelerator to create images for RGBA32
+		session->CreateAccelerator(&accelerator);
+		
+		depthWidth = pdepth.imageInfo.width;
+		depthHeight = pdepth.imageInfo.height;
+		colorWidth = pcolor.imageInfo.width;
+		colorHeight = pcolor.imageInfo.height;
+		nPointsDepth = depthWidth*depthHeight; 
+		nPointsColor = colorWidth*colorHeight;
+		
+		pos2d=(PXCPoint3DF32 *)new PXCPoint3DF32[nPointsDepth]; 
+		pos3d=(PXCPoint3DF32 *)new PXCPoint3DF32[nPointsDepth];
+		posc=(PXCPointF32 *)new PXCPointF32[nPointsDepth];
+		posd=(PXCPointF32 *)new PXCPointF32[nPointsColor];
+		
+		//Get Confidence values for Depth
+		
+		capture->QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_LOW_CONFIDENCE_VALUE,&depthLowConfidence);
+		capture->QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_SATURATION_VALUE,&depthSaturation);
 
+		//Initialize projection
+		//Fail condition to be dealt with
+		if (capture->QueryDevice()->QueryPropertyAsUID(PXCCapture::Device::PROPERTY_PROJECTION_SERIALIZABLE,&prj_uid) < PXC_STATUS_NO_ERROR) return SF_STS_FAIL;
+		session->DynamicCast<PXCMetadata>()->CreateSerializable<PXCProjection>(prj_uid, &projection);
+		
+		//Init Arrays x and y values for color mapped depth coords
+		int k = 0;
+	    for (float y=0; y< depthHeight; y++)
+            for (float x=0; x<depthWidth; x++, k++)
+                pos2d[k].x=x, pos2d[k].y=y;
+
+		return SF_STS_OK;
+	}
+
+	
 	
 
 	void SF_Session::camera_loop
@@ -184,41 +220,7 @@ namespace SF
 		//TODO::(Later)...implement in seperate class...Compare multiple faces in the same frame.
 		//TODO::(RE-FACTOR)... this will be a messy function anyways, but clean it up.
 		//TODO::Ensure ypr and landmark are valid... If not decrement frame count and continue.
-		if(face == nullptr) return;//No point in continuing
-        session->CreateAccelerator(&accelerator);
-		
-		//Create arrays to hold the data
-		PXCPoint3DF32 *pos2d = 0, *pos3d = 0;
-		PXCPointF32 *posc = 0, *posc2 = 0, *posd = 0;
-
-
-
-		int npoints = pdepth.imageInfo.width*pdepth.imageInfo.height; //Num points from Depth Feed
-		pos2d=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints]; 
-		pos3d=(PXCPoint3DF32 *)new PXCPoint3DF32[npoints];
-		posc=(PXCPointF32 *)new PXCPointF32[npoints];
-		posd=(PXCPointF32 *)new PXCPointF32[pcolor.imageInfo.width*pcolor.imageInfo.width];
-		posc2=(PXCPointF32 *)new PXCPointF32[pcolor.imageInfo.width*pcolor.imageInfo.width];
-
-
-		//Get Confidence values for Depth
-		pxcF32 dvalues[2] = {-1};
-    	capture->QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_LOW_CONFIDENCE_VALUE,&dvalues[0]);
-    	capture->QueryDevice()->QueryProperty(PXCCapture::Device::PROPERTY_DEPTH_SATURATION_VALUE,&dvalues[1]);
-
-		//Initialize projection
-		PXCSmartPtr<PXCProjection> projection;
-		pxcUID prj_value;
-		
-		//Fail condition to be dealt with
-		if (capture->QueryDevice()->QueryPropertyAsUID(PXCCapture::Device::PROPERTY_PROJECTION_SERIALIZABLE,&prj_value) < PXC_STATUS_NO_ERROR) return;
-		session->DynamicCast<PXCMetadata>()->CreateSerializable<PXCProjection>(prj_value, &projection);
-		
-		//Init Arrays x and y values for color mapped depth coords
-		int k = 0;
-	    for (float y=0;y<pdepth.imageInfo.height;y++)
-            for (float x=0;x<pdepth.imageInfo.width;x++,k++)
-                pos2d[k].x=x, pos2d[k].y=y;
+		if(initLoop() < SF_STS_OK) return;//Loop Initialization Failed
 
 		//Begin Loop
 		//Make num frames an argument parameter
@@ -253,7 +255,7 @@ namespace SF
 			
 			//We are going to have to use a trick with this to get the nose coords.
 			//Map depth to Color
-			pxcStatus sts = projection->MapDepthToColorCoordinates(npoints,pos2d,posc);
+			pxcStatus sts = projection->MapDepthToColorCoordinates(nPointsDepth,pos2d,posc);
 			
 			//Map color to depth
 			
@@ -287,16 +289,20 @@ namespace SF
 				PXCPointF32 noseT;
 				projection->ProjectImageToRealWorld(
 					1,
-					&pos2d[(pdepth.imageInfo.width) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)],
+					&pos2d[depthWidth * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)],
 					&nose2);
 				//Should be close to the color coords.
 				//A plan... If the out put of this ~= nose color coords. Then the real world mapping should be the nose.
 				//This is not a one to one correspondance... Also if that particular one was saturated. Then it won't exist.
 				//Then we would need to try a new frame.
+				
 				projection->MapDepthToColorCoordinates(
 					1,
-					&pos2d[(pdepth.imageInfo.width) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)],
+					&pos2d[(depthWidth) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)],
 					&noseT);
+
+				
+
 				PXCImage::ImageData colorData;
 				//Temp Draw Nose on Color
 				
@@ -367,7 +373,7 @@ namespace SF
 					for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
 						int xx=(int)(posc[k].x+0.5f), yy= (int) (posc[k].y+0.5f);
 						if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;//Currently this line does nothing.
-						if (pos2d) if (pos2d[k].z==dvalues[0] || pos2d[k].z==dvalues[1]) continue; // no mapping based on unreliable depth values
+						if (pos2d) if (pos2d[k].z==depthLowConfidence || pos2d[k].z==depthSaturation) continue;
 						processVertex(pos3d[k]);
 					}
 				}

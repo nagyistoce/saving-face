@@ -10,6 +10,8 @@
 #include "util_capture.h" //Allows capture of data streams
 #include "util_render.h" //For quick display of feeds
 #include "sf_defs.h" //Data types
+#include "pxcprojection.h" //To Project Coords to Real-Life and to map depth to image
+#include "pxcmetadata.h"   //Necessary for projection
 
 namespace SF
 {
@@ -34,7 +36,27 @@ namespace SF
 	UtilCmdLine *cmdl;
 	PXCCapture::VideoStream::ProfileInfo pcolor;
 	PXCCapture::VideoStream::ProfileInfo pdepth;
-	
+
+	//Holds depth x,y coords and z value
+	PXCPoint3DF32 *pos2d;
+	//Holds R3 Coordinate Projection Data
+	PXCPoint3DF32 *pos3d;
+	//Holds R3 Coordinate Projection Data
+	PXCPointF32 *posc; 
+	PXCPointF32 *posd;
+
+	PXCSmartPtr<PXCProjection> projection;
+	pxcUID prj_uid;
+
+	int depthWidth;
+	int depthHeight;
+	int colorWidth;
+	int colorHeight;
+	int nPointsDepth;
+	int nPointsColor;
+
+	pxcF32 depthSaturation;
+	pxcF32 depthLowConfidence;
 
 	//Create the PCSDK Session
 	bool createSession();
@@ -79,12 +101,12 @@ namespace SF
 			bool multiface = false
 			//Add functionality to playback video... (Later)
 		);
-	
-	
-	//Figure out arguements
-	//void getDepthDataFromVertices();
 
-	SF_Session();
-	~SF_Session();
+		SF_Session();
+		~SF_Session();
+
+	private:
+		SF_STS initLoop();
 	};
+
 }
