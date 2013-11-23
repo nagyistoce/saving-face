@@ -199,10 +199,11 @@ namespace SF
 
 	void SF_Session::drawCrossHairsOnLandmark(SF_R3_COORD &landmark, PXCImage::ImageData &image)
 	{
+		int drawLength = 10;
 		int colorByteWidth=image.pitches[0]; // aligned color width
-		for(int i = 0; i < colorByteWidth; i++)
+		for(int i = ((landmark.x -drawLength)*3<0?0:(landmark.x -drawLength)*3); i < colorByteWidth && i < (landmark.x + drawLength)*3; i++)
 			image.planes[0][((int)(landmark.y)* colorByteWidth)+ i] = 0xFF;
-		for(int i = 0; i < colorHeight; i++){
+		for(int i = ((landmark.y -drawLength)<0?0:(landmark.y -drawLength)); i < colorByteWidth && i < (landmark.y + drawLength); i++){
 			image.planes[0][i*colorByteWidth+ (int)(landmark.x)*3] = 0xFF;
 			image.planes[0][i*colorByteWidth+ (int)(landmark.x)*3+1] = 0xFF;
 			image.planes[0][i*colorByteWidth+ (int)(landmark.x)*3+2] = 0xFF;
@@ -278,6 +279,12 @@ namespace SF
 				//Note that the current format is RGB24 we want RGB32
 				images[0]->AcquireAccess(PXCImage::ACCESS_READ_WRITE,&colorData);
 				drawCrossHairsOnLandmark(ldata[6].position, colorData);
+				//drawCrossHairsOnLandmark(ldata[5].position, colorData);
+				//drawCrossHairsOnLandmark(ldata[4].position, colorData);
+				//drawCrossHairsOnLandmark(ldata[3].position, colorData);
+				drawCrossHairsOnLandmark(ldata[2].position, colorData);
+				//drawCrossHairsOnLandmark(ldata[1].position, colorData);
+				drawCrossHairsOnLandmark(ldata[0].position, colorData);
 				images[0]->ReleaseAccess(&colorData);
 				
 				//Temp Check while trouble shooting
