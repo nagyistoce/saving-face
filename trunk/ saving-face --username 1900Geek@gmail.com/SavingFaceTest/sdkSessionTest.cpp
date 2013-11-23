@@ -113,7 +113,7 @@ namespace SavingFaceTest
 		TEST_METHOD(sdk_YPR_Vertex_Test)
 		{
 			startSession();
-			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,30);
+			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,100);
 			Assert().Fail(L"Until valid nose coord can be verified");
 		}
 

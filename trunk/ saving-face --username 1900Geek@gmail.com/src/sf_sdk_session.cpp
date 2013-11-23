@@ -251,8 +251,9 @@ namespace SF
 			//Put projection in RealWorld Coords
 			projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
 			
+			//We are going to have to use a trick with this to get the nose coords.
 			//Map depth to Color
-			projection->MapDepthToColorCoordinates(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,posc);
+			pxcStatus sts = projection->MapDepthToColorCoordinates(npoints,pos2d,posc);
 			
 			//Map color to depth
 			
@@ -277,9 +278,25 @@ namespace SF
 				SF_R3_COORD nose, noseCoord;
 				noseCoord.x = int(ldata[6].position.x *.5);
 				noseCoord.y = (int)(ldata[6].position.y* .5);
-				nose = pos3d[(int)(pdepth.imageInfo.width * ldata[6].position.y *.5) + (int)(ldata[6].position.x *.5)];
+				nose = pos3d[(pdepth.imageInfo.width) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)];
 				
-				
+				//Troubleshooting code;
+				pos2d[(pdepth.imageInfo.width) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)];
+				posc[(pdepth.imageInfo.width) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)];
+				SF_R3_COORD nose2;
+				PXCPointF32 noseT;
+				projection->ProjectImageToRealWorld(
+					1,
+					&pos2d[(pdepth.imageInfo.width) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)],
+					&nose2);
+				//Should be close to the color coords.
+				//A plan... If the out put of this ~= nose color coords. Then the real world mapping should be the nose.
+				//This is not a one to one correspondance... Also if that particular one was saturated. Then it won't exist.
+				//Then we would need to try a new frame.
+				projection->MapDepthToColorCoordinates(
+					1,
+					&pos2d[(pdepth.imageInfo.width) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)],
+					&noseT);
 				PXCImage::ImageData colorData;
 				//Temp Draw Nose on Color
 				
@@ -319,7 +336,7 @@ namespace SF
 				
 				//Note this is not entirely accurate.
 				//yprFunc(&pdata,&noseCoord);
-				yprFunc(&pdata,&nose);
+				yprFunc(&pdata,&nose2);
 				//yprFunc(&pdata,&ldata[6].position);
 				
 				
@@ -345,10 +362,11 @@ namespace SF
 				//Process individual points
 				//Huge efficiancy can be gained by subsetting the data to relavent area
 				//Based on the relative position of the facial features.
+				//Add checks to make sure pos3d never goes out with a bad value
 				for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++) {
 					for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
 						int xx=(int)(posc[k].x+0.5f), yy= (int) (posc[k].y+0.5f);
-						if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;
+						if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;//Currently this line does nothing.
 						if (pos2d) if (pos2d[k].z==dvalues[0] || pos2d[k].z==dvalues[1]) continue; // no mapping based on unreliable depth values
 						processVertex(pos3d[k]);
 					}
