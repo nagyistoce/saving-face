@@ -2,6 +2,12 @@
 #include "CppUnitTest.h"
 #include "sf_sdk_session.h"
 
+#define Mathematica//Comment out this line to disable export.
+#ifdef Mathematica
+#include <fstream>
+#include "sf_util.h"
+#endif
+
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace SavingFaceTest
@@ -41,6 +47,39 @@ namespace SavingFaceTest
 		}
 	}
 
+#ifdef Mathematica
+		ofstream *fs;
+
+		void onNewFrame(int frame)
+		{
+			if(fs){
+				fs->close();
+				delete fs;
+			}
+			if(!SF::doesDirectoryExist("math_out"))
+				SF::makeDirectory("math_out");
+			char fileName[200];
+			sprintf_s(fileName,200, "%stest%d.csv",SF::getFullPath("math_out").c_str(),frame);
+			//sprintf_s(fileName,200, "test%d.csv",frame);
+			Logger().WriteMessage(fileName);
+			fs = new ofstream(fileName);
+		}
+
+		void saveYPR(SF::SF_YPR *ypr, SF::SF_R3_COORD *nose)
+		{
+			char str[200];
+			sprintf_s(str,200,"%f,%f,%f\n%f,%f,%f\n",ypr->yaw,ypr->pitch,ypr->roll,nose->x,nose->y,nose->z);
+			fs->write(str,strlen(str));
+		}
+
+		void saveVertex(SF::SF_R3_COORD &vertex)
+		{
+				static char str[200];
+				sprintf_s(str,200,"%f,%f,%f\n", vertex.x, vertex.y, vertex.z);
+				fs->write(str,strlen(str));
+		}
+#endif
+
 	TEST_CLASS(sdkSessionTest)
 	{
 	public:
@@ -78,6 +117,15 @@ namespace SavingFaceTest
 			Assert().Fail(L"Until valid nose coord can be verified");
 		}
 
-		
+#ifdef Mathematica
+
+		TEST_METHOD(ExportToCSV)
+		{
+			startSession();
+			session->camera_loop(&saveYPR,&saveVertex,NULL,*onNewFrame,NULL,10);
+		}
+#endif
+
+
 	};
 }

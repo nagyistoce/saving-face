@@ -247,7 +247,7 @@ namespace SF
                 for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++)
 				    pos2d[k].z=((short*)ddepth.planes[0])[y*dwidth2+x];
 
-						//Put projection in RealWorld Coords
+			//Put projection in RealWorld Coords
 			projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
 			
 			//Map depth to Color
@@ -271,10 +271,12 @@ namespace SF
 				
 				if(pdata.yaw<-1000)//Did not get quality data.
 					continue;
+				
+				//This is not working... What is wrong.
 				SF_R3_COORD nose, noseCoord;
 				noseCoord.x = int(ldata[6].position.x *.5);
 				noseCoord.y = (int)(ldata[6].position.y* .5);
-				nose = pos3d[(int)(pdepth.imageInfo.width* ldata[6].position.x *.5) + (int)(ldata[6].position.y* .5)];
+				nose = pos3d[(int)(pdepth.imageInfo.width * noseCoord.x + noseCoord.y)];
 				if(nose.x > 2)//Not valid Depth
 					continue;
 				++f;
