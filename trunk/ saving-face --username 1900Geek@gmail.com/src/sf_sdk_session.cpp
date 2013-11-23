@@ -52,14 +52,14 @@ namespace SF
 		//Get Stream profile info
 		//Should be moved to its own function to account for changes at runtime
 		//If the previous code did not fail this will succeed.
-		capture->QueryVideoStream(0)->QueryProfile(&pcolor);
-		capture->QueryVideoStream(1)->QueryProfile(&pdepth);
+		capture->QueryVideoStream(0)->QueryProfile(&colorProfile);
+		capture->QueryVideoStream(1)->QueryProfile(&depthProfile);
 		return SF_STS_OK;
 	}
 
 	SF_STS SF_Session::createDepthRenderView(){
 		pxcCHAR line[64];
-		swprintf_s(line,sizeof(line)/sizeof(pxcCHAR),L"Depth %dx%d", pdepth.imageInfo.width, pdepth.imageInfo.height);
+		swprintf_s(line,sizeof(line)/sizeof(pxcCHAR),L"Depth %dx%d", depthProfile.imageInfo.width, depthProfile.imageInfo.height);
 		wprintf(line);//Print to Console//Temp for debug
 		wprintf(L"\n");
 		depth_render = new UtilRender(line);
@@ -69,7 +69,7 @@ namespace SF
 
 	SF_STS SF_Session::createColorRenderView(){
 		pxcCHAR line[64];
-		swprintf_s(line,sizeof(line)/sizeof(pxcCHAR),L"UV %dx%d", pcolor.imageInfo.width, pcolor.imageInfo.height);
+		swprintf_s(line,sizeof(line)/sizeof(pxcCHAR),L"UV %dx%d", colorProfile.imageInfo.width, colorProfile.imageInfo.height);
 		wprintf(line);//Temp for debug
 		wprintf(L"\n");
 		uv_render = new UtilRender(line);
@@ -111,76 +111,23 @@ namespace SF
 		if(cmdl) delete cmdl;
 	}
 
-
-	//After test is altered to support camera loop. This function will go away.
-	//Use this as a template for other functions. Like detect or build model.
-	//Raw Model for detection and Model Capture
-	//Currently all it does is display the feeds
-	void SF_Session::tempMainLoop()
-	{
-		//Currently set to iterate over 200 frames.
-		for (pxcU32 f=0;f<200;f++) {
-			//Create 2 image instances
-			//Should auto delete as it goes out of scope...
-			//Consider moving to a local variable to eleminate repetitive allocation.
-			PXCSmartArray<PXCImage> images(2);
-
-			//Synchronous Pointer
-			PXCSmartSPArray sp(2);
-			//ReadStream If Data Available or Block
-			pxcStatus sts = capture->ReadStreamAsync(images, &sp[0]);
-			if (sts<PXC_STATUS_NO_ERROR) break;
-		
-			if(face)
-				face->ProcessImageAsync(images,&sp[1]);
-		
-			//Wait for all ASynchronous Modules To Return
-			sts=sp.SynchronizeEx();
-		
-			if (sts<PXC_STATUS_NO_ERROR) break;
-
-			for (int i=0;;i++) {
-				pxcUID fid; pxcU64 ts;
-				if (face->QueryFace(i,&fid,&ts)<PXC_STATUS_NO_ERROR) break;
-				PXCFaceAnalysis::Detection::Data data;
-				detector->QueryData(fid,&data);
-				PXCFaceAnalysis::Landmark::LandmarkData ldata;
-				PXCFaceAnalysis::Landmark::PoseData pdata;
-			       
-				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_NOSE_TIP,0,&ldata);
-				landmark->QueryPoseData(fid, &pdata);
-				/****
-				This is where we would put in the calls to our SF Module.
-				Please use function calls instead of writing the code inline.
-				You can however inline the functions.
-				****/
-
-				//Use the detector to limit the input pixels
-				//Use the landmark to get Yaw Pitch Roll and the center coord.
-			}
-			//Render the Depth Image
-			if (!depth_render->RenderFrame(images[1])) break;
-			if (!uv_render->RenderFrame(images[0])) break;
-		}
-	}
-
 	SF_STS SF_Session::initLoop()
 	{
 		if(face == nullptr) return SF_STS_FAIL;//No point in continuing
         //TODO use accelerator to create images for RGBA32
 		session->CreateAccelerator(&accelerator);
 		
-		depthWidth = pdepth.imageInfo.width;
-		depthHeight = pdepth.imageInfo.height;
-		colorWidth = pcolor.imageInfo.width;
-		colorHeight = pcolor.imageInfo.height;
+		depthWidth = depthProfile.imageInfo.width;
+		depthHeight = depthProfile.imageInfo.height;
+		colorWidth = colorProfile.imageInfo.width;
+		colorHeight = colorProfile.imageInfo.height;
 		nPointsDepth = depthWidth*depthHeight; 
 		nPointsColor = colorWidth*colorHeight;
 		
-		pos2d=(PXCPoint3DF32 *)new PXCPoint3DF32[nPointsDepth]; 
-		pos3d=(PXCPoint3DF32 *)new PXCPoint3DF32[nPointsDepth];
-		posc=(PXCPointF32 *)new PXCPointF32[nPointsDepth];
-		posd=(PXCPointF32 *)new PXCPointF32[nPointsColor];
+		depthXYZCoords=(PXCPoint3DF32 *)new PXCPoint3DF32[nPointsDepth]; 
+		depthR3Coords=(PXCPoint3DF32 *)new PXCPoint3DF32[nPointsDepth];
+		depthXYToColorXY=(PXCPointF32 *)new PXCPointF32[nPointsDepth];
+		//posd=(PXCPointF32 *)new PXCPointF32[nPointsColor];
 		
 		//Get Confidence values for Depth
 		
@@ -196,7 +143,7 @@ namespace SF
 		int k = 0;
 	    for (float y=0; y< depthHeight; y++)
             for (float x=0; x<depthWidth; x++, k++)
-                pos2d[k].x=x, pos2d[k].y=y;
+                depthXYZCoords[k].x=x, depthXYZCoords[k].y=y;
 
 		return SF_STS_OK;
 	}
@@ -240,16 +187,16 @@ namespace SF
 			images[1]->AcquireAccess(PXCImage::ACCESS_READ,&depthImageData);
 			int dwidth2=depthImageData.pitches[0]/sizeof(pxcU16);
 
-            for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++)
-                for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++)
-				    pos2d[k].z=((short*)depthImageData.planes[0])[y*dwidth2+x];
+			for (pxcU32 y=0,k=0;y<depthHeight;y++)
+				for (pxcU32 x=0;x<depthWidth;x++,k++)
+				    depthXYZCoords[k].z=((short*)depthImageData.planes[0])[y*dwidth2+x];
 
 			//Put projection in RealWorld Coords
-			projection->ProjectImageToRealWorld(pdepth.imageInfo.width*pdepth.imageInfo.height,pos2d,pos3d);
+			projection->ProjectImageToRealWorld(nPointsDepth,depthXYZCoords,depthR3Coords);
 			
 			//We are going to have to use a trick with this to get the nose coords.
 			//Map depth to Color
-			pxcStatus sts = projection->MapDepthToColorCoordinates(nPointsDepth,pos2d,posc);
+			pxcStatus sts = projection->MapDepthToColorCoordinates(nPointsDepth,depthXYZCoords,depthXYToColorXY);
 			
 			//Map color to depth
 			
@@ -274,16 +221,16 @@ namespace SF
 				SF_R3_COORD nose, noseCoord;
 				noseCoord.x = int(ldata[6].position.x *.5);
 				noseCoord.y = (int)(ldata[6].position.y* .5);
-				nose = pos3d[(pdepth.imageInfo.width) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)];
+				nose = depthR3Coords[(depthWidth) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)];
 				
 				//Troubleshooting code;
-				pos2d[(pdepth.imageInfo.width) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)];
-				posc[(pdepth.imageInfo.width) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)];
+				depthXYZCoords[(depthWidth) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)];
+				depthXYToColorXY[(depthWidth) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)];
 				SF_R3_COORD nose2;
 				PXCPointF32 noseT;
 				projection->ProjectImageToRealWorld(
 					1,
-					&pos2d[depthWidth * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)],
+					&depthXYZCoords[depthWidth * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)],
 					&nose2);
 				//Should be close to the color coords.
 				//A plan... If the out put of this ~= nose color coords. Then the real world mapping should be the nose.
@@ -292,7 +239,7 @@ namespace SF
 				
 				projection->MapDepthToColorCoordinates(
 					1,
-					&pos2d[(depthWidth) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)],
+					&depthXYZCoords[(depthWidth) * (int)(ldata[6].position.y/2) + (int)(ldata[6].position.x/2)],
 					&noseT);
 
 				
@@ -303,13 +250,13 @@ namespace SF
 				//Note that the current format is RGB24 we want RGB32
 				images[0]->AcquireAccess(PXCImage::ACCESS_READ_WRITE,&colorData);
 				colorData.format;
-				int cwidth2=colorData.pitches[0]; // aligned color width
-				for(int i = 0; i < cwidth2; i++)
-					colorData.planes[0][((int)(ldata[6].position.y)* cwidth2)+ i] = 0xFF;
-				for(int i = 0; i < pcolor.imageInfo.height; i++){
-					colorData.planes[0][i*cwidth2+ (int)(ldata[6].position.x)*3] = 0xFF;
-					colorData.planes[0][i*cwidth2+ (int)(ldata[6].position.x)*3+1] = 0xFF;
-					colorData.planes[0][i*cwidth2+ (int)(ldata[6].position.x)*3+2] = 0xFF;
+				int colorByteWidth=colorData.pitches[0]; // aligned color width
+				for(int i = 0; i < colorByteWidth; i++)
+					colorData.planes[0][((int)(ldata[6].position.y)* colorByteWidth)+ i] = 0xFF;
+				for(int i = 0; i < colorHeight; i++){
+					colorData.planes[0][i*colorByteWidth+ (int)(ldata[6].position.x)*3] = 0xFF;
+					colorData.planes[0][i*colorByteWidth+ (int)(ldata[6].position.x)*3+1] = 0xFF;
+					colorData.planes[0][i*colorByteWidth+ (int)(ldata[6].position.x)*3+2] = 0xFF;
 				}
 				
 				images[0]->ReleaseAccess(&colorData);
@@ -363,12 +310,12 @@ namespace SF
 				//Huge efficiancy can be gained by subsetting the data to relavent area
 				//Based on the relative position of the facial features.
 				//Add checks to make sure pos3d never goes out with a bad value
-				for (pxcU32 y=0,k=0;y<pdepth.imageInfo.height;y++) {
-					for (pxcU32 x=0;x<pdepth.imageInfo.width;x++,k++) {
-						int xx=(int)(posc[k].x+0.5f), yy= (int) (posc[k].y+0.5f);
-						if (xx<0 || yy<0 || xx>=(int) pcolor.imageInfo.width || yy>=(int)pcolor.imageInfo.height) continue;//Currently this line does nothing.
-						if (pos2d) if (pos2d[k].z==depthLowConfidence || pos2d[k].z==depthSaturation) continue;
-						processVertex(pos3d[k]);
+				for (pxcU32 y=0,k=0;y<depthHeight;y++) {
+					for (pxcU32 x=0;x<depthWidth;x++,k++) {
+						int xx=(int)(depthXYToColorXY[k].x+0.5f), yy= (int) (depthXYToColorXY[k].y+0.5f);
+						if (xx<0 || yy<0 || xx>=(int) colorWidth || yy >=(int)colorHeight) continue;//Currently this line does nothing.
+						if (depthXYZCoords) if (depthXYZCoords[k].z==depthLowConfidence || depthXYZCoords[k].z==depthSaturation) continue;
+						processVertex(depthR3Coords[k]);
 					}
 				}
 			}

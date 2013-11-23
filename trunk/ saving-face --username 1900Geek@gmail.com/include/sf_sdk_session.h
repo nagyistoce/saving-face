@@ -34,16 +34,15 @@ namespace SF
 	PXCSmartPtr<PXCAccelerator> accelerator;
 
 	UtilCmdLine *cmdl;
-	PXCCapture::VideoStream::ProfileInfo pcolor;
-	PXCCapture::VideoStream::ProfileInfo pdepth;
+	PXCCapture::VideoStream::ProfileInfo colorProfile;
+	PXCCapture::VideoStream::ProfileInfo depthProfile;
 
 	//Holds depth x,y coords and z value
-	PXCPoint3DF32 *pos2d;
+	PXCPoint3DF32 *depthXYZCoords;
 	//Holds R3 Coordinate Projection Data
-	PXCPoint3DF32 *pos3d;
-	//Holds R3 Coordinate Projection Data
-	PXCPointF32 *posc; 
-	PXCPointF32 *posd;
+	PXCPoint3DF32 *depthR3Coords;
+	//Holds Conversion from depth XY to Color XY
+	PXCPointF32 *depthXYToColorXY; 
 
 	PXCSmartPtr<PXCProjection> projection;
 	pxcUID prj_uid;
@@ -81,8 +80,6 @@ namespace SF
 	//GetYPR //GetLandmark //Save video //Save Image
 	//Following these... A method to compare the saved video to the finished model.
 	
-	//Kill this function after sf_test_main no longer uses it.
-	void tempMainLoop();
 	
 	void camera_loop
 		(
