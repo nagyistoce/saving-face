@@ -282,17 +282,19 @@ namespace SF
 				PXCImage::ImageData colorData;
 				//Temp Draw Nose on Color
 				
+				//Note that the current format is RGB24 we want RGB32
 				images[0]->AcquireAccess(PXCImage::ACCESS_READ_WRITE,&colorData);
-				int cwidth2=colorData.pitches[0]/4; // aligned color width
-				((pxcU32 *)colorData.planes[0])[(int)(ldata[6].position.y      * cwidth2) + (int)(ldata[6].position.x)] = 0xFF000000;
-				((pxcU32 *)colorData.planes[0])[(int)(ldata[6].position.y      * cwidth2) + (int)(ldata[6].position.x + 1)] = 0xFF000000;
-				((pxcU32 *)colorData.planes[0])[(int)(ldata[6].position.y      * cwidth2) + (int)(ldata[6].position.x - 1)] = 0xFF000000;
-				((pxcU32 *)colorData.planes[0])[(int)((ldata[6].position.y +1 ) * cwidth2) + (int)(ldata[6].position.x)] = 0xFF000000;
-				((pxcU32 *)colorData.planes[0])[(int)((ldata[6].position.y +1 ) * cwidth2) + (int)(ldata[6].position.x + 1)] = 0xFF000000;
-				((pxcU32 *)colorData.planes[0])[(int)((ldata[6].position.y +1 ) * cwidth2) + (int)(ldata[6].position.x - 1)] = 0xFF000000;
-				((pxcU32 *)colorData.planes[0])[(int)((ldata[6].position.y -1 ) * cwidth2) + (int)(ldata[6].position.x)] |= 0xFF000000;
-				((pxcU32 *)colorData.planes[0])[(int)((ldata[6].position.y -1 ) * cwidth2) + (int)(ldata[6].position.x + 1)] = 0xFF000000;
-				((pxcU32 *)colorData.planes[0])[(int)((ldata[6].position.y -1 ) * cwidth2) + (int)(ldata[6].position.x - 1)] = 0xFF000000;
+				colorData.format;
+				int cwidth2=colorData.pitches[0]; // aligned color width
+				colorData.planes[0][(int)((int)(ldata[6].position.y) * cwidth2) + (int)((int)(ldata[6].position.x) * 3)] = 0xFFFFFF;
+				colorData.planes[0][(int)((int)(ldata[6].position.y)      * cwidth2) + (int)((int)(ldata[6].position.x +1) * 3)] = 0xFFFFFF;
+				colorData.planes[0][(int)((int)(ldata[6].position.y)      * cwidth2) + (int)((int)(ldata[6].position.x -1) * 3)] = 0xFFFFFF;
+				colorData.planes[0][(int)((int)(ldata[6].position.y +1 ) * cwidth2) + (int)((int)(ldata[6].position.x * 3))] = 0xFFFFFF;
+				colorData.planes[0][(int)((int)(ldata[6].position.y +1 ) * cwidth2) + (int)((int)(ldata[6].position.x +1) * 3)] = 0xFFFFFF;
+				colorData.planes[0][(int)((int)(ldata[6].position.y +1 ) * cwidth2) + (int)((int)(ldata[6].position.x -1) * 3)] = 0xFFFFFF;
+				colorData.planes[0][(int)((int)(ldata[6].position.y -1 ) * cwidth2) + (int)((int)(ldata[6].position.x) * 3)] = 0xFFFFFF;
+				colorData.planes[0][(int)((int)(ldata[6].position.y -1 ) * cwidth2) + (int)((int)(ldata[6].position.x +1) * 3)] = 0xFFFFFF;
+				colorData.planes[0][(int)((int)(ldata[6].position.y -1 ) * cwidth2) + (int)((int)(ldata[6].position.x -1) * 3)] = 0xFFFFFF;
 
 				images[0]->ReleaseAccess(&colorData);
 				if(nose.x > 2)//Not valid Depth
