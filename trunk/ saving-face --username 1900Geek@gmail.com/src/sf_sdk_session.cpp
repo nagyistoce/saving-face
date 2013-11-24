@@ -231,10 +231,11 @@ namespace SF
 
 	//Hard coded for temporary testing
 	//There is a code sample for video recording called camera_viewer
-	void SF_Session::saveVideo(PXCSession *session)
+	void SF_Session::saveVideo(string dir, string fileName)
 	{
-		//makeDirectory("recordedvideo");
-		//string path = getFullPath("recordedvideo");
+		//Change to inputs.
+		makeDirectory("recordedvideo");
+		string path = getFullPath("recordedvideo");
 
 		//path += "testvideo.mp4"; //Not really sure if this is .mp4 or what yet
 
@@ -243,12 +244,18 @@ namespace SF
 		//for(int i = 0; i < path.length(); ++i)
 			//widePath += wchar_t( path[i] );
 
-		//const pxcCHAR *arg2 = widePath.c_str();
+		//wstring widePath = wstring(path.begin(), path.end());
+		
+		size_t newsize = path.size() + 1;
+		wchar_t * widePath = new wchar_t[newsize];
+		size_t convertedChars = 0;
+		mbstowcs_s(&convertedChars, widePath, newsize, path.c_str(), _TRUNCATE);
+		
+		//The docs say the arguements are as follows yet this line gives errors.  :/
+		//Error caused by const wchar_t * ditch the const.
+		UtilCaptureFile *utilCaptureFile = new UtilCaptureFile(session, widePath, true);
 
-		//Successfully saves file but not saving any info it appears
-		UtilCaptureFile capture(session, L"testvideo", true);
-
-		//This is code from the camera_veiwer sample
+		//delete[] arg2;
 		 /*for (std::list<std::pair<PXCSizeU32,pxcU32>>::iterator itrc=cmdl.m_csize.begin();itrc!=cmdl.m_csize.end();itrc++)
         capture.SetFilter(PXCImage::IMAGE_TYPE_COLOR,itrc->first,itrc->second);
 		 for (std::list<std::pair<PXCSizeU32,pxcU32>>::iterator itrd=cmdl.m_dsize.begin();itrd!=cmdl.m_dsize.end();itrd++)
