@@ -188,13 +188,22 @@ namespace SF
 			lm = &depthR3Coords[coord];
 
 		int radius = 10;
-		int y,x, coordTemp;
+		int y,x, coordTemp, smallestCoord;
+		float smallestDepth = 20;
+
 		for(y = -radius; y < radius; y++)
 			for(x = -radius; x < radius; x++){
 				coordTemp = coord + y*depthWidth + x;
-				//Find and return smallest;
-				depthR3Coords[coordTemp].z;
+
+				if (depthR3Coords[coordTemp].z < smallestDepth)
+				{
+					//Find and return smallest;
+					smallestCoord = coordTemp;
+					smallestDepth = depthR3Coords[coordTemp].z;
+					lm = &depthR3Coords[coord];
+				}
 			}
+
 #endif
 		//This is where we can offer improvements of the pixel based algorithm using the depth coords.
 		//This is specific to the nose and should be relocated later.
