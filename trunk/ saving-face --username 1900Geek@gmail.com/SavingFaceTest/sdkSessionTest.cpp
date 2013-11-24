@@ -123,7 +123,10 @@ namespace SavingFaceTest
 		{
 			startSession();
 			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,100,"BobIsYouUncle.vdo");
-			Assert().Fail(L"Implement and Test");
+
+			Assert().IsTrue(doesDirectoryExist(getFullPath("recordedvideo")), L"Directory does not exist.");
+			string filePath = getFullPath("recordedvideo") + "BobIsYouUncle.vdo";
+			Assert().IsTrue(doesDirectoryExist(filePath), L"File does not exist.");
 		}
 
 #ifdef Mathematica

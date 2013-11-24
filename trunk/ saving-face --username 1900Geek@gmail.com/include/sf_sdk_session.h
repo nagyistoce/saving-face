@@ -46,8 +46,6 @@ namespace SF
 	//GetYPR //GetLandmark //Save video //Save Image
 	//Following these... A method to compare the saved video to the finished model.
 
-	//saves the video from the camera
-	void saveVideo(string dir, string fileName);
 
 	void camera_loop
 		(
@@ -96,6 +94,9 @@ namespace SF
 		UtilCmdLine *cmdl;
 		PXCCapture::VideoStream::ProfileInfo colorProfile;
 		PXCCapture::VideoStream::ProfileInfo depthProfile;
+
+		//for video recording
+		UtilCaptureFile *utilCaptureFile;
 
 		//Holds depth x,y coords and z value
 		PXCPoint3DF32 *depthXYZCoords;
