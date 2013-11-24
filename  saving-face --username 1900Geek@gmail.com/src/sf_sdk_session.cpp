@@ -255,7 +255,7 @@ namespace SF
 		//Error caused by const wchar_t * ditch the const.
 		UtilCaptureFile *utilCaptureFile = new UtilCaptureFile(session, widePath, true);
 
-		//delete[] arg2;
+		
 		 /*for (std::list<std::pair<PXCSizeU32,pxcU32>>::iterator itrc=cmdl.m_csize.begin();itrc!=cmdl.m_csize.end();itrc++)
         capture.SetFilter(PXCImage::IMAGE_TYPE_COLOR,itrc->first,itrc->second);
 		 for (std::list<std::pair<PXCSizeU32,pxcU32>>::iterator itrd=cmdl.m_dsize.begin();itrd!=cmdl.m_dsize.end();itrd++)
@@ -272,6 +272,7 @@ namespace SF
 			void (*newFrame)(int), 
 			bool (*continueProcessing)(),
 			int numFrames,
+			string videoFileName,
 			bool multiface
 		)	
 	{
@@ -281,7 +282,8 @@ namespace SF
 		//TODO::(RE-FACTOR)... this will be a messy function anyways, but clean it up.
 		//TODO::Ensure ypr and landmark are valid... If not decrement frame count and continue.
 		if(initLoop() < SF_STS_OK) return;//Loop Initialization Failed
-		saveVideo("","");
+		if(videoFileName != "")
+			saveVideo("","");
 		//Begin Loop
 		//Make num frames an argument parameter
 		for (pxcU32 f=0;(numFrames == 0)?true:f < numFrames;) {

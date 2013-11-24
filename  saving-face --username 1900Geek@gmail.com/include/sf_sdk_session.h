@@ -61,6 +61,7 @@ namespace SF
 			//Call back to check to see if a stop condition has been reached
 			bool (*continueProcessing)(),
 			int numFrames = 0,
+			string videoFileName = "",
 			bool multiface = false
 			//Add functionality to playback video... (Later)
 		);
