@@ -3,6 +3,7 @@
 //Temp includes
 #include <fstream>
 #include <sstream>
+#include <math.h>
 
 
 namespace SF
@@ -165,41 +166,67 @@ namespace SF
 	}
 	
 	SF_R3_COORD *SF_Session::getLandmarkCoord(SF_R3_COORD *landmark){
+		SF_R3_COORD *nose = nullptr;
+		/*
 		//Most of this is Trouble shooting code... And will be removed when done		
 		SF_R3_COORD *nose, *noseCoord;
-		//nose = new SF_R3_COORD;
-		noseCoord = new SF_R3_COORD;
-		noseCoord->x = (landmark->x *.5f);
-		noseCoord->y = (landmark->y* .5f);
+		
+		//Niave approach does not work
 		nose = &depthR3Coords[(depthWidth) * (int)(landmark->y/2) + (int)(landmark->x/2)];
 				
 		//Troubleshooting code;
 		depthXYZCoords[(depthWidth) * (int)(landmark->y/2) + (int)(landmark->x/2)];
 		depthXYToColorXY[(depthWidth) * (int)(landmark->y/2) + (int)(landmark->x/2)];
-		SF_R3_COORD nose2;
-		PXCPointF32 noseT;
-		projection->ProjectImageToRealWorld(
-			1,
-			&depthXYZCoords[depthWidth * (int)(landmark->y/2) + (int)(landmark->x/2)],
-			&nose2);
+		
+		
 		//Should be close to the color coords.
 		//A plan... If the out put of this ~= nose color coords. Then the real world mapping should be the nose.
 		//This is not a one to one correspondance... Also if that particular one was saturated. Then it won't exist.
 		//Then we would need to try a new frame.
-				
-		projection->MapDepthToColorCoordinates(
-			1,
-			&depthXYZCoords[(depthWidth) * (int)(landmark->y/2) + (int)(landmark->x/2)],
-			&noseT);
-
-		//Temp fail case so that the tests don't immediatly crash.
-		//Normal fail case would be to return null.
+		
+		//Rename local vars to landmark... It is not specifically for the nose.
+		*/
+		//noseCoord = new SF_R3_COORD;
+		//noseCoord->x = (int)(landmark->x *.5f);
+		//noseCoord->y = (int)(landmark->y *.5f);
+		//Implement Search Algorithm.
+		float acceptableErr = 2;
+		PXCPointF32 noseT;
+		//Naive approach... will find if it exists.
+		int coord = 0;
+		for(coord = 0; coord < nPointsDepth; coord++){
+			 noseT = depthXYToColorXY[coord];
+			 if(abs(noseT.x - landmark->x) < acceptableErr && abs(noseT.y - landmark->y) < acceptableErr)
+				 break;
+ 		}
+		if(coord < nPointsDepth)
+			nose = &depthR3Coords[coord];
+		//Begginings of a intelligent algorithm...
+		/*SF_R3_COORD noseGuess, nose2;
+		PXCPointF32 noseT;
+		//while(true)
+		{
+			noseGuess = depthXYZCoords[(depthWidth) * (int)(noseCoord->y) + (int)(noseCoord->x)];
+			//Check to make sure it has a mapped depth else the next statement will not work
+			if((noseGuess.z==depthLowConfidence || depthXYZCoords[k].z==depthSaturation)
+			projection->MapDepthToColorCoordinates(
+				1,
+				&noseGuess,
+				&noseT);//First pass it will be within about 50 pixels give or take.
+			
+			
+			//After we guessed right
+			projection->ProjectImageToRealWorld(
+				1,
+				&noseGuess,
+				&nose2);
+		}*/
 		return nose;
 	}
 
 	void SF_Session::getDepthPixelFromColorImage(SF::SF_MODEL_COORD3D &depthOut, PXCPoint3DF32 &depthCoords, PXCPointF32 &colorPixel, PXCImage::ImageData &image)
 	{
-		image.
+		//image.
 	}
 
 	void SF_Session::drawCrossHairsOnLandmark(SF_R3_COORD &landmark, PXCImage::ImageData &image)
