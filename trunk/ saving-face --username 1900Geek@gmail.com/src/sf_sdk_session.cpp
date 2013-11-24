@@ -230,9 +230,25 @@ namespace SF
 	}
 
 	//Hard coded for temporary testing
+	//There is a code sample for video recording called camera_viewer
 	void SF_Session::saveVideo(PXCSession *session)
 	{
-		UtilCaptureFile(PXCSession *session, , pxcBool recording);
+		makeDirectory("recordedvideo");
+		string path = getFullPath("recordedvideo");
+
+		path += "video.mp4"; //Not really sure this is .mp4 or what yet
+
+		//pxcChar(2nd argument in constructor) is a wchar_t array therefor must convert
+		wstring widePath;
+		for(int i = 0; i < path.length(); ++i)
+			widePath += wchar_t( path[i] );
+
+		const wchar_t *arg2 = widePath.c_str();
+
+		//The docs say the arguements are as follows yet this line gives errors.  :/
+		//UtilCaptureFile *utilCaptureFile = new UtilCaptureFile(session, arg2, true);
+
+		delete[] arg2;
 	}
 
 	void SF_Session::camera_loop
