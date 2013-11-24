@@ -134,8 +134,28 @@ namespace SavingFaceTest
 			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,100);
 
 			Assert().IsTrue(doesDirectoryExist(getFullPath(_DEFAULT_VIDEO_DIR)), L"Directory does not exist.");
-			//string filePath = getFullPath("recordedvideo") + "BobIsYouUncle.vdo";
-			//Assert().IsTrue(doesDirectoryExist(filePath), L"File does not exist.");
+			string filePath = getFullPath(_DEFAULT_VIDEO_DIR) + "BobIsYouUncle.vdo";
+			Assert().IsTrue(doesDirectoryExist(filePath), L"File does not exist.");
+		}
+
+		TEST_METHOD(playbackVideoTest)
+		{
+			Assert().IsTrue(doesDirectoryExist(getFullPath(_DEFAULT_VIDEO_DIR)), L"Directory does not exist.");
+			string filePath = getFullPath(_DEFAULT_VIDEO_DIR) + "BobIsYouUncle.vdo";
+			Assert().IsTrue(doesDirectoryExist(filePath), L"File does not exist.");
+			
+			session = new SF::SF_Session();
+			if(!(session->createSession()))
+				Assert().Fail(L"Failed To Create Session");			
+			if(!(session->setOptions(NULL, NULL)))
+				Assert().Fail(L"Failed to set Options");
+			if(session->captureStreams("BobIsYouUncle.vdo",false) < SF_STS_OK)
+				Assert().Fail(L"Failed To Locate and Capture Streams");
+			session->createDepthRenderView();
+			session->createColorRenderView();
+			session->loadFaceModule();
+			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,100);
+
 		}
 
 #ifdef Mathematica
