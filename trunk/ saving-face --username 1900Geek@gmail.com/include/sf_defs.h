@@ -6,6 +6,8 @@
 #include "pxcface.h"
 namespace SF
 {
+
+#define _DEFAULT_VIDEO_DIR "Recorded_Video"
 	//A name or part of a name of a person
 	typedef std::string SF_NAME; 
 
