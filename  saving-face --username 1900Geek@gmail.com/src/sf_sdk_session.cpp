@@ -233,22 +233,28 @@ namespace SF
 	//There is a code sample for video recording called camera_viewer
 	void SF_Session::saveVideo(PXCSession *session)
 	{
-		makeDirectory("recordedvideo");
-		string path = getFullPath("recordedvideo");
+		//makeDirectory("recordedvideo");
+		//string path = getFullPath("recordedvideo");
 
-		path += "video.mp4"; //Not really sure this is .mp4 or what yet
+		//path += "testvideo.mp4"; //Not really sure if this is .mp4 or what yet
 
 		//pxcChar(2nd argument in constructor) is a wchar_t array therefor must convert
-		wstring widePath;
-		for(int i = 0; i < path.length(); ++i)
-			widePath += wchar_t( path[i] );
+		//wstring widePath;
+		//for(int i = 0; i < path.length(); ++i)
+			//widePath += wchar_t( path[i] );
 
-		const wchar_t *arg2 = widePath.c_str();
+		//const pxcCHAR *arg2 = widePath.c_str();
 
-		//The docs say the arguements are as follows yet this line gives errors.  :/
-		//UtilCaptureFile *utilCaptureFile = new UtilCaptureFile(session, arg2, true);
+		//Successfully saves file but not saving any info it appears
+		UtilCaptureFile capture(session, L"testvideo", true);
 
-		delete[] arg2;
+		//This is code from the camera_veiwer sample
+		 /*for (std::list<std::pair<PXCSizeU32,pxcU32>>::iterator itrc=cmdl.m_csize.begin();itrc!=cmdl.m_csize.end();itrc++)
+        capture.SetFilter(PXCImage::IMAGE_TYPE_COLOR,itrc->first,itrc->second);
+		 for (std::list<std::pair<PXCSizeU32,pxcU32>>::iterator itrd=cmdl.m_dsize.begin();itrd!=cmdl.m_dsize.end();itrd++)
+        capture.SetFilter(PXCImage::IMAGE_TYPE_DEPTH,itrd->first,itrd->second);*/
+
+		//delete[] arg2;
 	}
 
 	void SF_Session::camera_loop
@@ -268,7 +274,7 @@ namespace SF
 		//TODO::(RE-FACTOR)... this will be a messy function anyways, but clean it up.
 		//TODO::Ensure ypr and landmark are valid... If not decrement frame count and continue.
 		if(initLoop() < SF_STS_OK) return;//Loop Initialization Failed
-
+		saveVideo(session);
 		//Begin Loop
 		//Make num frames an argument parameter
 		for (pxcU32 f=0;(numFrames == 0)?true:f < numFrames;) {
