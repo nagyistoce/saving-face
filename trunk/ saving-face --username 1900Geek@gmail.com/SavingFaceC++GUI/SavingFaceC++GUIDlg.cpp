@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include "SavingFaceC++GUI.h"
 #include "SavingFaceC++GUIDlg.h"
+#include "AddIdentifyDlg.h"
 #include "afxdialogex.h"
 
 #ifdef _DEBUG
@@ -156,8 +157,6 @@ HCURSOR CSavingFaceCGUIDlg::OnQueryDragIcon()
 void CSavingFaceCGUIDlg::OnBnClickedOk()
 {
 	// TODO: Add your control notification handler code here
-	CString messagetext;
-	messagetext.Format(_T("this is the message"));
-	MessageBox(messagetext);
-	CDialogEx::OnOK();
+	AddIdentifyDlg AddIdDlg;
+	AddIdDlg.DoModal();
 }
