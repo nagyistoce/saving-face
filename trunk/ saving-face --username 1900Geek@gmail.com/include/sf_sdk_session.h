@@ -45,7 +45,7 @@ namespace SF
 	//Following these... A method to compare the saved video to the finished model.
 
 	//saves the video from the camera
-	void saveVideo(PXCSession *session);
+	void SF_Session::saveVideo(PXCSession *session);
 
 	void camera_loop
 		(
