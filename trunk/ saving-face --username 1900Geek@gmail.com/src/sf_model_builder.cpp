@@ -29,6 +29,30 @@ namespace SF
 		return uid;
 	}
 
+	//Temp Implementation For Testing.
+	Model *sf_model_builder::buildModel(SF_Session *session, SF_MUID muid)
+	{
+		Model *mdl = temp_db.getModel(muid);
+		if(mdl == nullptr) 
+			return nullptr;
+		session->camera_loop((&getTr),&processVertex,NULL,&onNewFrame,NULL,128);
+	}
+
+	void getTr(SF_YPR* ypr, SF_R3_COORD* trCoord)
+	{
+
+	}
+
+	void processVertex(SF_R3_COORD& coord)
+	{
+
+	}
+
+	void onNewFrame(int frameNumber)
+	{
+
+	}
+
 	Model *sf_model_builder::getModel(SF_MUID muid)
 	{
 		return temp_db.getModel(muid);

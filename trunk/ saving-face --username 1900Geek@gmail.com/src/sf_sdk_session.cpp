@@ -259,7 +259,7 @@ namespace SF
 		(
 			void (*yprFunc)(SF_YPR*, SF_R3_COORD*),
 			void (*processVertex)(SF_R3_COORD&),
-			void (*saveImage)(PXCImage::ImageData&),
+			string (*saveImage)(PXCImage::ImageData&),
 			void (*newFrame)(int), 
 			bool (*continueProcessing)(),
 			int numFrames,
