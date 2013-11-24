@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SF_DB
+#define _SF_DB
 #include <map>
 #include "sf_model.h"
 
@@ -37,4 +38,4 @@ using namespace std;
 		//Store all models/
 		map<SF_MUID, Model*> db;
 	};
-
+#endif

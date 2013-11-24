@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SF_UTIL
+#define _SF_UTIL
 #include "sf_db.h"
 
 using namespace SF;
@@ -11,3 +12,4 @@ namespace SF
 	SF_STS removeDirectory(string const partialPath);
 	SF_STS makeDirectory(string const partialPath);
 }
+#endif

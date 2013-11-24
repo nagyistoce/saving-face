@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SF_SESSION
+#define _SF_SESSION
 #include <windows.h> // Neccessary for Command line
 #include <wchar.h> //Required for WChar
 #include <conio.h>
@@ -115,3 +116,4 @@ namespace SF
 	};
 
 }
+#endif

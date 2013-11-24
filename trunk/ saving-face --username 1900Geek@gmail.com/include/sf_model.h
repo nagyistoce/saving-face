@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SF_MODEL
+#define _SF_MODEL
 #include "sf_defs.h"
 #include <fstream>
 
@@ -152,3 +153,4 @@ namespace SF
 		int arrLength;
 	};
 }
+#endif
