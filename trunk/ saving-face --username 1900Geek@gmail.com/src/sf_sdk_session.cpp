@@ -236,15 +236,6 @@ namespace SF
 		//Change to inputs.
 		makeDirectory("recordedvideo");
 		string path = getFullPath("recordedvideo");
-
-		//path += "testvideo.mp4"; //Not really sure if this is .mp4 or what yet
-
-		//pxcChar(2nd argument in constructor) is a wchar_t array therefor must convert
-		//wstring widePath;
-		//for(int i = 0; i < path.length(); ++i)
-			//widePath += wchar_t( path[i] );
-
-		//wstring widePath = wstring(path.begin(), path.end());
 		
 		size_t newsize = path.size() + 1;
 		wchar_t * widePath = new wchar_t[newsize];
@@ -254,7 +245,7 @@ namespace SF
 		//The docs say the arguements are as follows yet this line gives errors.  :/
 		//Error caused by const wchar_t * ditch the const.
 		UtilCaptureFile *utilCaptureFile = new UtilCaptureFile(session, widePath, true);
-
+		
 		
 		 /*for (std::list<std::pair<PXCSizeU32,pxcU32>>::iterator itrc=cmdl.m_csize.begin();itrc!=cmdl.m_csize.end();itrc++)
         capture.SetFilter(PXCImage::IMAGE_TYPE_COLOR,itrc->first,itrc->second);

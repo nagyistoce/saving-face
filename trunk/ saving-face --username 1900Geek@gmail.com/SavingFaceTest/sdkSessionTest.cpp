@@ -117,6 +117,15 @@ namespace SavingFaceTest
 			
 		}
 
+		//NOTE:: Test will run forever if the camera is present
+		//Until it detects a valid face for 30 frames.
+		TEST_METHOD(saveVideoTest)
+		{
+			startSession();
+			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,100,"BobIsYouUncle.vdo");
+			Assert().Fail(L"Implement and Test");
+		}
+
 #ifdef Mathematica
 
 		TEST_METHOD(ExportToCSV)
