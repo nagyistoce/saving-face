@@ -281,7 +281,7 @@ namespace SF
 		//TODO::(RE-FACTOR)... this will be a messy function anyways, but clean it up.
 		//TODO::Ensure ypr and landmark are valid... If not decrement frame count and continue.
 		if(initLoop() < SF_STS_OK) return;//Loop Initialization Failed
-		saveVideo(session);
+		saveVideo("","");
 		//Begin Loop
 		//Make num frames an argument parameter
 		for (pxcU32 f=0;(numFrames == 0)?true:f < numFrames;) {
