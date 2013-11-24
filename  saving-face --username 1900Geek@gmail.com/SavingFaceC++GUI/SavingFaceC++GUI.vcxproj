@@ -102,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddIdentifyDlg.h" />
+    <ClInclude Include="AddUserDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SavingFaceC++GUI.h" />
     <ClInclude Include="SavingFaceC++GUIDlg.h" />
@@ -110,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddIdentifyDlg.cpp" />
+    <ClCompile Include="AddUserDlg.cpp" />
     <ClCompile Include="SavingFaceC++GUI.cpp" />
     <ClCompile Include="SavingFaceC++GUIDlg.cpp" />
     <ClCompile Include="stdafx.cpp">

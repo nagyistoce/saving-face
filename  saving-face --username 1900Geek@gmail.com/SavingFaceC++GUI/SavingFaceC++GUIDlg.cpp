@@ -64,6 +64,7 @@ BEGIN_MESSAGE_MAP(CSavingFaceCGUIDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDOK, &CSavingFaceCGUIDlg::OnBnClickedOk)
+	ON_BN_CLICKED(IDCANCEL, &CSavingFaceCGUIDlg::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -159,4 +160,11 @@ void CSavingFaceCGUIDlg::OnBnClickedOk()
 	// TODO: Add your control notification handler code here
 	AddIdentifyDlg AddIdDlg;
 	AddIdDlg.DoModal();
+}
+
+
+void CSavingFaceCGUIDlg::OnBnClickedCancel()
+{
+	// TODO: Add your control notification handler code here
+	CDialogEx::OnCancel();
 }
