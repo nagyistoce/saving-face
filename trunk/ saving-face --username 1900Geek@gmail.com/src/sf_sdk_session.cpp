@@ -8,7 +8,7 @@
 
 namespace SF
 {
-	bool SF_Session::createSession()
+	bool SF_Session::createSession() 
 	{
 		pxcStatus sts=PXCSession_Create(&session);
 		if (sts<PXC_STATUS_NO_ERROR || session==NULL) {
@@ -259,7 +259,7 @@ namespace SF
 		(
 			void (*yprFunc)(SF_YPR*, SF_R3_COORD*),
 			void (*processVertex)(SF_R3_COORD&),
-			string (*saveImage)(PXCImage::ImageData&),
+			void (*saveImage)(PXCImage::ImageData&),//return a filename
 			void (*newFrame)(int), 
 			bool (*continueProcessing)(),
 			int numFrames,

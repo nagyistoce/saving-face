@@ -30,7 +30,7 @@ namespace SF
 	//–dsize		Specify the depth picture resolution and frame rate, for example, 320x240x30.
 	//–file		Specify a file name. Use with –record for recording or alone for playback.
 	//–record	Enable the recording mode. Use with –file to specify the recording file name.
-	//-load		Load a specific input SDK module into the SDK session.
+	//-load		Load a specific input SDK module into the SDK session. 
 	bool setOptions(int argc, WCHAR *argv[]);
 
 	//TODO Comment all of these
@@ -55,7 +55,7 @@ namespace SF
 			//Call back to process a vertex
 			void (*processVertex)(SF_R3_COORD&),
 			//Call back to a function to save the image
-			string (*saveImage)(PXCImage::ImageData&),
+			void (*saveImage)(PXCImage::ImageData&),//Return a string
 			//Call back to specify processing a new frame and give the frame number
 			void (*newFrame)(int), 
 			//Call back to check to see if a stop condition has been reached
