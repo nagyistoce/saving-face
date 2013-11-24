@@ -81,7 +81,7 @@ namespace SF
 		//Set the email address of a model
 		SF_STS setEmail(SF_EMAIL const emailAddress);
 
-		//Sends the contents of a model to a file.
+		//Sends the contents of a model to a file. 
 		SF_STS streamToFile(ofstream *fileStream);
 
 		//Loads the contents of a model to a file.
