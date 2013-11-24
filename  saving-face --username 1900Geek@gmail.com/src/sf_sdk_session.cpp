@@ -259,6 +259,9 @@ namespace SF
 		if(initLoop() < SF_STS_OK) return;//Loop Initialization Failed
 
 		bool record = false;
+
+		//Set up for recording
+		//initializes UtilCaptureFile for future use
 		if(videoFileName != "")
 		{
 			record = true;
@@ -275,21 +278,20 @@ namespace SF
 			//Error caused by const wchar_t * ditch the const.
 			utilCaptureFile = new UtilCaptureFile(session, widePath, true);
 		}
+
+
 		//Begin Loop
 		//Make num frames an argument parameter
 		for (int f=0;(numFrames == 0)?true:f < numFrames;) {
 			PXCSmartArray<PXCImage> images(2);
 			PXCSmartSPArray sp(2);//Synchronous Pointer
-			
-			if (record)
-			{
-				
-				//addFrameToVideo(f);
-			}
 
 			//ReadStream If Data Available or Block
 			if (capture->ReadStreamAsync(images, &sp[0])<PXC_STATUS_NO_ERROR) break;
 			
+			if (record)
+				sp[0]->Synchronize(0);
+
 			//Process Face YPR and Landmarks
 			face->ProcessImageAsync(images,&sp[1]);//TODO Check return status. If Fail continue
 			//Wait for all ASynchronous Modules To Return
@@ -369,7 +371,17 @@ namespace SF
 			//Check for terminating condition
 			if(continueProcessing)
 				if(!continueProcessing())
+				{
+					//Tear down from recording
+					if (record)
+					{
+						sp.SynchronizeEx();
+						delete utilCaptureFile;
+					}
+
+
 					break;
+				}
 		}
 		
 	}
