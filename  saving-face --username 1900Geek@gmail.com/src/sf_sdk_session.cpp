@@ -186,7 +186,8 @@ namespace SF
  		}
 		if(coord < nPointsDepth)
 			lm = &depthR3Coords[coord];
-
+		else return nullptr;
+		
 		int radius = 10;
 		int y,x, coordTemp, smallestCoord;
 		float smallestDepth = 20;
@@ -194,7 +195,6 @@ namespace SF
 		for(y = -radius; y < radius; y++)
 			for(x = -radius; x < radius; x++){
 				coordTemp = coord + y*depthWidth + x;
-
 				if (depthR3Coords[coordTemp].z < smallestDepth)
 				{
 					//Find and return smallest;
