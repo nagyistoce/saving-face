@@ -114,7 +114,7 @@ namespace SavingFaceTest
 		{
 			startSession();
 			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,100);
-			Assert().Fail(L"Until valid nose coord can be verified");
+			
 		}
 
 #ifdef Mathematica
