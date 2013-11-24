@@ -1,8 +1,9 @@
 #ifndef _SF_CONTROLLER
 #define _SF_CONTROLLER
 //Something strange is going on with the includes.
-//#include "sf_db.h"
-//#include "sf_model.h"
+#include <windows.h>
+#include "sf_db.h"
+#include "sf_model.h"
 #include "sf_sdk_session.h"
 #include "sf_model_builder.h"
 
@@ -30,7 +31,7 @@ public:
 	//Add Functions as needed
 
 private: 
-	//sf_db *db;
+	sf_db *db;
 	sf_model_builder *mBuilder;
 	SF_Session *session;
 };
