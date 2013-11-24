@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "SavingFaceC++GUI.h"
 #include "AddIdentifyDlg.h"
+#include "AddUserDlg.h"
 #include "afxdialogex.h"
 
 
@@ -41,4 +42,8 @@ void AddIdentifyDlg::OnBnClickedAddUser()
 	CString messagetext;
 	messagetext.Format(_T("this is the message"));
 	MessageBox(messagetext);
+
+	AddUserDlg NewUserDlg;
+	NewUserDlg.DoModal();
+	CDialogEx::OnOK();
 }
