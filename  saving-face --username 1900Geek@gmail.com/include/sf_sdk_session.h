@@ -8,6 +8,7 @@
 #include "pxcface.h"
 #include "util_cmdline.h" //CmdLine for passing options in... Minimizes Code
 #include "util_capture.h" //Allows capture of data streams
+#include "util_capture_file.h" //Allows video to be recorded
 #include "util_render.h" //For quick display of feeds
 #include "sf_util.h" //Allows creating a video folder with captured streams
 #include "sf_defs.h" //Data types
