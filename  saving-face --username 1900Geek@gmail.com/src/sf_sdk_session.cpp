@@ -243,8 +243,8 @@ namespace SF
 	void SF_Session::saveVideo(string dir, string fileName)
 	{
 		//Change to inputs.
-		makeDirectory("recordedvideo");
-		string path = getFullPath("recordedvideo");
+		makeDirectory(dir);
+		string path = getFullPath(dir);
 		
 		size_t newsize = path.size() + 1;
 		wchar_t * widePath = new wchar_t[newsize];
@@ -255,13 +255,53 @@ namespace SF
 		//Error caused by const wchar_t * ditch the const.
 		UtilCaptureFile *utilCaptureFile = new UtilCaptureFile(session, widePath, true);
 		
+		PXCSizeU32 size;
+		size.width = 640;
+		size.height = 480;
+		pxcU32 fps = 30;
 		
-		 /*for (std::list<std::pair<PXCSizeU32,pxcU32>>::iterator itrc=cmdl.m_csize.begin();itrc!=cmdl.m_csize.end();itrc++)
-        capture.SetFilter(PXCImage::IMAGE_TYPE_COLOR,itrc->first,itrc->second);
-		 for (std::list<std::pair<PXCSizeU32,pxcU32>>::iterator itrd=cmdl.m_dsize.begin();itrd!=cmdl.m_dsize.end();itrd++)
-        capture.SetFilter(PXCImage::IMAGE_TYPE_DEPTH,itrd->first,itrd->second);*/
+		utilCaptureFile->SetFilter(PXCImage::IMAGE_TYPE_COLOR,size,fps);
 
-		//delete[] arg2;
+		size.width = 320;
+		size.height = 240;
+		utilCaptureFile->SetFilter(PXCImage::IMAGE_TYPE_DEPTH,size, fps);
+
+		PXCCapture::VideoStream::DataDesc request; 
+		memset(&request, 0, sizeof(request));
+		request.streams[0].format=PXCImage::COLOR_FORMAT_RGB32; 
+		request.streams[1].format=PXCImage::COLOR_FORMAT_DEPTH;
+
+		pxcStatus sts = capture->LocateStreams (&request); 
+    if (sts<PXC_STATUS_NO_ERROR) {
+        // let's search for color only
+        request.streams[1].format=0;
+        sts = capture->LocateStreams(&request); 
+        if (sts<PXC_STATUS_NO_ERROR) {
+            wprintf_s(L"Failed to locate any video stream(s)\n");
+            return;
+        }
+    }
+
+    std::vector<UtilRender*> renders;
+    std::vector<PXCCapture::VideoStream*> streams; 
+    for (int idx=0;;idx++) {
+        PXCCapture::VideoStream *stream_v=capture->QueryVideoStream(idx);
+        if (!stream_v) break;
+
+        PXCCapture::VideoStream::ProfileInfo pinfo;
+        stream_v->QueryProfile(&pinfo);
+        WCHAR stream_name[256];
+        switch (pinfo.imageInfo.format&PXCImage::IMAGE_TYPE_MASK) {
+        case PXCImage::IMAGE_TYPE_COLOR: 
+            swprintf_s<256>(stream_name, L"Stream#%d (Color) %dx%d", idx, pinfo.imageInfo.width, pinfo.imageInfo.height);
+            break;
+        case PXCImage::IMAGE_TYPE_DEPTH: 
+            swprintf_s<256>(stream_name, L"Stream#%d (Depth) %dx%d", idx, pinfo.imageInfo.width, pinfo.imageInfo.height);
+            break;
+        }
+        renders.push_back(new UtilRender(stream_name));
+        streams.push_back(stream_v);
+    }
 	}
 
 	void SF_Session::camera_loop
@@ -283,7 +323,7 @@ namespace SF
 		//TODO::Ensure ypr and landmark are valid... If not decrement frame count and continue.
 		if(initLoop() < SF_STS_OK) return;//Loop Initialization Failed
 		if(videoFileName != "")
-			saveVideo("","");
+			saveVideo("recordedvideo",videoFileName);
 		//Begin Loop
 		//Make num frames an argument parameter
 		for (int f=0;(numFrames == 0)?true:f < numFrames;) {
