@@ -198,9 +198,8 @@ namespace SF
 				if (depthR3Coords[coordTemp].z < smallestDepth)
 				{
 					//Find and return smallest;
-					smallestCoord = coordTemp;
 					smallestDepth = depthR3Coords[coordTemp].z;
-					lm = &depthR3Coords[coord];
+					lm = &depthR3Coords[coordTemp];
 				}
 			}
 
