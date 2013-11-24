@@ -2,6 +2,7 @@
 #include "sf_defs.h"
 #include "sf_model.h"
 #include "sf_db.h"
+#include "sf_sdk_session.h"
 #include <iostream>
 
 namespace SF
@@ -49,10 +50,12 @@ namespace SF
 		//Contains the loop to the camera
 		//Include options to save video
 		//Save model to disk when finished
-		Model buildModel(SF_MUID muid);//Param list incomplete
+		
+		Model *buildModel(SF_Session *session,SF_MUID muid);//Param list incomplete
 
-
-
+		//void getTr(SF_YPR* ypr, SF_R3_COORD* trCoord);
+		//void processVertex(SF_R3_COORD& coord);
+		//void onNewFrame(int frameNumber);
 	private:
 		//temp_db holds the working model while being built, private instance
 		//actual_db holds a reference to the actual database.

@@ -55,7 +55,7 @@ namespace SF
 			//Call back to process a vertex
 			void (*processVertex)(SF_R3_COORD&),
 			//Call back to a function to save the image
-			void (*saveImage)(PXCImage::ImageData&),
+			string (*saveImage)(PXCImage::ImageData&),
 			//Call back to specify processing a new frame and give the frame number
 			void (*newFrame)(int), 
 			//Call back to check to see if a stop condition has been reached
