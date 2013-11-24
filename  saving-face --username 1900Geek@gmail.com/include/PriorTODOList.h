@@ -2,8 +2,6 @@
 *Priority number if assigned, followed by the TODO
 
 * Class sf_sdk_session
-* (Highest) Method to convert Nose Landmark to a depth vertice
-******Note Use Projection->MapColorToDepthCoords.
 * (Medium) Save video
 * (Medium) Save Snapshot
 
