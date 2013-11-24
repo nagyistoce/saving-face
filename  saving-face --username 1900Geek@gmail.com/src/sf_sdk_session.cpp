@@ -214,6 +214,17 @@ namespace SF
 		return lm;
 	}
 
+	//This illuminates the disparity between the pixel coords and the R3 coords.
+	void SF_Session::drawCrossHairsOnR3Landmark(SF_R3_COORD &landmark, PXCImage::ImageData &image)
+	{
+		PXCPointF32 *landmarkPixelCoord = new PXCPointF32[1]; 
+		projection->ProjectRealWorldToImage(1,&landmark,landmarkPixelCoord);
+		PXCPoint3DF32 landmarkPixel3d;
+		landmarkPixel3d.x = landmarkPixelCoord->x *2;
+		landmarkPixel3d.y = landmarkPixelCoord->y *2;
+		drawCrossHairsOnLandmark(landmarkPixel3d, image);
+	}
+
 	void SF_Session::drawCrossHairsOnLandmark(SF_R3_COORD &landmark, PXCImage::ImageData &image)
 	{
 		int drawLength = 10;
@@ -307,14 +318,12 @@ namespace SF
 				detector->QueryData(fid,&data);
 				PXCFaceAnalysis::Landmark::LandmarkData ldata[7];
 				PXCFaceAnalysis::Landmark::PoseData pdata;
-			       
 				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_7POINTS,ldata);//Check Return Status and Break
 				landmark->QueryPoseData(fid, &pdata);//Check Return Status and Break
 				
 				if(pdata.yaw<-1000)//Did not get quality data.
 					continue;
-				
-				//This is not working... What is wrong.
+
 				SF_R3_COORD *nose;
 				nose = getLandmarkCoord(&ldata[6].position);
 				if(nose == nullptr) continue;
@@ -327,9 +336,11 @@ namespace SF
 				//drawCrossHairsOnLandmark(ldata[5].position, colorData);
 				//drawCrossHairsOnLandmark(ldata[4].position, colorData);
 				//drawCrossHairsOnLandmark(ldata[3].position, colorData);
-				drawCrossHairsOnLandmark(ldata[2].position, colorData);
+				//drawCrossHairsOnLandmark(ldata[2].position, colorData);
 				//drawCrossHairsOnLandmark(ldata[1].position, colorData);
-				drawCrossHairsOnLandmark(ldata[0].position, colorData);
+				//drawCrossHairsOnLandmark(ldata[0].position, colorData);
+				//Works but not what you would expect... Explains why we had a problem
+				//drawCrossHairsOnR3Landmark(*nose, colorData);
 				images[0]->ReleaseAccess(&colorData);
 				
 

@@ -76,7 +76,9 @@ namespace SF
 		SF_R3_COORD *getLandmarkCoord(SF_R3_COORD *landmark);
 		void drawCrossHairsOnLandmark(SF_R3_COORD &landmark, PXCImage::ImageData &image);
 		SF_STS updateProjections();
-
+		//Test Function
+		void drawCrossHairsOnR3Landmark(SF_R3_COORD &landmark, PXCImage::ImageData &image);
+		
 		PXCSmartPtr<PXCSession> session;
 		PXCSmartPtr<UtilCapture> capture;
 
