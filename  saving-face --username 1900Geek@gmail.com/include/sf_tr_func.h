@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SF_TR_FUNC
+#define _SF_TR_FUNC
 #include "sf_defs.h"
 #include "sf_model.h"
 
@@ -107,3 +108,4 @@ namespace SF
 		out[8] = in1[6] * in2[2] + in1[7]*in2[5] + in1[8] * in2[8];
 	}
 }
+#endif

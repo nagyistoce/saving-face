@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SF_CONTROLLER
+#define _SF_CONTROLLER
 //Something strange is going on with the includes.
 //#include "sf_db.h"
 //#include "sf_model.h"
@@ -33,4 +34,4 @@ private:
 	sf_model_builder *mBuilder;
 	SF_Session *session;
 };
-
+#endif

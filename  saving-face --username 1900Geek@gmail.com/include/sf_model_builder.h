@@ -1,4 +1,5 @@
-#pragma once
+#ifndef _SF_MODEL_BUILDER
+#define _SF_MODEL_BUILDER
 #include "sf_defs.h"
 #include "sf_model.h"
 #include "sf_db.h"
@@ -59,3 +60,4 @@ namespace SF
 		sf_db temp_db, *actual_db; 
 	};
 }
+#endif

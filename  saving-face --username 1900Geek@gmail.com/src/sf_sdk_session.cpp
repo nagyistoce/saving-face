@@ -189,7 +189,7 @@ namespace SF
 		else return nullptr;
 		
 		int radius = 10;
-		int y,x, coordTemp, smallestCoord;
+		int y,x, coordTemp;
 		float smallestDepth = 20;
 
 		for(y = -radius; y < radius; y++)
@@ -277,7 +277,7 @@ namespace SF
 			saveVideo("","");
 		//Begin Loop
 		//Make num frames an argument parameter
-		for (pxcU32 f=0;(numFrames == 0)?true:f < numFrames;) {
+		for (int f=0;(numFrames == 0)?true:f < numFrames;) {
 			PXCSmartArray<PXCImage> images(2);
 			PXCSmartSPArray sp(2);//Synchronous Pointer
 			
@@ -293,8 +293,8 @@ namespace SF
 			images[1]->AcquireAccess(PXCImage::ACCESS_READ,&depthImageData);
 			int dwidth2=depthImageData.pitches[0]/sizeof(pxcU16);
 
-			for (pxcU32 y=0,k=0;y<depthHeight;y++)
-				for (pxcU32 x=0;x<depthWidth;x++,k++)
+			for (int y=0,k=0;y<depthHeight;y++)
+				for (int x=0;x<depthWidth;x++,k++)
 				    depthXYZCoords[k].z=((short*)depthImageData.planes[0])[y*dwidth2+x];
 
 			if(updateProjections() < SF_STS_OK) continue;
@@ -346,8 +346,8 @@ namespace SF
 				//Huge efficiancy can be gained by subsetting the data to relavent area
 				//Based on the relative position of the facial features.
 				//Add checks to make sure pos3d never goes out with a bad value
-				for (pxcU32 y=0,k=0;y<depthHeight;y++) {
-					for (pxcU32 x=0;x<depthWidth;x++,k++) {
+				for (int y=0,k=0;y<depthHeight;y++) {
+					for (int x=0;x<depthWidth;x++,k++) {
 						int xx=(int)(depthXYToColorXY[k].x+0.5f), yy= (int) (depthXYToColorXY[k].y+0.5f);
 						if (xx<0 || yy<0 || xx>=(int) colorWidth || yy >=(int)colorHeight) continue;//Currently this line does nothing.
 						if (depthXYZCoords) if (depthXYZCoords[k].z==depthLowConfidence || depthXYZCoords[k].z==depthSaturation) continue;
