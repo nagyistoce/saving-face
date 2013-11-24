@@ -2,7 +2,6 @@
 #include "sf_defs.h"
 #include "sf_model.h"
 #include "sf_db.h"
-#include "sf_sdk_session.h"
 #include <iostream>
 
 namespace SF
@@ -35,7 +34,7 @@ namespace SF
 		//Adds it to the current model list
 		//This is the only place a model constructor should be called
 		//With the exception of test methods
-		//This will add the model to the local database simultaniously
+		//This will add the model to the local database simultaniously 
 		SF_MUID addNewModel();
 
 		//Ideally this would be in the Model Database.
@@ -50,12 +49,10 @@ namespace SF
 		//Contains the loop to the camera
 		//Include options to save video
 		//Save model to disk when finished
-		
-		Model *buildModel(SF_Session *session,SF_MUID muid);//Param list incomplete
+		Model buildModel(SF_MUID muid);//Working on param list
 
-		//void getTr(SF_YPR* ypr, SF_R3_COORD* trCoord);
-		//void processVertex(SF_R3_COORD& coord);
-		//void onNewFrame(int frameNumber);
+
+
 	private:
 		//temp_db holds the working model while being built, private instance
 		//actual_db holds a reference to the actual database.

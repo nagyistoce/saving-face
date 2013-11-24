@@ -66,7 +66,7 @@ namespace SavingFaceTest
 		}
 
 		void saveYPR(SF::SF_YPR *ypr, SF::SF_R3_COORD *nose)
-		{
+		{ 
 			char str[200];
 			sprintf_s(str,200,"%f,%f,%f\n%f,%f,%f\n",ypr->yaw,ypr->pitch,ypr->roll,nose->x,nose->y,nose->z);
 			fs->write(str,strlen(str));
