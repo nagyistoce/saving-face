@@ -2,13 +2,14 @@
 #define _SF_SESSION
 #include <windows.h> // Neccessary for Command line
 #include <wchar.h> //Required for WChar
-#include <conio.h>
-#include <stdio.h>
 #include "pxcsession.h" //Required To Make Session
 #include "pxcsmartptr.h" //Smart pointers for memory management
 #include "pxcface.h"
 #include "util_cmdline.h" //CmdLine for passing options in... Minimizes Code
+#ifndef _UTILC
+#define _UTILC
 #include "util_capture.h" //Allows capture of data streams
+#endif
 #include "util_capture_file.h" //Allows video to be recorded
 #include "util_render.h" //For quick display of feeds
 #include "sf_util.h" //Allows creating a video folder with captured streams

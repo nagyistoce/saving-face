@@ -1,8 +1,6 @@
 #include "sf_sdk_session.h"
 
 //Temp includes
-#include <fstream>
-#include <sstream>
 #include <math.h>
 
 
