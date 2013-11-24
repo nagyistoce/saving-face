@@ -254,7 +254,7 @@ namespace SavingFaceTest
 		TEST_METHOD(TestModelArrModifyAndRead)
 		{
 			//Test Read only and read/write
-			/*Model *model;
+			Model *model;
 			model = new Model();
 			model->initModelArray();
 			SF::SF_MODEL_ARR arr = model->getWritableModelArr();
@@ -263,14 +263,14 @@ namespace SavingFaceTest
 			char str[2] = {0,0};
 			for(int i = 0; i < model->getArrLength();i++){
 				str[0] = i % 256;
-				Logger().WriteMessage(str);
+				//Logger().WriteMessage(str);
 				Assert().IsTrue(arr[i] == (i % 128),L"Failed to update model");
 			}
 			arr = model->getReadOnlyModelArr();
 			arr[2] = 2;
 			delete model;
-			model = nullptr;*/
-			Assert().Fail(L"Test Not Implemented");
+			model = nullptr;
+			//Assert().Fail(L"Test Not Implemented");
 		}
 	};
 }

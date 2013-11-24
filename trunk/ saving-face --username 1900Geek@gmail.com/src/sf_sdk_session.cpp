@@ -35,7 +35,25 @@ namespace SF
 	
 	
 
-	SF_STS SF_Session::captureStreams(){
+	SF_STS SF_Session::captureStreams(string fileName, bool record){
+		/*if(videoFileName != "")
+		{
+			record = true;
+			string dir = "recordedvideo";
+			makeDirectory(dir);
+			string path = getFullPath(dir) + videoFileName;
+		
+			size_t newsize = path.size() + 1;
+			wchar_t * widePath = new wchar_t[newsize];
+			size_t convertedChars = 0;
+			mbstowcs_s(&convertedChars, widePath, newsize, path.c_str(), _TRUNCATE);
+		
+			//The docs say the arguements are as follows yet this line gives errors.  :/
+			//Error caused by const wchar_t * ditch the const.
+			
+			//Change for Test
+			capture = new UtilCaptureFile(session, widePath, true);
+		}*/
 		PXCCapture::VideoStream::DataDesc request; 
 		memset(&request, 0, sizeof(request)); 
 		//Setup To Request Data Streams
@@ -202,14 +220,7 @@ namespace SF
 			}
 
 #endif
-		//This is where we can offer improvements of the pixel based algorithm using the depth coords.
-		//This is specific to the nose and should be relocated later.
-		//Step 1: Steal the underpants.
-		//Step 3: Profit.... oops wrong plan
 
-		//Step 1: select the smallest (Closest to the camera Z-Value in Y) within say +-7 pixels.
-		//Step 2: select the median/mean X value...(this one is actually kind of tricky and should
-		//	be rotated first... Hold off on that one.
 
 		return lm;
 	}
@@ -247,7 +258,6 @@ namespace SF
 			void (*newFrame)(int), 
 			bool (*continueProcessing)(),
 			int numFrames,
-			string videoFileName,
 			bool multiface
 		)	
 	{
@@ -257,29 +267,6 @@ namespace SF
 		//TODO::(RE-FACTOR)... this will be a messy function anyways, but clean it up.
 		//TODO::Ensure ypr and landmark are valid... If not decrement frame count and continue.
 		if(initLoop() < SF_STS_OK) return;//Loop Initialization Failed
-
-		bool record = false;
-
-		//Set up for recording
-		//initializes UtilCaptureFile for future use
-		if(videoFileName != "")
-		{
-			record = true;
-			string dir = "recordedvideo";
-			makeDirectory(dir);
-			string path = getFullPath(dir);
-		
-			size_t newsize = path.size() + 1;
-			wchar_t * widePath = new wchar_t[newsize];
-			size_t convertedChars = 0;
-			mbstowcs_s(&convertedChars, widePath, newsize, path.c_str(), _TRUNCATE);
-		
-			//The docs say the arguements are as follows yet this line gives errors.  :/
-			//Error caused by const wchar_t * ditch the const.
-			utilCaptureFile = new UtilCaptureFile(session, widePath, true);
-		}
-
-
 		//Begin Loop
 		//Make num frames an argument parameter
 		for (int f=0;(numFrames == 0)?true:f < numFrames;) {
@@ -289,11 +276,11 @@ namespace SF
 			//ReadStream If Data Available or Block
 			if (capture->ReadStreamAsync(images, &sp[0])<PXC_STATUS_NO_ERROR) break;
 			
-			if (record)
-				sp[0]->Synchronize(0);
 
 			//Process Face YPR and Landmarks
 			face->ProcessImageAsync(images,&sp[1]);//TODO Check return status. If Fail continue
+			
+			//Failing here on record.
 			//Wait for all ASynchronous Modules To Return
 			if (sp.SynchronizeEx()<PXC_STATUS_NO_ERROR) continue;
 			
@@ -371,17 +358,7 @@ namespace SF
 			//Check for terminating condition
 			if(continueProcessing)
 				if(!continueProcessing())
-				{
-					//Tear down from recording
-					if (record)
-					{
-						sp.SynchronizeEx();
-						delete utilCaptureFile;
-					}
-
-
 					break;
-				}
 		}
 		
 	}

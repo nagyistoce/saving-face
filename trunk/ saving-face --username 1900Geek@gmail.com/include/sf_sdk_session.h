@@ -36,7 +36,7 @@ namespace SF
 	bool setOptions(int argc, WCHAR *argv[]);
 
 	//TODO Comment all of these
-	SF_STS captureStreams();
+	SF_STS captureStreams(string fileName = "", bool record = false);
 	SF_STS loadFaceModule();
 	SF_STS createDepthRenderView();
 	SF_STS createColorRenderView();
@@ -61,7 +61,6 @@ namespace SF
 			//Call back to check to see if a stop condition has been reached
 			bool (*continueProcessing)(),
 			int numFrames = 0,
-			string videoFileName = "",
 			bool multiface = false
 			//Add functionality to playback video... (Later)
 		);
