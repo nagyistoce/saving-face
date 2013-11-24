@@ -36,31 +36,27 @@ namespace SF
 	
 
 	SF_STS SF_Session::captureStreams(string fileName, bool record){
-		/*if(videoFileName != "")
-		{
-			record = true;
-			string dir = "recordedvideo";
-			makeDirectory(dir);
-			string path = getFullPath(dir) + videoFileName;
 		
-			size_t newsize = path.size() + 1;
-			wchar_t * widePath = new wchar_t[newsize];
-			size_t convertedChars = 0;
-			mbstowcs_s(&convertedChars, widePath, newsize, path.c_str(), _TRUNCATE);
-		
-			//The docs say the arguements are as follows yet this line gives errors.  :/
-			//Error caused by const wchar_t * ditch the const.
-			
-			//Change for Test
-			capture = new UtilCaptureFile(session, widePath, true);
-		}*/
 		PXCCapture::VideoStream::DataDesc request; 
 		memset(&request, 0, sizeof(request)); 
 		//Setup To Request Data Streams
 		request.streams[0].format=PXCImage::COLOR_FORMAT_RGB32;
 		request.streams[1].format=PXCImage::COLOR_FORMAT_DEPTH;
 		//Submit Request to capture streams
-		capture = new UtilCapture(session);
+		if(fileName != "")
+		{
+			string dir = _DEFAULT_VIDEO_DIR;
+			makeDirectory(dir);
+			string path = getFullPath(dir) + fileName;
+		
+			size_t newsize = path.size() + 1;
+			wchar_t * widePath = new wchar_t[newsize];
+			size_t convertedChars = 0;
+			mbstowcs_s(&convertedChars, widePath, newsize, path.c_str(), _TRUNCATE);
+		
+			capture = new UtilCaptureFile(session, widePath, record);
+		}else
+			capture = new UtilCapture(session);
 		pxcStatus sts = capture->LocateStreams (&request);
 		if (sts<PXC_STATUS_NO_ERROR) {
 			wprintf_s(L"Failed to locate video stream(s)\n");
