@@ -251,10 +251,10 @@ namespace SavingFaceTest
 		}
 
 		//This test made my output window go crazy, I'm commenting it out for readability
-		/*TEST_METHOD(TestModelArrModifyAndRead)
+		TEST_METHOD(TestModelArrModifyAndRead)
 		{
 			//Test Read only and read/write
-			Model *model;
+			/*Model *model;
 			model = new Model();
 			model->initModelArray();
 			SF::SF_MODEL_ARR arr = model->getWritableModelArr();
@@ -269,8 +269,8 @@ namespace SavingFaceTest
 			arr = model->getReadOnlyModelArr();
 			arr[2] = 2;
 			delete model;
-			model = nullptr;
+			model = nullptr;*/
 			Assert().Fail(L"Test Not Implemented");
-		}*/
+		}
 	};
 }

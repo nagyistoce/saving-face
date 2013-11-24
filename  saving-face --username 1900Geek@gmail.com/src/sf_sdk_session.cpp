@@ -238,71 +238,6 @@ namespace SF
 		}
 	}
 
-	//Hard coded for temporary testing
-	//There is a code sample for video recording called camera_viewer
-	void SF_Session::saveVideo(string dir, string fileName)
-	{
-		//Change to inputs.
-		makeDirectory(dir);
-		string path = getFullPath(dir);
-		
-		size_t newsize = path.size() + 1;
-		wchar_t * widePath = new wchar_t[newsize];
-		size_t convertedChars = 0;
-		mbstowcs_s(&convertedChars, widePath, newsize, path.c_str(), _TRUNCATE);
-		
-		//The docs say the arguements are as follows yet this line gives errors.  :/
-		//Error caused by const wchar_t * ditch the const.
-		UtilCaptureFile *utilCaptureFile = new UtilCaptureFile(session, widePath, true);
-		
-		PXCSizeU32 size;
-		size.width = 640;
-		size.height = 480;
-		pxcU32 fps = 30;
-		
-		utilCaptureFile->SetFilter(PXCImage::IMAGE_TYPE_COLOR,size,fps);
-
-		size.width = 320;
-		size.height = 240;
-		utilCaptureFile->SetFilter(PXCImage::IMAGE_TYPE_DEPTH,size, fps);
-
-		PXCCapture::VideoStream::DataDesc request; 
-		memset(&request, 0, sizeof(request));
-		request.streams[0].format=PXCImage::COLOR_FORMAT_RGB32; 
-		request.streams[1].format=PXCImage::COLOR_FORMAT_DEPTH;
-
-		pxcStatus sts = capture->LocateStreams (&request); 
-    if (sts<PXC_STATUS_NO_ERROR) {
-        // let's search for color only
-        request.streams[1].format=0;
-        sts = capture->LocateStreams(&request); 
-        if (sts<PXC_STATUS_NO_ERROR) {
-            wprintf_s(L"Failed to locate any video stream(s)\n");
-            return;
-        }
-    }
-
-    std::vector<UtilRender*> renders;
-    std::vector<PXCCapture::VideoStream*> streams; 
-    for (int idx=0;;idx++) {
-        PXCCapture::VideoStream *stream_v=capture->QueryVideoStream(idx);
-        if (!stream_v) break;
-
-        PXCCapture::VideoStream::ProfileInfo pinfo;
-        stream_v->QueryProfile(&pinfo);
-        WCHAR stream_name[256];
-        switch (pinfo.imageInfo.format&PXCImage::IMAGE_TYPE_MASK) {
-        case PXCImage::IMAGE_TYPE_COLOR: 
-            swprintf_s<256>(stream_name, L"Stream#%d (Color) %dx%d", idx, pinfo.imageInfo.width, pinfo.imageInfo.height);
-            break;
-        case PXCImage::IMAGE_TYPE_DEPTH: 
-            swprintf_s<256>(stream_name, L"Stream#%d (Depth) %dx%d", idx, pinfo.imageInfo.width, pinfo.imageInfo.height);
-            break;
-        }
-        renders.push_back(new UtilRender(stream_name));
-        streams.push_back(stream_v);
-    }
-	}
 
 	void SF_Session::camera_loop
 		(
@@ -322,14 +257,36 @@ namespace SF
 		//TODO::(RE-FACTOR)... this will be a messy function anyways, but clean it up.
 		//TODO::Ensure ypr and landmark are valid... If not decrement frame count and continue.
 		if(initLoop() < SF_STS_OK) return;//Loop Initialization Failed
+
+		bool record = false;
 		if(videoFileName != "")
-			saveVideo("recordedvideo",videoFileName);
+		{
+			record = true;
+			string dir = "recordedvideo";
+			makeDirectory(dir);
+			string path = getFullPath(dir);
+		
+			size_t newsize = path.size() + 1;
+			wchar_t * widePath = new wchar_t[newsize];
+			size_t convertedChars = 0;
+			mbstowcs_s(&convertedChars, widePath, newsize, path.c_str(), _TRUNCATE);
+		
+			//The docs say the arguements are as follows yet this line gives errors.  :/
+			//Error caused by const wchar_t * ditch the const.
+			utilCaptureFile = new UtilCaptureFile(session, widePath, true);
+		}
 		//Begin Loop
 		//Make num frames an argument parameter
 		for (int f=0;(numFrames == 0)?true:f < numFrames;) {
 			PXCSmartArray<PXCImage> images(2);
 			PXCSmartSPArray sp(2);//Synchronous Pointer
 			
+			if (record)
+			{
+				
+				//addFrameToVideo(f);
+			}
+
 			//ReadStream If Data Available or Block
 			if (capture->ReadStreamAsync(images, &sp[0])<PXC_STATUS_NO_ERROR) break;
 			
