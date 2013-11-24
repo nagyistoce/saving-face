@@ -128,7 +128,7 @@ namespace SF
 		depthXYZCoords=(PXCPoint3DF32 *)new PXCPoint3DF32[nPointsDepth]; 
 		depthR3Coords=(PXCPoint3DF32 *)new PXCPoint3DF32[nPointsDepth];
 		depthXYToColorXY=(PXCPointF32 *)new PXCPointF32[nPointsDepth];
-		//posd=(PXCPointF32 *)new PXCPointF32[nPointsColor];
+		
 		
 		//Get Confidence values for Depth
 		
@@ -186,6 +186,15 @@ namespace SF
  		}
 		if(coord < nPointsDepth)
 			lm = &depthR3Coords[coord];
+
+		int radius = 10;
+		int y,x, coordTemp;
+		for(y = -radius; y < radius; y++)
+			for(x = -radius; x < radius; x++){
+				coordTemp = coord + y*depthWidth + x;
+				//Find and return smallest;
+				depthR3Coords[coordTemp].z;
+			}
 #endif
 		//This is where we can offer improvements of the pixel based algorithm using the depth coords.
 		//This is specific to the nose and should be relocated later.
@@ -195,6 +204,7 @@ namespace SF
 		//Step 1: select the smallest (Closest to the camera Z-Value in Y) within say +-7 pixels.
 		//Step 2: select the median/mean X value...(this one is actually kind of tricky and should
 		//	be rotated first... Hold off on that one.
+
 		return lm;
 	}
 
