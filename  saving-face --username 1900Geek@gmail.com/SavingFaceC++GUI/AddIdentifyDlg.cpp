@@ -39,10 +39,6 @@ END_MESSAGE_MAP()
 void AddIdentifyDlg::OnBnClickedAddUser()
 {
 	// TODO: Add your control notification handler code here
-	CString messagetext;
-	messagetext.Format(_T("this is the message"));
-	MessageBox(messagetext);
-
 	AddUserDlg NewUserDlg;
 	NewUserDlg.DoModal();
 	CDialogEx::OnOK();
