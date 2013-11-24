@@ -9,6 +9,7 @@
 #include "util_cmdline.h" //CmdLine for passing options in... Minimizes Code
 #include "util_capture.h" //Allows capture of data streams
 #include "util_render.h" //For quick display of feeds
+#include "sf_util.h" //Allows creating a video folder with captured streams
 #include "sf_defs.h" //Data types
 #include "pxcprojection.h" //To Project Coords to Real-Life and to map depth to image
 #include "pxcmetadata.h"   //Necessary for projection
@@ -41,9 +42,9 @@ namespace SF
 	//The following are to be replaced by a single function that is well written and includes the following options
 	//GetYPR //GetLandmark //Save video //Save Image
 	//Following these... A method to compare the saved video to the finished model.
-	
-	//Takes a color point from color image and maps it to a depth point from the depth image
-	void getDepthPixelFromColorImage(SF::SF_MODEL_COORD3D &depthOut, PXCPoint3DF32 &depthCoords, PXCPointF32 &colorPixel, PXCImage::ImageData &image);
+
+	//saves the video from the camera
+	void saveVideo(PXCSession *session);
 
 	void camera_loop
 		(

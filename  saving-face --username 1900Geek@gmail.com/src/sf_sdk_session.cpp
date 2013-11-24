@@ -216,11 +216,6 @@ namespace SF
 		return lm;
 	}
 
-	void SF_Session::getDepthPixelFromColorImage(SF::SF_MODEL_COORD3D &depthOut, PXCPoint3DF32 &depthCoords, PXCPointF32 &colorPixel, PXCImage::ImageData &image)
-	{
-		//image.
-	}
-
 	void SF_Session::drawCrossHairsOnLandmark(SF_R3_COORD &landmark, PXCImage::ImageData &image)
 	{
 		int drawLength = 10;
@@ -232,6 +227,12 @@ namespace SF
 			image.planes[0][i*colorByteWidth+ (int)(landmark.x)*3+1] = 0xFF;
 			image.planes[0][i*colorByteWidth+ (int)(landmark.x)*3+2] = 0xFF;
 		}
+	}
+
+	//Hard coded for temporary testing
+	void SF_Session::saveVideo(PXCSession *session)
+	{
+		UtilCaptureFile(PXCSession *session, , pxcBool recording);
 	}
 
 	void SF_Session::camera_loop
