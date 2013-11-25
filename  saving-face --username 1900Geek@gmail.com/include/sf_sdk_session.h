@@ -51,10 +51,10 @@ namespace SF
 	void camera_loop
 		(
 			//Call back to process the YPR, and landmark data.
-			void (*yprFunc)(SF_YPR*, SF_R3_COORD*),
+			SF_TR_MATRIX* (*yprFunc)(SF_YPR*, SF_R3_COORD*),
 			//void (*landMarkFunc)(SF_R3_COORD*),
 			//Call back to process a vertex
-			void (*processVertex)(SF_R3_COORD&),
+			void (*processVertex)(SF_R3_COORD&, SF_TR_MATRIX*),
 			//Call back to a function to save the image
 			void (*saveImage)(PXCImage::ImageData&),//Return a string
 			//Call back to specify processing a new frame and give the frame number

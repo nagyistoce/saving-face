@@ -51,7 +51,7 @@
 			//Can't define this is sf_model_buidler.h and use as a callback function.
 		}
 
-		void processVertex(SF_R3_COORD& coord)
+		void processVertex(SF_R3_COORD& coord, SF_TR_MATRIX* tr)
 		{
 			//pseudo
 			SF_MODEL_COORD3D modelCoord;
