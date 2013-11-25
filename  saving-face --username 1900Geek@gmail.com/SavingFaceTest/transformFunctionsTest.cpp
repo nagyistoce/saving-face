@@ -2,8 +2,8 @@
 
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#ifdef TEMP_DISABLE
-#include "sf_tr_func.h"
+#ifndef TEMP_DISABLE
+#include "sf_tr_test.h"
 #include "sf_defs.h"
 #include "pxcdefs.h"
 #include "sf_model.h"
@@ -36,7 +36,7 @@ namespace SavingFaceTest
 			ypr.yaw = 0.72f * (float)M_PI;
 			ypr.pitch = 0.03f * (float)M_PI;
 			ypr.roll = 0.95f * (float)M_PI;
-			SF::calculateTRMatrix(tm,trv, ypr);
+			SFTEST::calculateTRMatrix(tm,trv, ypr);
 			exp.trV.x = 3.5f;
 			exp.trV.y = -1.3f;
 			exp.trV.z = -1.2f;
@@ -81,7 +81,7 @@ namespace SavingFaceTest
 			PXCPoint3DF32 trv = {1,1,1};
 			SF::SF_YPR ypr = {0,0,0,0};
 			for(int i = 1; i < 1000000; i++)
-				SF::calculateTRMatrix(tm,trv, ypr);
+				SFTEST::calculateTRMatrix(tm,trv, ypr);
 			SF::SF_TR_MATRIX exp;
 			exp.trV.x = 1;
 			exp.trV.y = 1;
@@ -123,7 +123,7 @@ namespace SavingFaceTest
 			exp.y = 5;
 			exp.z = 5;
 			
-			SF::translateCoord(out, origCoord, tr);
+			SFTEST::translateCoord(out, origCoord, tr);
 
 			Assert().AreEqual(memcmp(&(out),&(exp),sizeof(float)*3),0,L"Translation Vector Fail");
 		}
@@ -147,7 +147,7 @@ namespace SavingFaceTest
 			expMax.y = -0.00466299f + ACCEPTABLE_ERROR;
 			expMax.z = -7.54583f + ACCEPTABLE_ERROR;
 
-			SF::rotateCoord(out, tr_coord3d, tm);
+			SFTEST::rotateCoord(out, tr_coord3d, tm);
 
 			char *str = new char[200];
 			sprintf_s(str, 200, "Output From Rotate Coord::\n%f, %f, %f\n", out.x,out.y,out.z);
@@ -181,7 +181,7 @@ namespace SavingFaceTest
 			expMax.y = -7.267827f + ACCEPTABLE_ERROR;
 			expMax.z = -25.34534f + ACCEPTABLE_ERROR;
 
-			SF::transformCoord(out, tr_coord3d, tm);
+			SFTEST::transformCoord(out, tr_coord3d, tm);
 
 			char *str = new char[200];
 			sprintf_s(str, 200, "Output From Transform Coord::\n%f, %f, %f\n", out.x,out.y,out.z);
@@ -219,7 +219,7 @@ namespace SavingFaceTest
 
 			char *str = new char[200];
 
-			SF::MatrixMultiply1b3(out, tr_coord3d, matrix);
+			SFTEST::MatrixMultiply1b3(out, tr_coord3d, matrix);
 
 			sprintf_s(str, 200, "Output Matrix Contains::\n%f, %f, %f", 
 				out.x,
@@ -238,7 +238,7 @@ namespace SavingFaceTest
 		{
 			SF::SF_SCALAR in1[9] ={3,1,3,1,3,1,3,1,3}, in2[9] = {3,2,2,3,2,2,3,2,5}, out[9], exp[9] = {21,14,23,15,10,13,21,14,23};
 			char *str = new char[200];
-			SF::MatrixMultiply3b3(out,in1,in2);
+			SFTEST::MatrixMultiply3b3(out,in1,in2);
 			sprintf_s(str, 200, "Output Matrix Contains::\n%f, %f, %f\n%f, %f, %f\n%f, %f, %f", 
 				out[0],
 				out[1],
@@ -276,7 +276,7 @@ namespace SavingFaceTest
 			coord3d.y = info->yMin;
 			coord3d.z = info->zMin;
 
-			SF::coordInModelSpace(index, coord3d, info);
+			SFTEST::coordInModelSpace(index, coord3d, info);
 
 			char *str = new char[200];
 			

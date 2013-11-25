@@ -39,7 +39,7 @@
     <ClCompile Include="sf_controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sf_tr_test.cpp">
+    <ClCompile Include="src\sf_tr_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +71,7 @@
     <ClInclude Include="sf_controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sf_tr_test.h">
+    <ClInclude Include="include\sf_tr_test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

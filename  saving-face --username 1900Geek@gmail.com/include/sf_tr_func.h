@@ -16,28 +16,28 @@ namespace SF
 	//Pass in the nose coord, and the Yaw, Pitch, and Roll
 	//The two peaces of info required to fully define the transform
 	//Calculated once per frame
-	void calculateTRMatrix(SF_TR_MATRIX &tm, SF_R3_COORD &rwcReference, const SF_YPR &ypr);
+	static void calculateTRMatrix(SF_TR_MATRIX &tm, SF_R3_COORD &rwcReference, const SF_YPR &ypr);
 
 	//Apply linear translation to a vector
-	inline void translateCoord(SF_R3_COORD &model_Coord3d, const SF_R3_COORD &origCoord,const SF_TR_MATRIX &tr_matrix);
+	static inline void translateCoord(SF_R3_COORD &model_Coord3d, const SF_R3_COORD &origCoord,const SF_TR_MATRIX &tr_matrix);
 	
 	//Apply rotational transform to a vector.
-	inline void rotateCoord(SF_MODEL_COORD3D &model_r3_coord,const SF_R3_COORD &tr_Coord3d, const SF_TR_MATRIX &tr_matrix);
+	static inline void rotateCoord(SF_MODEL_COORD3D &model_r3_coord,const SF_R3_COORD &tr_Coord3d, const SF_TR_MATRIX &tr_matrix);
 
 	//So the Actual Transformation
 	//Make as a single inline function call for simplicity, however
 	//The transform functions themselves can/should be individual functions
-	inline void transformCoord(SF_MODEL_COORD3D &mdl_coord, const SF_R3_COORD &realWorldCoord, const SF_TR_MATRIX &tr_matrix);
+	static inline void transformCoord(SF_MODEL_COORD3D &mdl_coord, const SF_R3_COORD &realWorldCoord, const SF_TR_MATRIX &tr_matrix);
 
 	//Transforms the Coord into indexed model coords
-	inline void coordInModelSpace(SF_MODEL_COORD3D_INDEX &returnIndexed, const SF_MODEL_COORD3D &md_Coord, const Model::Model_Info *model);
+	static inline void coordInModelSpace(SF_MODEL_COORD3D_INDEX &returnIndexed, const SF_MODEL_COORD3D &md_Coord, const Model::Model_Info *model);
 
 	//3 By 3 Matrix multiplication done in place.
 	//Note cannot pass in the same argument as both the product and an operator.
-	inline void MatrixMultiply3b3(SF_SCALAR* out, const SF_SCALAR* in1,const SF_SCALAR* in2);
+	static inline void MatrixMultiply3b3(SF_SCALAR* out, const SF_SCALAR* in1,const SF_SCALAR* in2);
 
 	//1 By 3 Matrix multiplication
-	inline void MatrixMultiply1b3(SF_MODEL_COORD3D &model_r3_coord,const SF_R3_COORD &tr_Coord3d, const SF_TR_MATRIX &tr_matrix);
+	static inline void MatrixMultiply1b3(SF_MODEL_COORD3D &model_r3_coord,const SF_R3_COORD &tr_Coord3d, const SF_TR_MATRIX &tr_matrix);
 
 
 	//Implementation
