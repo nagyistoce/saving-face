@@ -40,7 +40,7 @@ namespace SF
 	SF_STS loadFaceModule();
 	SF_STS createDepthRenderView();
 	SF_STS createColorRenderView();
-	
+	void releaseStreams();
 	
 	//The following are to be replaced by a single function that is well written and includes the following options
 	//GetYPR //GetLandmark //Save video //Save Image
