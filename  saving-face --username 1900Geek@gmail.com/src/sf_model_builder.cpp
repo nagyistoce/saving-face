@@ -1,7 +1,7 @@
 #include "sf_model_builder.h"
 #include <time.h>
-namespace SF
-{
+#include <iostream>
+#include "sf_tr_func.h"
 	sf_model_builder::sf_model_builder(void)
 	{
 	}
@@ -29,24 +29,27 @@ namespace SF
 		return uid;
 	}
 
-
-	SF_TR_MATRIX* getTr(SF_YPR* ypr, SF_R3_COORD* trCoord)
+	namespace MB
 	{
-		SF_TR_MATRIX *tr;
-		calculateTRMatrix(*tr, *trCoord, *ypr);
-		return tr;
-	}
+		SF_TR_MATRIX* getTr(SF_YPR* ypr, SF_R3_COORD* trCoord)
+		{
+			SF_TR_MATRIX *tr;
+			//added
+			tr = new SF_TR_MATRIX();
+			calculateTRMatrix(*tr, *trCoord, *ypr);
+			return tr;
+		}
 
-	void processVertex(SF_R3_COORD& coord)
-	{
+		void processVertex(SF_R3_COORD& coord)
+		{
 
-	}
+		}
 
-	void onNewFrame(int frameNumber)
-	{
+		void onNewFrame(int frameNumber)
+		{
 
-	}
-
+		}
+}
 	Model *sf_model_builder::getModel(SF_MUID muid)
 	{
 		return temp_db.getModel(muid);
@@ -56,5 +59,3 @@ namespace SF
 	{
 		return temp_db.deleteModelFromDatabase(muid);
 	}
-
-}

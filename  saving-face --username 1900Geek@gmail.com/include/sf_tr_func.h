@@ -1,7 +1,9 @@
+#pragma once
 #ifndef _SF_TR_FUNC
 #define _SF_TR_FUNC
 #include "sf_defs.h"
 #include "sf_model.h"
+
 
 
 namespace SF
