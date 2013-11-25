@@ -12,11 +12,12 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace SavingFaceTest
 {
-	void getYPR(SF::SF_YPR *ypr, SF::SF_R3_COORD *nose)
+	SF_TR_MATRIX* getYPR(SF::SF_YPR *ypr, SF::SF_R3_COORD *nose)
 	{
 		static char str[200];
 		sprintf_s(str, "YPR::\t%f,\t%f,\t%f Nose::\t%f,\t%f,\t%f\n", ypr->yaw, ypr->pitch, ypr->roll,nose->x,nose->y,nose->z);
 		Logger().WriteMessage(str);
+		return nullptr;
 	}
 
 	void getdepth(const char *test)
@@ -35,7 +36,7 @@ namespace SavingFaceTest
 		Logger().WriteMessage(str);
 	}
 
-	void processVertex(SF::SF_R3_COORD &vertex)
+	void processVertex(SF::SF_R3_COORD &vertex,  SF_TR_MATRIX* tr)
 	{
 		static int i = 0;
 		//Have too limit output. Gets huge fast.
@@ -65,14 +66,15 @@ namespace SavingFaceTest
 			fs = new ofstream(fileName);
 		}
 
-		void saveYPR(SF::SF_YPR *ypr, SF::SF_R3_COORD *nose)
+		SF_TR_MATRIX* saveYPR(SF::SF_YPR *ypr, SF::SF_R3_COORD *nose)
 		{ 
 			char str[200];
 			sprintf_s(str,200,"%f,%f,%f\n%f,%f,%f\n",ypr->yaw,ypr->pitch,ypr->roll,nose->x,nose->y,nose->z);
 			fs->write(str,strlen(str));
+			return nullptr;
 		}
 
-		void saveVertex(SF::SF_R3_COORD &vertex)
+		void saveVertex(SF::SF_R3_COORD &vertex, SF_TR_MATRIX* tr)
 		{
 				static char str[200];
 				sprintf_s(str,200,"%f,%f,%f\n", vertex.x, vertex.y, vertex.z);
