@@ -254,8 +254,8 @@ namespace SF
 
 	void SF_Session::camera_loop
 		(
-			SF_TR_MATRIX* (*yprFunc)(SF_YPR*, SF_R3_COORD*),
-			void (*processVertex)(SF_R3_COORD&, SF_TR_MATRIX*),
+			void (*yprFunc)(SF_YPR*, SF_R3_COORD*),
+			void (*processVertex)(SF_R3_COORD&),
 			void (*saveImage)(PXCImage::ImageData&),//return a filename
 			void (*newFrame)(int), 
 			bool (*continueProcessing)(),
@@ -338,7 +338,7 @@ namespace SF
 				
 				if(newFrame) newFrame(f);
 				
-				SF_TR_MATRIX *tr = yprFunc(&pdata,nose);
+				yprFunc(&pdata,nose);
 				
 				//Process individual points
 				//Huge efficiancy can be gained by subsetting the data to relavent area
@@ -349,7 +349,7 @@ namespace SF
 						int xx=(int)(depthXYToColorXY[k].x+0.5f), yy= (int) (depthXYToColorXY[k].y+0.5f);
 						if (xx<0 || yy<0 || xx>=(int) colorWidth || yy >=(int)colorHeight) continue;//Currently this line does nothing.
 						if (depthXYZCoords) if (depthXYZCoords[k].z==depthLowConfidence || depthXYZCoords[k].z==depthSaturation) continue;
-						processVertex(depthR3Coords[k], tr);
+						processVertex(depthR3Coords[k]);
 					}
 				}
 			}
