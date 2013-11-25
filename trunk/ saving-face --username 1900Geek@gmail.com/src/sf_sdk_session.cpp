@@ -1,6 +1,5 @@
 #include "sf_sdk_session.h"
 
-//Temp includes
 #include <math.h>
 
 
@@ -211,8 +210,8 @@ namespace SF
 		int y,x, coordTemp;
 		float smallestDepth = 20;
 
-		for(y = -radius; y < radius; y++)
-			for(x = -radius; x < radius; x++){
+		for(y = -radius; y <= radius; y++)
+			for(x = -radius; x <= radius; x++){
 				coordTemp = coord + y*depthWidth + x;
 				if (depthR3Coords[coordTemp].z < smallestDepth)
 				{
@@ -356,6 +355,7 @@ namespace SF
 			}
 			
 			//Render the Depth Image
+			//Add checks to see if they exist.
 			if (!depth_render->RenderFrame(images[1])) break;
 			if (!uv_render->RenderFrame(images[0])) break;
 
@@ -363,8 +363,6 @@ namespace SF
 			if(continueProcessing)
 				if(!continueProcessing())
 					break;
-		}
-		
+		}	
 	}
-
 }
