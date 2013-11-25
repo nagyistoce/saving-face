@@ -53,12 +53,14 @@ namespace SF
 		//Contains the loop to the camera
 		//Include options to save video
 		//Save model to disk when finished
-		Model buildModel(SF_MUID muid);//Working on param list
+		void buildModel(SF_MUID muid);//Working on param list
 
 	private:
 		//temp_db holds the working model while being built, private instance
 		//actual_db holds a reference to the actual database.
-		sf_db temp_db, *actual_db; 
+		sf_db temp_db, *actual_db;
+		
+		SF_MUID currentModel;
 	};
 }
 #endif

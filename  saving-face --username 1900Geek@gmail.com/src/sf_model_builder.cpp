@@ -2,6 +2,9 @@
 #include <time.h>
 #include <iostream>
 #include "sf_tr_func.h"
+
+
+
 	sf_model_builder::sf_model_builder(void)
 	{
 	}
@@ -11,13 +14,7 @@
 	{
 	}
 
-	//called after calling addNewModel then pass in the muid
-	/*Model buildModel(SF_MUID muid)
-	{
-		SF::SF_Session *session = new SF::SF_Session();
-		session->camera_loop(&getTr,&processVertex,NULL,NULL,NULL,100);
-		return NULL;
-	}*/
+	
 
 	SF_UID_TYPE sf_model_builder::generateUID()
 	{
@@ -39,23 +36,18 @@
 
 	namespace MB
 	{
-		SF_TR_MATRIX* getTr(SF_YPR* ypr, SF_R3_COORD* trCoord)
+		SF_TR_MATRIX *tr_current;
+		void getTr(SF_YPR* ypr, SF_R3_COORD* trCoord)
 		{
-			SF_TR_MATRIX *tr;
-			//added
-			tr = new SF_TR_MATRIX();
-			calculateTRMatrix(*tr, *trCoord, *ypr);
-			return tr;
+			//calculateTRMatrix(&tr_current, *trCoord, *ypr);
 
-			//here it seems it would be best to store the tr in a private variable for future use
-			//Can't define this is sf_model_buidler.h and use as a callback function.
 		}
 
-		void processVertex(SF_R3_COORD& coord, SF_TR_MATRIX* tr)
+		void processVertex(SF_R3_COORD& coord)
 		{
 			//pseudo
-			SF_MODEL_COORD3D modelCoord;
-			SF_MODEL_COORD3D_INDEX index;
+			//SF_MODEL_COORD3D modelCoord;
+			//SF_MODEL_COORD3D_INDEX index;
 
 			//this is where we would want to use the private variable tr and the model(or muid)
 
@@ -69,6 +61,14 @@
 
 		}
 }
+
+	//called after calling addNewModel then pass in the muid
+	void sf_model_builder::buildModel(SF_MUID muid)
+	{
+		currentModel = muid;
+		SF::SF_Session *session = new SF::SF_Session();
+		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,100);
+	}
 	Model *sf_model_builder::getModel(SF_MUID muid)
 	{
 		return temp_db.getModel(muid);
