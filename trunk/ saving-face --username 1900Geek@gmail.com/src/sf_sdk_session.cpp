@@ -33,7 +33,14 @@ namespace SF
 		return true;
 	}
 	
-	
+	void SF_Session::releaseStreams()
+	{
+		//Will automatically release
+		//Do to smart pointer
+		//Should call especially if doing fileIO
+		if(capture)
+			capture = 0;
+	}
 
 	SF_STS SF_Session::captureStreams(string fileName, bool record){
 		

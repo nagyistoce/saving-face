@@ -114,7 +114,7 @@ namespace SavingFaceTest
 		{
 			startSession();
 			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,100);
-			
+			session->releaseStreams();
 		}
 
 		//NOTE:: Test will run forever if the camera is present
@@ -126,7 +126,7 @@ namespace SavingFaceTest
 				Assert().Fail(L"Failed To Create Session");			
 			if(!(session->setOptions(NULL, NULL)))
 				Assert().Fail(L"Failed to set Options");
-			if(session->captureStreams("BobIsYouUncle.vdo",true) < SF_STS_OK)
+			if(session->captureStreams("BobIsYourUncle.vdo",true) < SF_STS_OK)
 				Assert().Fail(L"Failed To Locate and Capture Streams");
 			session->createDepthRenderView();
 			session->createColorRenderView();
@@ -134,14 +134,15 @@ namespace SavingFaceTest
 			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,100);
 
 			Assert().IsTrue(doesDirectoryExist(getFullPath(_DEFAULT_VIDEO_DIR)), L"Directory does not exist.");
-			string filePath = getFullPath(_DEFAULT_VIDEO_DIR) + "BobIsYouUncle.vdo";
+			string filePath = getFullPath(_DEFAULT_VIDEO_DIR) + "BobIsYourUncle.vdo";
 			Assert().IsTrue(doesDirectoryExist(filePath), L"File does not exist.");
+			session->releaseStreams();
 		}
 
 		TEST_METHOD(playbackVideoTest)
 		{
 			Assert().IsTrue(doesDirectoryExist(getFullPath(_DEFAULT_VIDEO_DIR)), L"Directory does not exist.");
-			string filePath = getFullPath(_DEFAULT_VIDEO_DIR) + "BobIsYouUncle.vdo";
+			string filePath = getFullPath(_DEFAULT_VIDEO_DIR) + "BobIsYourUncle.vdo";
 			Assert().IsTrue(doesDirectoryExist(filePath), L"File does not exist.");
 			
 			session = new SF::SF_Session();
@@ -149,14 +150,16 @@ namespace SavingFaceTest
 				Assert().Fail(L"Failed To Create Session");			
 			if(!(session->setOptions(NULL, NULL)))
 				Assert().Fail(L"Failed to set Options");
-			if(session->captureStreams("BobIsYouUncle.vdo",false) < SF_STS_OK)
+			if(session->captureStreams("BobIsYourUncle.vdo",false) < SF_STS_OK)
 				Assert().Fail(L"Failed To Locate and Capture Streams");
 			session->createDepthRenderView();
 			session->createColorRenderView();
 			session->loadFaceModule();
 			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,100);
-
+			session->releaseStreams();
 		}
+
+
 
 #ifdef Mathematica
 
@@ -164,6 +167,7 @@ namespace SavingFaceTest
 		{
 			startSession();
 			session->camera_loop(&saveYPR,&saveVertex,NULL,*onNewFrame,NULL,30);
+			session->releaseStreams();
 		}
 #endif
 
