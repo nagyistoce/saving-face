@@ -1,6 +1,8 @@
 #ifndef _SF_MODEL_BUILDER
 #define _SF_MODEL_BUILDER
 
+#include "sf_sdk_session.h"
+#include "sf_tr_func.h"
 #include "sf_defs.h"
 #include "sf_model.h"
 #include "sf_db.h"
@@ -52,8 +54,6 @@ namespace SF
 		//Include options to save video
 		//Save model to disk when finished
 		Model buildModel(SF_MUID muid);//Working on param list
-
-
 
 	private:
 		//temp_db holds the working model while being built, private instance

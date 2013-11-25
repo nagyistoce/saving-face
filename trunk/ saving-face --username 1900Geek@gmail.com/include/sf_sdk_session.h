@@ -1,6 +1,7 @@
 #ifndef _SF_SESSION
 #define _SF_SESSION
 #include <windows.h> // Neccessary for Command line
+#include "sf_model_builder.h"
 #include <wchar.h> //Required for WChar
 #include "pxcsession.h" //Required To Make Session
 #include "pxcsmartptr.h" //Smart pointers for memory management
