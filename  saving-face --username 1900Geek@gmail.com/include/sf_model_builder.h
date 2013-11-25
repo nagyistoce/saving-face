@@ -1,5 +1,6 @@
 #ifndef _SF_MODEL_BUILDER
 #define _SF_MODEL_BUILDER
+#include "sf_tr_func.h"
 #include "sf_defs.h"
 #include "sf_model.h"
 #include "sf_db.h"

@@ -30,9 +30,11 @@ namespace SF
 	}
 
 
-	void getTr(SF_YPR* ypr, SF_R3_COORD* trCoord)
+	SF_TR_MATRIX* getTr(SF_YPR* ypr, SF_R3_COORD* trCoord)
 	{
-
+		SF_TR_MATRIX *tr;
+		calculateTRMatrix(*tr, *trCoord, *ypr);
+		return tr;
 	}
 
 	void processVertex(SF_R3_COORD& coord)

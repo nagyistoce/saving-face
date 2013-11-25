@@ -336,6 +336,7 @@ namespace SF
 				//Verify All items needed for gaurenteed success before proceding.
 				++f;
 				//Note::Consider if there is more than one face... HAHA you would get BradJolina
+				
 				if(newFrame) newFrame(f);
 				
 				yprFunc(&pdata,nose);
