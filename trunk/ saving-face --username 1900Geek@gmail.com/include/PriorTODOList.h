@@ -3,7 +3,7 @@
 
 * Class sf_sdk_session
 * (Medium) Save Snapshot
-
+* (low) Make sure frame count does not exceed frames in playback. 
 
 *
 * Class Model_Builder

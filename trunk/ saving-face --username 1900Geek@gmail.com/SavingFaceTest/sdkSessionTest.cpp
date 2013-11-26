@@ -148,8 +148,7 @@ namespace SavingFaceTest
 			session->createDepthRenderView();
 			session->createColorRenderView();
 			session->loadFaceModule();
-			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,NULL,100);
-			session->releaseStreams();
+			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,NULL,90);
 		}
 
 

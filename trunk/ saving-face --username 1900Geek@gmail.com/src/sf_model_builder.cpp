@@ -55,16 +55,21 @@
 
 		void processVertex(SF_R3_COORD& coord,void *thisClass)
 		{
-			//pseudo
 			SF_MODEL_COORD3D modelCoord;
 			SF_MODEL_COORD3D_INDEX index;
-
-			//this is where we would want to use the private variable tr and the model(or muid)
-
 			transformCoord(modelCoord, coord, *trMatrix);
 			coordInModelSpace(index, modelCoord, currentModelInfo);
-			//int num = 
-			//arr[num] = modelCoord;
+			//Important check... Make sure is within model coords.
+			//The best way to do this would be to gaurentee that any possible coord that makes it this
+			//far is valid by limiting the search space
+			//Otherwise the following check is necessary.
+			if(index.x >= 0 &&index.x < currentModelInfo->xWidth 
+				&& index.y >= 0 &&index.y < currentModelInfo->yWidth
+				&& index.z >= 0 &&index.z < currentModelInfo->zWidth){
+
+				int num = index.x * currentModelInfo->xOffset + index.y * currentModelInfo->yOffset + index.z;
+				arr[num]++;
+			}
 		}
 
 		void onNewFrame(int frameNumber)
