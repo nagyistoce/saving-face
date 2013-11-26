@@ -39,7 +39,8 @@
 		//Here is a departure from OOP for the sake of speed.
 		SF_TR_MATRIX *trMatrix;
 		//Has all required info to build the model.
-		SF::Model::Model_Info currentModelInfo;
+		SF::Model::Model_Info const *currentModelInfo = 0;
+		SF::SF_MODEL_ARR arr = 0; 
 		void getTr(SF_YPR* ypr, SF_R3_COORD* trCoord,void *thisClass)
 		{
 			//How to call
@@ -71,8 +72,13 @@
 	void sf_model_builder::buildModel(SF_MUID muid)
 	{
 		currentModel = muid;
+		//TODO check to see that modelArr is initialized.
 		SF::SF_Session *session = new SF::SF_Session();
+		MB::currentModelInfo = getModel(muid)->getModelInfo();
+		MB::arr = getModel(muid)->getWritableModelArr();
 		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,100);
+		MB::currentModelInfo = 0;
+		MB::arr = 0;
 	}
 	Model *sf_model_builder::getModel(SF_MUID muid)
 	{
