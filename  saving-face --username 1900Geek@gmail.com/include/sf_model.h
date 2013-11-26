@@ -147,6 +147,14 @@ namespace SF
 
 		const int getArrLength();
 
+		
+	inline int calculateIndex(SF_MODEL_COORD3D modelCoord, Model_Info* mInfo)
+	{
+		//Finish this.
+		
+		return 0;
+	};
+
 	private:
 		Model_Info model_info;
 		Person_Info person_info;
