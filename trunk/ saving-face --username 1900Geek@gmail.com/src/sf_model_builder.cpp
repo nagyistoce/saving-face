@@ -104,7 +104,7 @@
 
 		MB::currentModelInfo = getModel(muid)->getModelInfo();
 		MB::arr = getModel(muid)->getWritableModelArr();
-		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,100);
+		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,256);
 		MB::currentModelInfo = 0;
 		MB::arr = 0;
 		return SF_STS_OK;
