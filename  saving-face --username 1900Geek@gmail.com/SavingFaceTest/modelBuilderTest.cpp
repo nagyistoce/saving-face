@@ -5,7 +5,6 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace SavingFaceTest
 {
-
 	TEST_CLASS(modelBuilderTest)
 	{
 		
@@ -80,7 +79,6 @@ namespace SavingFaceTest
 			out->flush();
 			out->close();
 			delete out;
-			Assert().Fail(L"Results Need to be vetted");
 		}
 
 	};

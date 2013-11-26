@@ -41,7 +41,7 @@ SF_STS sf_db::saveDatabase(string path)
      for (iter = db.begin(); iter != db.end(); iter++) 
 	 {
 		//saving file as (file version name).mdl
-		 ofstream *out = new ofstream(path + db[iter->first]->getFileVersionName() + ".mdl");
+		 ofstream *out = new ofstream(path + db[iter->first]->getFileVersionName() + ".mdl", ios::out | ios::binary);
 			status = (!status) ? SF_STS_FAIL : iter->second->streamToFile(out);
 			delete out;
 	 }
