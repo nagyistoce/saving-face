@@ -34,6 +34,9 @@
 		return uid;
 	}
 
+
+	//This would have to be changed for multi-threading.
+	//Would require a template class.
 	namespace MB
 	{
 		//Here is a departure from OOP for the sake of speed.
@@ -41,6 +44,7 @@
 		//Has all required info to build the model.
 		SF::Model::Model_Info const *currentModelInfo = 0;
 		SF::SF_MODEL_ARR arr = 0; 
+		
 		void getTr(SF_YPR* ypr, SF_R3_COORD* trCoord,void *thisClass)
 		{
 			//How to call
@@ -52,14 +56,15 @@
 		void processVertex(SF_R3_COORD& coord,void *thisClass)
 		{
 			//pseudo
-			//SF_MODEL_COORD3D modelCoord;
-			//SF_MODEL_COORD3D_INDEX index;
+			SF_MODEL_COORD3D modelCoord;
+			SF_MODEL_COORD3D_INDEX index;
 
 			//this is where we would want to use the private variable tr and the model(or muid)
 
-			//transformCoord(modelCoord, coord, tr);
-			//coordInModelSpace(index, modelCoord, model->modelInfo());
-			//model->getWritableModelArr()[index] = modelCoord;
+			transformCoord(modelCoord, coord, *trMatrix);
+			coordInModelSpace(index, modelCoord, currentModelInfo);
+			//int num = 
+			//arr[num] = modelCoord;
 		}
 
 		void onNewFrame(int frameNumber)
