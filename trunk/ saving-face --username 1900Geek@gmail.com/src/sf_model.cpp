@@ -173,7 +173,12 @@ namespace SF
 		//model_info.modelArr[arrLength-2] = 0xFA;
 		//model_info.modelArr[arrLength-1] = 0xCE;
 		fileStream->write(str, strlen(str)+1);
-		fileStream->write(model_info.modelArr,arrLength);
+		int pos = 0;
+		while(pos < arrLength)
+		{
+			fileStream->write(&model_info.modelArr[pos],arrLength-pos<1028?arrLength-pos:1028);
+			pos += 1028;
+		}
 		char endOfFile[2] = {0xFF,0xFF};
 		//TempTest.
 		//fileStream->write(endOfFile,2);
