@@ -271,27 +271,26 @@ namespace SF
 		//TODO::Add support for save image... Should save only on last frame.
 		//TODO::(Later)...implement in seperate class...Compare multiple faces in the same frame.
 		//TODO::(RE-FACTOR)... this will be a messy function anyways, but clean it up.
-		//TODO::Ensure ypr and landmark are valid... If not decrement frame count and continue.
+		
 		if(initLoop() < SF_STS_OK) return;//Loop Initialization Failed
 		//Begin Loop
 		//Make num frames an argument parameter
+		PXCSmartArray<PXCImage> images(2);
 		for (int f=0;(numFrames == 0)?true:f < numFrames;) {
-			PXCSmartArray<PXCImage> images(2);
+			
 			PXCSmartSPArray sp(2);//Synchronous Pointer
 
 			//ReadStream If Data Available or Block
 			if (capture->ReadStreamAsync(images, &sp[0])<PXC_STATUS_NO_ERROR) break;
-			
-
 			//Process Face YPR and Landmarks
-			face->ProcessImageAsync(images,&sp[1]);//TODO Check return status. If Fail continue
-			
-			//Failing here on record.
+			if(face->ProcessImageAsync(images,&sp[1]) <PXC_STATUS_NO_ERROR) continue;//Fail to recognize face
 			//Wait for all ASynchronous Modules To Return
 			if (sp.SynchronizeEx()<PXC_STATUS_NO_ERROR) continue;
-			
+			//Gain read access to depth image.
 			PXCImage::ImageData depthImageData;
 			images[1]->AcquireAccess(PXCImage::ACCESS_READ,&depthImageData);
+			
+			
 			int dwidth2=depthImageData.pitches[0]/sizeof(pxcU16);
 
 			for (int y=0,k=0;y<depthHeight;y++)

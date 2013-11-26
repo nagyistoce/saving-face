@@ -81,9 +81,11 @@ namespace SF
 		SF_MODEL_COORD x,y,z;
 	};
 
+	typedef int SF_MODEL_INDEX;
+
 	//A 3D Index into model.
 	struct SF_MODEL_COORD3D_INDEX{
-		SF_MODEL_COORD x,y,z;
+		SF_MODEL_INDEX x,y,z;
 	};
 
 	typedef long SF_UID_TYPE;

@@ -40,13 +40,6 @@ namespace SF
 	static inline void MatrixMultiply1b3(SF_MODEL_COORD3D &model_r3_coord,const SF_R3_COORD &tr_Coord3d, const SF_TR_MATRIX &tr_matrix);
 
 
-	//Implementation
-	
-	//Vars to include in the model builder class when made.
-	//SF_MODEL_COORD3D *md_Coord;
-	//SF_TR_MATRIX *tr_matrix;
-	//SF_MODEL_COORD3D_INDEX *mdl_index_coord;
-
 	
 	void calculateTRMatrix(SF_TR_MATRIX &tm, SF_R3_COORD &rwcReference, const SF_YPR &ypr)
 	{
@@ -73,9 +66,13 @@ namespace SF
 
 	inline void coordInModelSpace(SF_MODEL_COORD3D_INDEX &returnIndexed, const SF_MODEL_COORD3D &md_Coord, const Model::Model_Info *model){
 		SF_MODEL_COORD3D_INDEX *returnIndex = new SF_MODEL_COORD3D_INDEX;
-		returnIndexed.x = floor((md_Coord.x - model->xMin) / model->deltaX);
-		returnIndexed.y = floor((md_Coord.y - model->yMin) / model->deltaY);
-		returnIndexed.z = floor((md_Coord.z - model->zMin) / model->deltaZ);
+		//returnIndexed.x = floor((md_Coord.x - model->xMin) / model->deltaX);
+		//returnIndexed.y = floor((md_Coord.y - model->yMin) / model->deltaY);
+		//returnIndexed.z = floor((md_Coord.z - model->zMin) / model->deltaZ);
+		//Floor Function unnecessary
+		returnIndexed.x = (int)((md_Coord.x - model->xMin) / model->deltaX);
+		returnIndexed.y = (int)((md_Coord.y - model->yMin) / model->deltaY);
+		returnIndexed.z = (int)((md_Coord.z - model->zMin) / model->deltaZ);
 	}
 
 
