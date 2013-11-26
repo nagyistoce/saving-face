@@ -4,12 +4,14 @@
 * Class sf_sdk_session
 * (Medium) Save Snapshot
 * (low) Make sure frame count does not exceed frames in playback. 
-
+* (Medium) Add directory option to record.
 *
 * Class Model_Builder
 * Make a process vertice method... and build the model. (Major milestone).
 * Save Snapshot... (to be implemented in sf_session first)... Save the image of the last frame used to build.
-* 
+* Degrees to Radians
+* invert YPR.
+* vet test results.
 * TESTS TODO
 *
 * Class Model
