@@ -36,14 +36,19 @@
 
 	namespace MB
 	{
-		SF_TR_MATRIX *tr_current;
-		void getTr(SF_YPR* ypr, SF_R3_COORD* trCoord)
+		//Here is a departure from OOP for the sake of speed.
+		SF_TR_MATRIX *trMatrix;
+		//Has all required info to build the model.
+		SF::Model::Model_Info currentModelInfo;
+		void getTr(SF_YPR* ypr, SF_R3_COORD* trCoord,void *thisClass)
 		{
-			//calculateTRMatrix(&tr_current, *trCoord, *ypr);
-
+			//How to call
+			calculateTRMatrix(*((sf_model_builder*)thisClass)->currentTr, *trCoord, *ypr);
+			//Assigns to local/Global var. (Fast access for many thousands of calls)
+			trMatrix = ((sf_model_builder*)thisClass)->currentTr;
 		}
 
-		void processVertex(SF_R3_COORD& coord)
+		void processVertex(SF_R3_COORD& coord,void *thisClass)
 		{
 			//pseudo
 			//SF_MODEL_COORD3D modelCoord;
@@ -67,7 +72,7 @@
 	{
 		currentModel = muid;
 		SF::SF_Session *session = new SF::SF_Session();
-		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,100);
+		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,100);
 	}
 	Model *sf_model_builder::getModel(SF_MUID muid)
 	{

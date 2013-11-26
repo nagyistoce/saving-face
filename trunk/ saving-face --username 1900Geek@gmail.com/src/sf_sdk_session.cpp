@@ -254,11 +254,15 @@ namespace SF
 
 	void SF_Session::camera_loop
 		(
-			void (*yprFunc)(SF_YPR*, SF_R3_COORD*),
-			void (*processVertex)(SF_R3_COORD&),
-			void (*saveImage)(PXCImage::ImageData&),//return a filename
+			void (*yprFunc)(SF_YPR*, SF_R3_COORD*,void*),
+			void (*processVertex)(SF_R3_COORD&,void*),
+			
+			void (*saveImage)(PXCImage::ImageData&),//Return a string
+			//Call back to specify processing a new frame and give the frame number
 			void (*newFrame)(int), 
+			//Call back to check to see if a stop condition has been reached
 			bool (*continueProcessing)(),
+			void* callingClass,
 			int numFrames,
 			bool multiface
 		)	
@@ -338,7 +342,7 @@ namespace SF
 				
 				if(newFrame) newFrame(f);
 				
-				yprFunc(&pdata,nose);
+				yprFunc(&pdata,nose, callingClass);
 				
 				//Process individual points
 				//Huge efficiancy can be gained by subsetting the data to relavent area
@@ -349,7 +353,7 @@ namespace SF
 						int xx=(int)(depthXYToColorXY[k].x+0.5f), yy= (int) (depthXYToColorXY[k].y+0.5f);
 						if (xx<0 || yy<0 || xx>=(int) colorWidth || yy >=(int)colorHeight) continue;//Currently this line does nothing.
 						if (depthXYZCoords) if (depthXYZCoords[k].z==depthLowConfidence || depthXYZCoords[k].z==depthSaturation) continue;
-						processVertex(depthR3Coords[k]);
+						processVertex(depthR3Coords[k],callingClass);
 					}
 				}
 			}

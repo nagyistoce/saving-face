@@ -60,6 +60,8 @@ namespace SF
 		//actual_db holds a reference to the actual database.
 		sf_db temp_db, *actual_db;
 		
+	public://Make private and provide accessor methods.
+		SF_TR_MATRIX *currentTr;
 		SF_MUID currentModel;
 	};
 }
