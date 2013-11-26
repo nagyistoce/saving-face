@@ -74,8 +74,11 @@ namespace SavingFaceTest
 			modelBuilder->buildModel(muid);
 			makeDirectory("Test_Model_Output");
 			string path = getFullPath("Test_Model_Output") + "Test_Model.mdl";
+			_sleep(5000);
 			ofstream *out = new ofstream(path.c_str());
 			model->streamToFile(out);
+			out->close();
+			delete out;
 			Assert().Fail(L"Results Need to be vetted");
 		}
 
