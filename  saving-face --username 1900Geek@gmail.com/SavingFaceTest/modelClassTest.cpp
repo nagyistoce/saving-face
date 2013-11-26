@@ -257,6 +257,9 @@ namespace SavingFaceTest
 			Model *model;
 			model = new Model();
 			model->initModelArray();
+			char len[200];
+			sprintf_s(len,200,"Length = %d\n ", model->getArrLength());
+			Logger().WriteMessage(len);
 			SF::SF_MODEL_ARR arr = model->getWritableModelArr();
 			for(int i = 0; i < model->getArrLength();i++)
 				arr[i] = (i % 128);

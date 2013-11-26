@@ -166,8 +166,17 @@ namespace SF
 			model_info.zWidth,
 			model_info.muid
 			);
+		
+		//Temp for testing
+		//model_info.modelArr[0] = 0xFA;
+		//model_info.modelArr[1] = 0xCE;
+		//model_info.modelArr[arrLength-2] = 0xFA;
+		//model_info.modelArr[arrLength-1] = 0xCE;
 		fileStream->write(str, strlen(str)+1);
 		fileStream->write(model_info.modelArr,arrLength);
+		char endOfFile[2] = {0xFF,0xFF};
+		//TempTest.
+		//fileStream->write(endOfFile,2);
 		//TODO put in some checks to make sure the array has been initialized.
 		return SF_STS_OK;
 	}
