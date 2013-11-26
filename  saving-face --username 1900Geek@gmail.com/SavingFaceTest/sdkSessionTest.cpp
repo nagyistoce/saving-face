@@ -12,7 +12,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace SavingFaceTest
 {
-	void getYPR(SF::SF_YPR *ypr, SF::SF_R3_COORD *nose)
+	void getYPR(SF::SF_YPR *ypr, SF::SF_R3_COORD *nose,void*)
 	{
 		static char str[200];
 		sprintf_s(str, "YPR::\t%f,\t%f,\t%f Nose::\t%f,\t%f,\t%f\n", ypr->yaw, ypr->pitch, ypr->roll,nose->x,nose->y,nose->z);
@@ -27,15 +27,8 @@ namespace SavingFaceTest
 		doOnce = false;
 	}
 	
-	//Obsolete
-	void getLandmark(SF::SF_R3_COORD *landmark)
-	{
-		static char str[200];
-		sprintf_s(str, "Nose::\t%f,\t%f,\t%f\n", landmark->x, landmark->y, landmark->z);
-		Logger().WriteMessage(str);
-	}
 
-	void processVertex(SF::SF_R3_COORD &vertex)
+	void processVertex(SF::SF_R3_COORD &vertex,void*)
 	{
 		static int i = 0;
 		//Have too limit output. Gets huge fast.
@@ -65,14 +58,14 @@ namespace SavingFaceTest
 			fs = new ofstream(fileName);
 		}
 
-		void saveYPR(SF::SF_YPR *ypr, SF::SF_R3_COORD *nose)
+		void saveYPR(SF::SF_YPR *ypr, SF::SF_R3_COORD *nose,void*)
 		{ 
 			char str[200];
 			sprintf_s(str,200,"%f,%f,%f\n%f,%f,%f\n",ypr->yaw,ypr->pitch,ypr->roll,nose->x,nose->y,nose->z);
 			fs->write(str,strlen(str));
 		}
 
-		void saveVertex(SF::SF_R3_COORD &vertex)
+		void saveVertex(SF::SF_R3_COORD &vertex,void*)
 		{
 				static char str[200];
 				sprintf_s(str,200,"%f,%f,%f\n", vertex.x, vertex.y, vertex.z);
@@ -113,7 +106,7 @@ namespace SavingFaceTest
 		TEST_METHOD(sdk_YPR_Vertex_Test)
 		{
 			startSession();
-			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,100);
+			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,NULL,100);
 			session->releaseStreams();
 		}
 
@@ -131,7 +124,7 @@ namespace SavingFaceTest
 			session->createDepthRenderView();
 			session->createColorRenderView();
 			session->loadFaceModule();
-			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,100);
+			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,NULL,100);
 
 			Assert().IsTrue(doesDirectoryExist(getFullPath(_DEFAULT_VIDEO_DIR)), L"Directory does not exist.");
 			string filePath = getFullPath(_DEFAULT_VIDEO_DIR) + "BobIsYourUncle.vdo";
@@ -155,7 +148,7 @@ namespace SavingFaceTest
 			session->createDepthRenderView();
 			session->createColorRenderView();
 			session->loadFaceModule();
-			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,100);
+			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,NULL,100);
 			session->releaseStreams();
 		}
 
@@ -166,7 +159,7 @@ namespace SavingFaceTest
 		TEST_METHOD(ExportToCSV)
 		{
 			startSession();
-			session->camera_loop(&saveYPR,&saveVertex,NULL,*onNewFrame,NULL,30);
+			session->camera_loop(&saveYPR,&saveVertex,NULL,*onNewFrame,NULL,NULL,30);
 			session->releaseStreams();
 		}
 #endif
