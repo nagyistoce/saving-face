@@ -1,6 +1,7 @@
 #include "sf_model_builder.h"
 #include <time.h>
 #include <iostream>
+#include <math.h>
 #include "sf_tr_func.h"
 
 
@@ -50,8 +51,12 @@
 			//if(((sf_model_builder*)thisClass)->currentTr)
 			//	delete ((sf_model_builder*)thisClass)->currentTr;
 			//TODO this creates a memory leak.
+			SF_YPR radYPR;
+			radYPR.yaw = -(ypr->yaw * _SF_PI / 180.0f);
+			radYPR.pitch = -(ypr->pitch * _SF_PI / 180.0f);
+			radYPR.roll = -(ypr->roll * _SF_PI / 180.0f);
 			((sf_model_builder*)thisClass)->currentTr = new SF_TR_MATRIX;
-			calculateTRMatrix(*((sf_model_builder*)thisClass)->currentTr, *trCoord, *ypr);
+			calculateTRMatrix(*((sf_model_builder*)thisClass)->currentTr, *trCoord, radYPR);
 			//Assigns to local/Global var. (Fast access for many thousands of calls)
 			trMatrix = ((sf_model_builder*)thisClass)->currentTr;
 		}
@@ -99,7 +104,7 @@
 
 		MB::currentModelInfo = getModel(muid)->getModelInfo();
 		MB::arr = getModel(muid)->getWritableModelArr();
-		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,100);
+		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,256);
 		MB::currentModelInfo = 0;
 		MB::arr = 0;
 		return SF_STS_OK;

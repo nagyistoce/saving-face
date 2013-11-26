@@ -4,10 +4,15 @@
 #include "pxcdefs.h" //Included for simplicity
 					 //In the future should not be here at all.
 #include "pxcface.h"
+#include <math.h>
 namespace SF
 {
 
 #define _DEFAULT_VIDEO_DIR "Recorded_Video"
+
+#define _SF_PI 3.1415926534f
+
+
 	//A name or part of a name of a person
 	typedef std::string SF_NAME; 
 
@@ -111,6 +116,7 @@ namespace SF
 	#define SF_STS_MEM_ALLOC_FAIL (-999)
 	//General Failure::Usually for unimplemented functionality
 	#define SF_STS_FAIL (-1000)
+
 }
 
 #endif // !_SF_TYPE_DEFS
