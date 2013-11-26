@@ -47,7 +47,10 @@
 		
 		void getTr(SF_YPR* ypr, SF_R3_COORD* trCoord,void *thisClass)
 		{
-			//How to call
+			//if(((sf_model_builder*)thisClass)->currentTr)
+			//	delete ((sf_model_builder*)thisClass)->currentTr;
+			//TODO this creates a memory leak.
+			((sf_model_builder*)thisClass)->currentTr = new SF_TR_MATRIX;
 			calculateTRMatrix(*((sf_model_builder*)thisClass)->currentTr, *trCoord, *ypr);
 			//Assigns to local/Global var. (Fast access for many thousands of calls)
 			trMatrix = ((sf_model_builder*)thisClass)->currentTr;
@@ -79,16 +82,27 @@
 }
 
 	//called after calling addNewModel then pass in the muid
-	void sf_model_builder::buildModel(SF_MUID muid)
+	SF_STS sf_model_builder::buildModel(SF_MUID muid)
 	{
 		currentModel = muid;
 		//TODO check to see that modelArr is initialized.
 		SF::SF_Session *session = new SF::SF_Session();
+		if(!(session->createSession()))
+				return SF_STS_FAIL;		
+			if(!(session->setOptions(NULL, NULL)))
+				return SF_STS_FAIL;
+			if(session->captureStreams() < SF_STS_OK)
+				return SF_STS_FAIL;
+			session->createDepthRenderView();
+			session->createColorRenderView();
+			session->loadFaceModule();
+
 		MB::currentModelInfo = getModel(muid)->getModelInfo();
 		MB::arr = getModel(muid)->getWritableModelArr();
 		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,100);
 		MB::currentModelInfo = 0;
 		MB::arr = 0;
+		return SF_STS_OK;
 	}
 	Model *sf_model_builder::getModel(SF_MUID muid)
 	{
