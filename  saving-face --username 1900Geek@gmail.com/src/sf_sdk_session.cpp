@@ -41,6 +41,22 @@ namespace SF
 			capture = 0;
 	}
 
+	SF_STS SF_Session::captureColorStream()
+	{
+		PXCCapture::VideoStream::DataDesc request; 
+		memset(&request, 0, sizeof(request)); 
+		//Setup To Request Data Streams
+		request.streams[0].format=PXCImage::COLOR_FORMAT_RGB32;
+		capture = new UtilCapture(session);
+		pxcStatus sts = capture->LocateStreams (&request);
+		if (sts<PXC_STATUS_NO_ERROR) {
+			wprintf_s(L"Failed to locate video stream(s)\n");
+			return SF_STS_FAIL_STREAMS;
+		}
+		capture->QueryVideoStream(0)->QueryProfile(&colorProfile);
+		return SF_STS_OK;
+	}
+
 	SF_STS SF_Session::captureStreams(string fileName, bool record){
 		
 		PXCCapture::VideoStream::DataDesc request; 
@@ -367,5 +383,50 @@ namespace SF
 				if(!continueProcessing())
 					break;
 		}	
+	}
+
+	SF_STS SF_Session::snapshotLoop(
+		Model *model,
+		bool (*shutterPressed)(void),
+		bool (*finished)(void)
+		)
+	{
+		//TODO error check this code
+		SF_STS sts = captureColorStream();
+		createColorRenderView();
+		PXCSmartPtr<PXCImage> image;
+		while(true)
+		{
+			PXCSmartSP sp;//Synchronous Pointer
+
+			//ReadStream If Data Available or Block
+			if (capture->ReadStreamAsync(&image, &sp)<PXC_STATUS_NO_ERROR) break;
+			if (sp->Synchronize()<PXC_STATUS_NO_ERROR) continue;
+			uv_render->RenderFrame(image);
+			if(shutterPressed)
+			{
+				PXCImage::ImageData imageData;
+				PXCImage::ImageInfo info;
+				image->QueryInfo(&info);
+				image->QueryInfo(&info);
+				if (image->AcquireAccess(PXCImage::ACCESS_READ,PXCImage::COLOR_FORMAT_RGB32, &imageData)>=PXC_STATUS_NO_ERROR) {
+					BITMAPINFO binfo;
+					memset(&binfo,0,sizeof(binfo));
+					binfo.bmiHeader.biWidth= imageData.pitches[0]/4;
+					binfo.bmiHeader.biHeight= - (int)info.height;
+					binfo.bmiHeader.biBitCount=32;
+					binfo.bmiHeader.biPlanes=1;
+					binfo.bmiHeader.biSize=sizeof(BITMAPINFOHEADER);
+					binfo.bmiHeader.biCompression=BI_RGB;
+					HDC hdc = ::GetDC(NULL);
+					HBITMAP hbmp = CreateDIBitmap(hdc, &binfo.bmiHeader, CBM_INIT, imageData.planes[0], &binfo, DIB_RGB_COLORS) ;
+					ReleaseDC(NULL, hdc);
+					//Save image here.
+				}
+				if(finished())
+					break;
+			}
+		}
+		return SF_STS_OK;
 	}
 }
