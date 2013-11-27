@@ -19,7 +19,21 @@ SF_MUID sf_controller::createModelModel(SF_NAME const salutation, SF_NAME const 
 	return mBuilder->addNewModel(salutation, firstName, middleName, lastName, suffix, gender, email);
 }
 	
-SF_STS sf_controller::takeSnapshot(SF_MUID modelID)
+
+
+SF_STS sf_controller::takeSnapshot()
+{
+	return SF_STS_FAIL;
+}
+
+//Take the photo and return the filePath
+string sf_controller::pressShutter(SF_MUID modelId)
+{
+	return "";
+}
+	
+//Close the Snapshot video feed
+SF_STS sf_controller::snapshotFinished()
 {
 	return SF_STS_FAIL;
 }
@@ -44,6 +58,7 @@ SF_STS sf_controller::command(string textCommand)
 
 SF_STS sf_controller::init(string mode)
 {
+	//Check for alternative modes and implement logic as needed.
 	db = new sf_db();
 	db->loadDatabase(_DEFAULT_DB_DIR);
 	mBuilder = new sf_model_builder();
