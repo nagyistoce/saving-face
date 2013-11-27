@@ -1,5 +1,5 @@
 #include "sf_sdk_session.h"
-
+#include "sourced_util.h"
 #include <math.h>
 
 
@@ -403,11 +403,10 @@ namespace SF
 			if (capture->ReadStreamAsync(&image, &sp)<PXC_STATUS_NO_ERROR) break;
 			if (sp->Synchronize()<PXC_STATUS_NO_ERROR) continue;
 			uv_render->RenderFrame(image);
-			if(shutterPressed)
+			if(shutterPressed())
 			{
 				PXCImage::ImageData imageData;
 				PXCImage::ImageInfo info;
-				image->QueryInfo(&info);
 				image->QueryInfo(&info);
 				if (image->AcquireAccess(PXCImage::ACCESS_READ,PXCImage::COLOR_FORMAT_RGB32, &imageData)>=PXC_STATUS_NO_ERROR) {
 					BITMAPINFO binfo;
@@ -420,12 +419,15 @@ namespace SF
 					binfo.bmiHeader.biCompression=BI_RGB;
 					HDC hdc = ::GetDC(NULL);
 					HBITMAP hbmp = CreateDIBitmap(hdc, &binfo.bmiHeader, CBM_INIT, imageData.planes[0], &binfo, DIB_RGB_COLORS) ;
+					//Temp
+					LPTSTR str = "TestFile.BMP";
+					CreateBMPFile(NULL,str,CreateBitmapInfoStruct(NULL,hbmp),hbmp,hdc);
 					ReleaseDC(NULL, hdc);
-					//Save image here.
+
 				}
-				if(finished())
-					break;
 			}
+			if(finished())
+					break;
 		}
 		return SF_STS_OK;
 	}

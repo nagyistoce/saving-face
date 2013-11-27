@@ -30,10 +30,10 @@
     <ClCompile Include="src\sf_util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sf_controller.cpp">
+    <ClCompile Include="src\sf_tr_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\sf_tr_test.cpp">
+    <ClCompile Include="src\sf_controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,10 +62,13 @@
     <ClInclude Include="include\sf_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="sf_controller.h">
+    <ClInclude Include="include\sf_tr_test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\sf_tr_test.h">
+    <ClInclude Include="include\sf_controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sourced_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
