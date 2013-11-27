@@ -19,7 +19,19 @@ public:
 	sf_controller(void);
 	~sf_controller(void);
 	
+	//Return -1 if required fields are not initialized.
+	SF_MUID createModelModel(SF_NAME const salutation, SF_NAME const firstName, SF_NAME const middleName, SF_NAME const lastName, SF_NAME const suffix,SF_GENDER const gender,  SF_EMAIL const email);
+	
+	SF_STS takeSnapshot(SF_MUID modelID);
+
+	string getSnapshotPath(SF_MUID modelID);
+
+	SF_STS buildModel(SF_MUID modelID);
+	
+	
+	
 	//Contains functionality to parse a text command.
+	//Mostly for debug
 	SF_STS command(string textCommand);
 
 	//Initialization outside of constructor, means constructor will never fail.
