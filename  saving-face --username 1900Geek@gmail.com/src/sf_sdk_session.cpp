@@ -420,8 +420,12 @@ namespace SF
 					HDC hdc = ::GetDC(NULL);
 					HBITMAP hbmp = CreateDIBitmap(hdc, &binfo.bmiHeader, CBM_INIT, imageData.planes[0], &binfo, DIB_RGB_COLORS) ;
 					//Temp
-					LPTSTR str = "TestFile.BMP";
-					CreateBMPFile(NULL,str,CreateBitmapInfoStruct(NULL,hbmp),hbmp,hdc);
+					string path = _DEFAULT_IMAGE_DIR;
+					makeDirectory(path);
+					path = getFullPath(path);
+					path +=model->getFileVersionName().c_str();
+					path +=".BMP";
+					CreateBMPFile(NULL,path.c_str(),CreateBitmapInfoStruct(NULL,hbmp),hbmp,hdc);
 					ReleaseDC(NULL, hdc);
 
 				}

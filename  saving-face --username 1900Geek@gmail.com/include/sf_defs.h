@@ -10,6 +10,7 @@ namespace SF
 
 #define _DEFAULT_VIDEO_DIR "Recorded_Video"
 #define _DEFAULT_DB_DIR "Database"
+#define _DEFAULT_IMAGE_DIR "Images"
 
 #define _SF_PI 3.1415926534f
 
