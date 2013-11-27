@@ -26,7 +26,7 @@ public:
 	//Opens a video feed to take the picture.
 	SF_STS takeSnapshot();
 
-	//Take the photo
+	//Take the photo... return file Path.
 	string pressShutter(SF_MUID modelId);
 	
 	//Close the Snapshot video feed

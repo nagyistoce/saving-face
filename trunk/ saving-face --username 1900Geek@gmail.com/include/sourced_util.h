@@ -72,7 +72,7 @@ PBITMAPINFO CreateBitmapInfoStruct(HWND hwnd, HBITMAP hBmp)
      return pbmi; 
  } 
 
-void CreateBMPFile(HWND hwnd, LPTSTR pszFile, PBITMAPINFO pbi, 
+void CreateBMPFile(HWND hwnd, LPCSTR pszFile, PBITMAPINFO pbi, 
                   HBITMAP hBMP, HDC hDC) 
  { 
      HANDLE hf;                 // file handle  
@@ -97,7 +97,7 @@ void CreateBMPFile(HWND hwnd, LPTSTR pszFile, PBITMAPINFO pbi,
     {
         errhandler("GetDIBits", hwnd); 
     }
-
+	
     // Create the .BMP file.  
     hf = CreateFile(pszFile, 
                    GENERIC_READ | GENERIC_WRITE, 
