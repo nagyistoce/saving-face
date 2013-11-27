@@ -91,6 +91,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="controllerTest.cpp" />
     <ClCompile Include="databaseFunctionsTest.cpp" />
     <ClCompile Include="modelBuilderTest.cpp" />
     <ClCompile Include="modelClassTest.cpp" />
