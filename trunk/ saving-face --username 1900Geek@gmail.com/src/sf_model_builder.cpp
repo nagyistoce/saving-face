@@ -24,6 +24,17 @@
 		return (long)t;
 	}
 
+	SF_MUID sf_model_builder::addNewModel(SF_NAME const salutation, SF_NAME const firstName, SF_NAME const middleName, SF_NAME const lastName, SF_NAME const suffix,SF_GENDER const gender,  SF_EMAIL const email)
+	{
+		Model *model = new Model(salutation, firstName, middleName,lastName, suffix, gender, email);
+		SF_UID_TYPE uid = generateUID();
+		model->setModelUID(uid);
+		model->setPersonUID(uid);
+		model->initModelArray();
+		temp_db.addModelToDatabase(model);
+		return uid;
+	}
+
 	SF_MUID sf_model_builder::addNewModel()
 	{
 		Model *model = new Model();
