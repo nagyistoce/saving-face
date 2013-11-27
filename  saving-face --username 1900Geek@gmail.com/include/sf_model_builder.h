@@ -41,6 +41,8 @@ namespace SF
 		//This will add the model to the local database simultaniously 
 		SF_MUID addNewModel();
 
+		SF_MUID addNewModel(SF_NAME const salutation, SF_NAME const firstName, SF_NAME const middleName, SF_NAME const lastName, SF_NAME const suffix,SF_GENDER const gender,  SF_EMAIL const email);
+
 		//Ideally this would be in the Model Database.
 		SF_STS deleteModel(SF_MUID muid);
 
