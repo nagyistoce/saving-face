@@ -19,23 +19,47 @@ SF_MUID sf_controller::createModelModel(SF_NAME const salutation, SF_NAME const 
 	return mBuilder->addNewModel(salutation, firstName, middleName, lastName, suffix, gender, email);
 }
 	
-
-
-SF_STS sf_controller::takeSnapshot()
+namespace SF_CNT_PHOTO
 {
-	return SF_STS_FAIL;
+	bool finished = false;
+	bool takePhoto = false;
+
+	bool shutterPressed()
+	{
+		if(takePhoto){
+			takePhoto = false;
+			return true;
+		}
+		return false;
+	}
+
+	bool areFinished()
+	{
+		if(finished)
+		{
+			finished = false;
+			return true;
+		}
+		return false;
+	}
+}
+
+SF_STS sf_controller::takeSnapshot(SF_MUID modelId)
+{
+	return session->snapshotLoop(mBuilder->getModel(modelId),&SF_CNT_PHOTO::shutterPressed,&SF_CNT_PHOTO::areFinished);
 }
 
 //Take the photo and return the filePath
-string sf_controller::pressShutter(SF_MUID modelId)
+void sf_controller::pressShutter()
 {
-	return "";
+	SF_CNT_PHOTO::takePhoto = true;
+	
 }
 	
 //Close the Snapshot video feed
-SF_STS sf_controller::snapshotFinished()
+void sf_controller::snapshotFinished()
 {
-	return SF_STS_FAIL;
+	SF_CNT_PHOTO::finished = true;
 }
 
 string sf_controller::getSnapshotPath(SF_MUID modelID)

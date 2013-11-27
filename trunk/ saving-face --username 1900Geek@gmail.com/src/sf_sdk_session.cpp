@@ -37,8 +37,9 @@ namespace SF
 		//Will automatically release
 		//Do to smart pointer
 		//Should call especially if doing fileIO
-		if(capture)
-			capture = 0;
+		capture = 0;
+		uv_render = 0;
+		depth_render = 0;
 	}
 
 	SF_STS SF_Session::captureColorStream()
@@ -70,7 +71,6 @@ namespace SF
 			string dir = _DEFAULT_VIDEO_DIR;
 			makeDirectory(dir);
 			string path = getFullPath(dir) + fileName;
-		
 			size_t newsize = path.size() + 1;
 			wchar_t * widePath = new wchar_t[newsize];
 			size_t convertedChars = 0;
@@ -433,6 +433,7 @@ namespace SF
 			if(finished())
 					break;
 		}
+		releaseStreams();
 		return SF_STS_OK;
 	}
 }
