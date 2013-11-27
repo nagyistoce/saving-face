@@ -117,12 +117,6 @@ void AddUserDlg::OnCbnSelchangeSuffix()
 }
 
 
-void AddUserDlg::OnBnClickedRadio1()
-{
-	// TODO: Add your control notification handler code here
-}
-
-
 void AddUserDlg::OnBnClickedRadioMale()
 {
 	// TODO: Add your control notification handler code here

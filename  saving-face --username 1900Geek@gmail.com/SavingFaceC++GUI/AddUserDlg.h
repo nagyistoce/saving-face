@@ -33,7 +33,6 @@ protected:
 public:
 	afx_msg void OnCbnSelchangeSalutation();
 	afx_msg void OnCbnSelchangeSuffix();
-	afx_msg void OnBnClickedRadio1();
 	afx_msg void OnBnClickedRadioMale();
 	CString emailAddr;
 	afx_msg void OnEnChangeEmail();
