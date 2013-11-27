@@ -24,11 +24,17 @@ public:
 	afx_msg void OnBnClickedCancel();
 protected:
 	CString givenname;
-public:
 	CString middlename;
 	CString sirname;
-	afx_msg void OnCbnSelchangeSalutation();
+	int genderRadioButton;
 	CComboBox salutation;
 	CComboBox suffix;
+
+public:
+	afx_msg void OnCbnSelchangeSalutation();
 	afx_msg void OnCbnSelchangeSuffix();
+	afx_msg void OnBnClickedRadio1();
+	afx_msg void OnBnClickedRadioMale();
+	CString emailAddr;
+	afx_msg void OnEnChangeEmail();
 };

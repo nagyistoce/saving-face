@@ -16,6 +16,8 @@ AddUserDlg::AddUserDlg(CWnd* pParent /*=NULL*/)
 	, givenname(_T(""))
 	, middlename(_T(""))
 	, sirname(_T(""))
+	, genderRadioButton(2)				// set the default selection to No Answer
+	, emailAddr(_T(""))
 {
 
 }
@@ -46,6 +48,8 @@ void AddUserDlg::DoDataExchange(CDataExchange* pDX)
 	suffix.AddString(_T("VI"));
 	suffix.AddString(_T("VII"));
 	suffix.AddString(_T("VIII"));
+	DDX_Radio(pDX, IDC_RADIO_MALE, genderRadioButton);
+	DDX_Text(pDX, IDC_EMAIL, emailAddr);
 }
 
 
@@ -54,6 +58,8 @@ BEGIN_MESSAGE_MAP(AddUserDlg, CDialogEx)
 	ON_BN_CLICKED(IDCANCEL, &AddUserDlg::OnBnClickedCancel)
 	ON_CBN_SELCHANGE(IDC_SALUTATION, &AddUserDlg::OnCbnSelchangeSalutation)
 	ON_CBN_SELCHANGE(IDC_SUFFIX, &AddUserDlg::OnCbnSelchangeSuffix)
+	ON_BN_CLICKED(IDC_RADIO_MALE, &AddUserDlg::OnBnClickedRadioMale)
+	ON_EN_CHANGE(IDC_EMAIL, &AddUserDlg::OnEnChangeEmail)
 END_MESSAGE_MAP()
 
 
@@ -76,7 +82,18 @@ void AddUserDlg::OnBnClickedOk()
 	if(temp.GetLength()) message.Append(_T(" ")+temp);
 	suffix.GetWindowTextW(temp);
 	if(temp.GetLength()) message.Append(_T(" ")+temp);
+	switch (genderRadioButton)
+	{
+		case 0: message.Append(_T(" Male"));
+		break;
+		case 1: message.Append(_T(" Female"));
+		break;
+		default: message.Append(_T(" Not Given"));
+	}
+	temp.Format(emailAddr.GetString());
+	if(temp.GetLength()) message.Append(_T(" ")+temp);
 	MessageBox(message,0,MB_OK);
+
 	CDialogEx::OnOK();
 }
 
@@ -97,4 +114,27 @@ void AddUserDlg::OnCbnSelchangeSalutation()
 void AddUserDlg::OnCbnSelchangeSuffix()
 {
 	// TODO: Add your control notification handler code here
+}
+
+
+void AddUserDlg::OnBnClickedRadio1()
+{
+	// TODO: Add your control notification handler code here
+}
+
+
+void AddUserDlg::OnBnClickedRadioMale()
+{
+	// TODO: Add your control notification handler code here
+}
+
+
+void AddUserDlg::OnEnChangeEmail()
+{
+	// TODO:  If this is a RICHEDIT control, the control will not
+	// send this notification unless you override the CDialogEx::OnInitDialog()
+	// function and call CRichEditCtrl().SetEventMask()
+	// with the ENM_CHANGE flag ORed into the mask.
+
+	// TODO:  Add your control notification handler code here
 }
