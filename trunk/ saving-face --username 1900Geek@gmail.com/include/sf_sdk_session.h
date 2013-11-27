@@ -38,6 +38,8 @@ namespace SF
 
 	//TODO Comment all of these
 	SF_STS captureStreams(string fileName = "", bool record = false);
+	SF_STS captureColorStream();
+
 	SF_STS loadFaceModule();
 	SF_STS createDepthRenderView();
 	SF_STS createColorRenderView();
@@ -47,6 +49,12 @@ namespace SF
 	//GetYPR //GetLandmark //Save video //Save Image
 	//Following these... A method to compare the saved video to the finished model.
 
+
+	SF_STS snapshotLoop(
+		Model *model,
+		bool (*shutterPressed)(void),
+		bool (*finished)(void)
+		);
 
 	void camera_loop
 		(
