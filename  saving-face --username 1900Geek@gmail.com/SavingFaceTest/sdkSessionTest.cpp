@@ -73,6 +73,17 @@ namespace SavingFaceTest
 		}
 #endif
 
+	bool shutterTest()
+	{
+		static int i = 0;
+		return (++i == 80);
+	}
+	bool photoFinish()
+	{
+		static int i = 0;
+		return (++i == 100);
+	}
+
 	TEST_CLASS(sdkSessionTest)
 	{
 	public:
@@ -151,7 +162,16 @@ namespace SavingFaceTest
 			session->camera_loop(&getYPR,&processVertex,NULL,NULL,NULL,NULL,90);
 		}
 
-
+		TEST_METHOD(savePhoto)
+		{
+			SF_Session session;
+			session.createSession();
+			session.setOptions(NULL,NULL);
+			Model model;
+			model.setName("Mr.","Fancy","","Pants","");
+			session.snapshotLoop(&model,&shutterTest,&photoFinish);
+			Assert().Fail(L"Not Finished Verify it worked");
+		}
 
 #ifdef Mathematica
 

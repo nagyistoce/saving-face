@@ -24,14 +24,15 @@ public:
 	
 
 	//Opens a video feed to take the picture.
-	SF_STS takeSnapshot();
+	SF_STS takeSnapshot(SF_MUID modelId);
 
 	//Take the photo... return file Path.
-	string pressShutter(SF_MUID modelId);
+	void pressShutter();
 	
 	//Close the Snapshot video feed
-	SF_STS snapshotFinished();
+	void snapshotFinished();
 
+	//returns the path of the photo.
 	string getSnapshotPath(SF_MUID modelID);
 
 	SF_STS buildModel(SF_MUID modelID);

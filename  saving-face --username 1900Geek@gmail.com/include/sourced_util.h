@@ -75,7 +75,7 @@ PBITMAPINFO CreateBitmapInfoStruct(HWND hwnd, HBITMAP hBmp)
 void CreateBMPFile(HWND hwnd, LPCSTR pszFile, PBITMAPINFO pbi, 
                   HBITMAP hBMP, HDC hDC) 
  { 
-     HANDLE hf;                 // file handle  
+    HANDLE hf;                 // file handle  
     BITMAPFILEHEADER hdr;       // bitmap file-header  
     PBITMAPINFOHEADER pbih;     // bitmap info-header  
     LPBYTE lpBits;              // memory pointer  
