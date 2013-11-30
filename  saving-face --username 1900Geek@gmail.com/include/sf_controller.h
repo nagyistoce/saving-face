@@ -20,13 +20,13 @@ public:
 	~sf_controller(void);
 	
 	//Return -1 if required fields are not initialized.
-	SF_MUID createModelModel(SF_NAME const salutation, SF_NAME const firstName, SF_NAME const middleName, SF_NAME const lastName, SF_NAME const suffix,SF_GENDER const gender,  SF_EMAIL const email);
+	SF_MUID createModel(SF_NAME const salutation, SF_NAME const firstName, SF_NAME const middleName, SF_NAME const lastName, SF_NAME const suffix,SF_GENDER const gender,  SF_EMAIL const email);
 	
 
 	//Opens a video feed to take the picture.
 	SF_STS takeSnapshot(SF_MUID modelId);
 
-	//Take the photo... return file Path.
+	//Take the photo.
 	void pressShutter();
 	
 	//Close the Snapshot video feed

@@ -11,7 +11,7 @@ sf_controller::~sf_controller(void)
 }
 
 
-SF_MUID sf_controller::createModelModel(SF_NAME const salutation, SF_NAME const firstName, SF_NAME const middleName, SF_NAME const lastName, SF_NAME const suffix,SF_GENDER const gender,  SF_EMAIL const email)
+SF_MUID sf_controller::createModel(SF_NAME const salutation, SF_NAME const firstName, SF_NAME const middleName, SF_NAME const lastName, SF_NAME const suffix,SF_GENDER const gender,  SF_EMAIL const email)
 {
 	//TODO check required parameters.
 	//if(...)
