@@ -5,6 +5,11 @@
 
 #pragma once
 
+
+//#include "sf_controller.h"
+//static sf_controller savingFace;
+
+
 #ifndef VC_EXTRALEAN
 #define VC_EXTRALEAN            // Exclude rarely-used stuff from Windows headers
 #endif
@@ -18,8 +23,6 @@
 
 #include <afxwin.h>         // MFC core and standard components
 #include <afxext.h>         // MFC extensions
-
-
 #include <afxdisp.h>        // MFC Automation classes
 
 
@@ -32,13 +35,6 @@
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
 #include <afxcontrolbars.h>     // MFC support for ribbons and control bars
-
-
-
-
-
-
-
 
 
 #ifdef _UNICODE

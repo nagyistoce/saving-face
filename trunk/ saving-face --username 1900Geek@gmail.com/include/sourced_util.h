@@ -46,8 +46,8 @@ PBITMAPINFO CreateBitmapInfoStruct(HWND hwnd, HBITMAP hBmp)
      else 
          pbmi = (PBITMAPINFO) LocalAlloc(LPTR, 
                     sizeof(BITMAPINFOHEADER)); 
-
-    // Initialize the fields in the BITMAPINFO structure.  
+	 
+	 // Initialize the fields in the BITMAPINFO structure.  
 
     pbmi->bmiHeader.biSize = sizeof(BITMAPINFOHEADER); 
     pbmi->bmiHeader.biWidth = bmp.bmWidth; 
