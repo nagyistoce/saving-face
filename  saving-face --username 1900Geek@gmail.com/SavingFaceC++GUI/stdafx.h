@@ -7,7 +7,7 @@
 
 
 //#include "sf_controller.h"
-//static sf_controller savingFace;
+//static sf_controller *savingFace;
 
 
 #ifndef VC_EXTRALEAN
