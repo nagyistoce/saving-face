@@ -12,6 +12,7 @@
 * Degrees to Radians
 * invert YPR.
 * vet test results.
+* Automatically save video
 * TESTS TODO
 *
 * Class Model

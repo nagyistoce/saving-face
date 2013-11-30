@@ -171,6 +171,7 @@ namespace SavingFaceTest
 			model.setName("Mr.","Fancy","","Pants","");
 			session.snapshotLoop(&model,&shutterTest,&photoFinish);
 			Assert().Fail(L"Not Finished Verify it worked");
+			//By Checking that the file exists.
 		}
 
 #ifdef Mathematica
