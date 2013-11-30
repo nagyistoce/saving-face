@@ -43,8 +43,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(SolutionDir)Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)Debug;$(PCSDK_DIR)/lib/$(PlatformName);$(PCSDK_DIR)/sample/common/lib/$(PlatformName)/$(PlatformToolset);$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)include;$(PCSDK_DIR)/Include;$(PCSDK_DIR)/Sample/Common/Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>

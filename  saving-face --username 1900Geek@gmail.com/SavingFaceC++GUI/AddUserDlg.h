@@ -1,6 +1,6 @@
 #pragma once
 #include "afxwin.h"
-
+#include "sf_controller.h"
 
 // AddUserDlg dialog
 
