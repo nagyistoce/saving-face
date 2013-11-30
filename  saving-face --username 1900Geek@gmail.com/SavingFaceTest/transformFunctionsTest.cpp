@@ -280,7 +280,7 @@ namespace SavingFaceTest
 
 			char *str = new char[200];
 			
-			sprintf_s(str, 200, "Output Model Coord3d Index Contains::\n%f, %f, %f", 
+			sprintf_s(str, 200, "Output Model Coord3d Index Contains::\n%d, %d, %d", 
 				index.x,
 				index.y,
 				index.z
@@ -289,7 +289,7 @@ namespace SavingFaceTest
 			delete[] str;
 			delete model;
 
-			Assert().AreEqual(memcmp(&index,&exp,sizeof(float)*3),0,L"Coord In Model Space Fail");
+			Assert().AreEqual(memcmp(&index,&exp,sizeof(int)*3),0,L"Coord In Model Space Fail");
 		}
 
 	};
