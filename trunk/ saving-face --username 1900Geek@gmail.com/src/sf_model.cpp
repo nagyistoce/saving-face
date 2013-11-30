@@ -179,7 +179,7 @@ namespace SF
 			fileStream->write(&model_info.modelArr[pos],arrLength-pos<1028?arrLength-pos:1028);
 			pos += 1028;
 		}
-		char endOfFile[2] = {0xFF,0xFF};
+		char endOfFile[2] = {(char)0xFF,(char)0xFF};
 		//TempTest.
 		//fileStream->write(endOfFile,2);
 		//TODO put in some checks to make sure the array has been initialized.

@@ -21,7 +21,7 @@ namespace SavingFaceTest
 			int i = 0;
 			while(i < 10)
 			{
-				_sleep(1000);//Sleep for 1 second.
+				Sleep(1000);//Sleep for 1 second.
 				i++;
 				long uid = builder.generateUID();
 				char *str = new char[200];
