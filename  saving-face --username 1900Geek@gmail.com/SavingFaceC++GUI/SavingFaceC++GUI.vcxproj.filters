@@ -48,9 +48,6 @@
     <ClInclude Include="targetver.h">
       <Filter>Include</Filter>
     </ClInclude>
-    <ClInclude Include="global.h">
-      <Filter>Include</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Include">
