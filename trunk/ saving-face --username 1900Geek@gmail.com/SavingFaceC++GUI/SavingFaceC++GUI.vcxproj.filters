@@ -16,6 +16,15 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Src</Filter>
     </ClCompile>
+    <ClCompile Include="$(PCSDK_DIR)/sample/common/src/util_capture.cpp" />
+    <ClCompile Include="$(PCSDK_DIR)/sample/common/src/util_capture_file.cpp" />
+    <ClCompile Include="$(PCSDK_DIR)/sample/common/src/util_captureimpl.cpp" />
+    <ClCompile Include="$(PCSDK_DIR)/sample/common/src/util_pipeline_face.cpp" />
+    <ClCompile Include="$(PCSDK_DIR)/sample/common/src/util_pipeline_gesture.cpp" />
+    <ClCompile Include="$(PCSDK_DIR)/sample/common/src/util_pipeline_voice.cpp" />
+    <ClCompile Include="$(PCSDK_DIR)/sample/common/src/util_pipeline_raw.cpp" />
+    <ClCompile Include="$(PCSDK_DIR)/sample/common/src/util_pipeline_segmentation.cpp" />
+    <ClCompile Include="$(PCSDK_DIR)/src/libpxc/libpxc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddIdentifyDlg.h">
