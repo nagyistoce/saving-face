@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "SavingFaceC++GUI.h"
 #include "SavingFaceC++GUIDlg.h"
-
+#include "global.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -40,7 +40,7 @@ CSavingFaceCGUIApp theApp;
 
 BOOL CSavingFaceCGUIApp::InitInstance()
 {
-	
+	//savingFace = new sf_controller();
 
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
