@@ -82,6 +82,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GlobalVars.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SavingFaceW32GUI.h" />
     <ClInclude Include="targetver.h" />

@@ -7,7 +7,7 @@
 #include <memory.h>
 #include <tchar.h>
 #include "SavingFaceW32GUI.h"
-#include "sf_controller.h"
+#include "GlobalVars.h"
 
 #define MAX_LOADSTRING 100
 
@@ -100,7 +100,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-	sf_controller *savingFace = new sf_controller();
+	savingFace = new sf_controller();
 	savingFace->init();
 
    HWND hWnd;
