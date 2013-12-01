@@ -134,6 +134,9 @@
   <ItemGroup>
     <Image Include="res\SavingFaceC++GUI.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\ saving-face --username 1900Geek%40gmail.com\SavingFaceC++GUI\ClassDiagram.cd" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

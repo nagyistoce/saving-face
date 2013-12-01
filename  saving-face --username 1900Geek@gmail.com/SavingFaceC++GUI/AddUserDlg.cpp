@@ -68,20 +68,89 @@ END_MESSAGE_MAP()
 
 void AddUserDlg::OnBnClickedOk()
 {
+	sf_controller
 	// TODO: Add your control notification handler code here
 	UpdateData();
+
+	CString salutationText;
+	salutation.GetWindowTextW(salutationText);
+
+	CString suffixText;
+	suffix.GetWindowTextW(suffixText);
+ 
+	CString genderText = _T("");
+
+	switch (genderRadioButton)
+	{
+		case 0: genderText.Append(_T("Male"));
+		break;
+		case 1: genderText.Append(_T("Female"));
+		break;
+		default: genderText.Append(_T(""));
+	}
+
+
 	CString message;
 	CString temp;
-	message.Format(_T(""));
+
+	if (givenname == _T("") || middlename == _T("") || sirname == _T("") ||
+		salutationText == _T("") || suffixText == _T("") || emailAddr == _T("") || genderText == _T(""))
+	{
+		message = _T("You must fill in all fields.");
+		message.Append(_T("\n"));
+		message.Append(salutationText);
+		message.Append(_T("\n"));
+		message.Append(givenname);
+		message.Append(_T("\n"));
+		message.Append(middlename);
+		message.Append(_T("\n"));
+		message.Append(sirname);
+		message.Append(_T("\n"));
+		message.Append(suffixText);
+		message.Append(_T("\n"));
+		message.Append(genderText);
+		message.Append(_T("\n"));
+		message.Append(emailAddr);
+		MessageBox(message,0,MB_OK);
+	}
+
+	else
+	{
+		message = _T("All fields have been entered.");
+		MessageBox(message,0,MB_OK);
+		
+		//TODO link this to gloabal variable defined in global.h
+		//sf_controller *controller = new sf_controller();
+	
+		//This is a silly little conversion I had to do for the create model arguments
+		//SF_MUID muid = controller->createModel(string(CStringA(salutationText)),string(CStringA(firstNameText)), string(CStringA(middleNameText)), string(CStringA(lastNameText)), string(CStringA(suffixText)), string(CStringA(genderText)), string(CStringA(emailText)));
+
+		CDialogEx::OnOK();
+	}
+
+	/*message.Format(_T(""));
+
 	salutation.GetWindowTextW(message);
 	temp.Format(givenname.GetString());
-	if(temp.GetLength()) message.Append(_T(" ")+temp);
+
+	if(temp.GetLength()) 
+		message.Append(_T(" ")+temp);
+
 	temp.Format(middlename.GetString());
-	if(temp.GetLength()) message.Append(_T(" ")+temp);
+
+	if(temp.GetLength()) 
+		message.Append(_T(" ")+temp);
+
 	temp.Format(sirname.GetString());
-	if(temp.GetLength()) message.Append(_T(" ")+temp);
+
+	if(temp.GetLength()) 
+		message.Append(_T(" ")+temp);
+
 	suffix.GetWindowTextW(temp);
-	if(temp.GetLength()) message.Append(_T(" ")+temp);
+
+	if(temp.GetLength()) 
+		message.Append(_T(" ")+temp);
+
 	switch (genderRadioButton)
 	{
 		case 0: message.Append(_T(" Male"));
@@ -94,7 +163,10 @@ void AddUserDlg::OnBnClickedOk()
 	if(temp.GetLength()) message.Append(_T(" ")+temp);
 	MessageBox(message,0,MB_OK);
 
-	CDialogEx::OnOK();
+	sf_controller *controller = new sf_controller();
+	salutation.GetWindowTextW(message);*/
+
+	
 }
 
 

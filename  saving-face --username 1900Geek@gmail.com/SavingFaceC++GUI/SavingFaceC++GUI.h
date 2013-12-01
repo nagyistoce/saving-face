@@ -9,7 +9,7 @@
 #endif
 
 #include "resource.h"		// main symbols
-
+#include "global.h"
 
 // CSavingFaceCGUIApp:
 // See SavingFaceC++GUI.cpp for the implementation of this class

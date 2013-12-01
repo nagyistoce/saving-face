@@ -1,3 +1,8 @@
 #pragma once
 #include "sf_controller.h"
-static sf_controller *savingFace;
+
+class global
+{
+public:
+	static sf_controller *savingFace;
+};
