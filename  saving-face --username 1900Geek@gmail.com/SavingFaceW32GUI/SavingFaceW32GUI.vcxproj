@@ -82,12 +82,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\ saving-face --username 1900Geek%40gmail.com\SavingFaceW32GUI\AddUser.h" />
     <ClInclude Include="GlobalVars.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SavingFaceW32GUI.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\ saving-face --username 1900Geek%40gmail.com\SavingFaceW32GUI\AddUser.cpp" />
     <ClCompile Include="SavingFaceW32GUI.cpp" />
   </ItemGroup>
   <ItemGroup>

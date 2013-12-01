@@ -8,6 +8,7 @@
 #include <tchar.h>
 #include "SavingFaceW32GUI.h"
 #include "GlobalVars.h"
+#include "AddUser.h"
 
 #define MAX_LOADSTRING 100
 
@@ -131,6 +132,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY	- post a quit message and return
 //
 //
+HWND SubDlgHwnd;
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
@@ -150,6 +153,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
+			break;
+		case ID_ACTIONS_CREATEANEWMODEL:
+/*			HRSRC hrsrc;
+			HGLOBAL hglobal;
+
+			hrsrc = FindResource(hInst, MAKEINTRESOURCE(UDI_DIALOG),RT_DIALOG);
+			hglobal = ::LoadResource(hInst, hrsrc);
+			SubDlgHwnd = CreateDialogIndirect(hInst,(LPCDLGTEMPLATE)hglobal, hWnd, AddUserProc);
+				hWnd, SetWindowPos(SubDlgHwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE);*/
+			SubDlgHwnd = CreateDialogW(hInst,MAKEINTRESOURCE(UDI_DIALOG),0,AddUserProc);
+			ShowWindow(SubDlgHwnd,SW_SHOW);
+			MessageBox(hWnd,L"Add Person call is working",L"Adding Person Dialog",MB_OK);
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
