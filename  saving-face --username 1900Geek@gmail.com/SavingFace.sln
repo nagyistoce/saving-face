@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SavingFaceGUI", "GUI projec
 		{D2337884-5522-46F3-B103-C46FF242A08B} = {D2337884-5522-46F3-B103-C46FF242A08B}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SavingFaceC++GUI", "SavingFaceC++GUI\SavingFaceC++GUI.vcxproj", "{FF6EF1B3-2EC8-41BE-A910-F09D0EBBD9C8}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SavingFaceW32GUI", "SavingFaceW32GUI\SavingFaceW32GUI.vcxproj", "{9A808058-C6C7-4536-A249-4EAAD72DB633}"
 EndProject
 Global
@@ -54,16 +52,6 @@ Global
 		{14665777-FF2A-4375-B698-B96005EFD486}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{14665777-FF2A-4375-B698-B96005EFD486}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{14665777-FF2A-4375-B698-B96005EFD486}.Release|Win32.ActiveCfg = Release|Any CPU
-		{FF6EF1B3-2EC8-41BE-A910-F09D0EBBD9C8}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{FF6EF1B3-2EC8-41BE-A910-F09D0EBBD9C8}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{FF6EF1B3-2EC8-41BE-A910-F09D0EBBD9C8}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{FF6EF1B3-2EC8-41BE-A910-F09D0EBBD9C8}.Debug|Win32.ActiveCfg = Debug|Win32
-		{FF6EF1B3-2EC8-41BE-A910-F09D0EBBD9C8}.Debug|Win32.Build.0 = Debug|Win32
-		{FF6EF1B3-2EC8-41BE-A910-F09D0EBBD9C8}.Release|Any CPU.ActiveCfg = Release|Win32
-		{FF6EF1B3-2EC8-41BE-A910-F09D0EBBD9C8}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{FF6EF1B3-2EC8-41BE-A910-F09D0EBBD9C8}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{FF6EF1B3-2EC8-41BE-A910-F09D0EBBD9C8}.Release|Win32.ActiveCfg = Release|Win32
-		{FF6EF1B3-2EC8-41BE-A910-F09D0EBBD9C8}.Release|Win32.Build.0 = Release|Win32
 		{9A808058-C6C7-4536-A249-4EAAD72DB633}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{9A808058-C6C7-4536-A249-4EAAD72DB633}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{9A808058-C6C7-4536-A249-4EAAD72DB633}.Debug|Mixed Platforms.Build.0 = Debug|Win32
