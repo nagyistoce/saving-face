@@ -164,6 +164,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				hWnd, SetWindowPos(SubDlgHwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE);*/
 			SubDlgHwnd = CreateDialogW(hInst,MAKEINTRESOURCE(UDI_DIALOG),0,AddUserProc);
 			ShowWindow(SubDlgHwnd,SW_SHOW);
+			message = WM_CREATE;
+			return AddUserProc(hWnd, message, wParam, lParam);
 			MessageBox(hWnd,L"Add Person call is working",L"Adding Person Dialog",MB_OK);
 			break;
 		default:
@@ -202,4 +204,9 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	return (INT_PTR)FALSE;
+}
+
+void createUserWindow()
+{
+
 }
