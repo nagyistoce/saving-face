@@ -149,7 +149,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (wmId)
 		{
 		case IDM_ABOUT:
-			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+			DialogBox(hInst, MAKEINTRESOURCE(SF_ABOUT_DIALOG), hWnd, About);
 			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
@@ -157,7 +157,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case ID_ACTIONS_CREATEANEWMODEL:
 			//HRSRC hrsrc;
 			//HGLOBAL hglobal;
-			DialogBox(hInst, MAKEINTRESOURCE(UDI_DIALOG2), hWnd, About);
+			DialogBox(hInst, MAKEINTRESOURCE(UDI_DIALOG2), hWnd, UDI_CALLBACK);
 			//hrsrc = FindResource(hInst, MAKEINTRESOURCE(UDI_DIALOG),RT_DIALOG);
 			//hglobal = ::LoadResource(hInst, hrsrc);
 			//SubDlgHwnd = CreateDialogIndirect(hInst,(LPCDLGTEMPLATE)hglobal, hWnd, AddUserProc);
@@ -209,4 +209,29 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 void createUserWindow()
 {
 
+}
+
+INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		return (INT_PTR)TRUE;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == UDI_OK)
+		{
+			//Process Crap here
+			return (INT_PTR)TRUE;
+		}
+		if(LOWORD(wParam) == UDI_CANCEL)
+		{
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+
+		break;
+	}
+	return (INT_PTR)FALSE;
 }
