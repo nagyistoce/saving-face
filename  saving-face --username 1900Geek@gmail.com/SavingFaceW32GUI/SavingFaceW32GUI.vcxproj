@@ -89,7 +89,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\ saving-face --username 1900Geek%40gmail.com\SavingFaceW32GUI\AddUser.cpp" />
+    <ClCompile Include="AddUser.cpp" />
     <ClCompile Include="SavingFaceW32GUI.cpp" />
   </ItemGroup>
   <ItemGroup>

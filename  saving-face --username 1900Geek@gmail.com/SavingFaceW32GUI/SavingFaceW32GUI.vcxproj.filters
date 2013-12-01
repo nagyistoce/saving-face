@@ -38,7 +38,7 @@
     <ClCompile Include="SavingFaceW32GUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\ saving-face --username 1900Geek%40gmail.com\SavingFaceW32GUI\AddUser.cpp">
+    <ClCompile Include="AddUser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
