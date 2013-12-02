@@ -9,6 +9,7 @@
 #include "SavingFaceW32GUI.h"
 #include "GlobalVars.h"
 #include "AddUser.h"
+#include <cstringt.h>
 
 #define MAX_LOADSTRING 100
 
@@ -25,7 +26,7 @@ INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
 
 //ComboBoxItems
 const char *SalutationItems[] = { "Dr.", "Sir", "Mr.", "Mrs.", "Ms." };
-const char *SuffixItems[] = {"Sr.", "Jr.", "I", "II", "III", "IV", "V" };
+const char *SuffixItems[] = {"", "Sr.", "Jr.", "I", "II", "III", "IV", "V" };
 const char *GenderItems[] = {"Female","Male","Not Given"};
 
 
@@ -161,18 +162,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			DestroyWindow(hWnd);
 			break;
 		case ID_ACTIONS_CREATEANEWMODEL:
-			//HRSRC hrsrc;
-			//HGLOBAL hglobal;
+
 			DialogBox(hInst, MAKEINTRESOURCE(UDI_DIALOG2), hWnd, UDI_CALLBACK);
-			//hrsrc = FindResource(hInst, MAKEINTRESOURCE(UDI_DIALOG),RT_DIALOG);
-			//hglobal = ::LoadResource(hInst, hrsrc);
-			//SubDlgHwnd = CreateDialogIndirect(hInst,(LPCDLGTEMPLATE)hglobal, hWnd, AddUserProc);
-			//	hWnd, SetWindowPos(SubDlgHwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOSIZE);*/
-			//SubDlgHwnd = CreateDialogW(hInst,MAKEINTRESOURCE(UDI_DIALOG),0,AddUserProc);
-			//ShowWindow(SubDlgHwnd,SW_SHOW);
-			//message = WM_CREATE;
-			//return AddUserProc(hWnd, message, wParam, lParam);
-			//MessageBox(hWnd,L"Add Person call is working",L"Adding Person Dialog",MB_OK);
+
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
@@ -243,6 +235,7 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 		SendMessage(GetDlgItem(hDlg, UDI_SUFFIX_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)SuffixItems[4]));
 		SendMessage(GetDlgItem(hDlg, UDI_SUFFIX_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)SuffixItems[5]));
 		SendMessage(GetDlgItem(hDlg, UDI_SUFFIX_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)SuffixItems[6]));
+		SendMessage(GetDlgItem(hDlg, UDI_SUFFIX_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)SuffixItems[7]));
 
 		if ( -1 == SendMessage(GetDlgItem(hDlg, UDI_GENDER_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)GenderItems[0])))
 		{
@@ -273,20 +266,18 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			GetWindowText(GetDlgItem(hDlg, UDI_GENDER_CB),gender,200);
 			GetWindowText(GetDlgItem(hDlg, UDI_EMAIL_ET),email,200);
 
-			//Check to see if user has entered first name
+			//Check to see if user has entered first name and a last name
 			int len = GetWindowTextLength(GetDlgItem(hDlg, UDI_FIRST_ET));
 			int len2 = GetWindowTextLength(GetDlgItem(hDlg, UDI_LAST_ET));
-			if(len < 1)    
-			{       
-				MessageBox(hDlg, LPCSTR("You must enter a first name."), LPCSTR("Adding Person Dialog"), MB_OK);
-			}
-			//Check to see if user has entered last name
-			else if(len2 < 1)    
-			{       
-				MessageBox(hDlg, LPCSTR("You must enter a last name."), LPCSTR("Adding Person Dialog"), MB_OK);
-			}
-			//user has filled the fields needed to create a model.
-			else
+
+			// if they need to enter their first or last name, fill and display the appropriate message
+			string NameMsg;   
+			if(len < 1 && len2 < 1) NameMsg = "You must enter a first and last name.";
+			else if(len < 1) NameMsg = "You must enter a first name.";
+			else if(len2 < 1) NameMsg = "You must enter a last name.";
+			if(len < 1 || len2 < 1) MessageBox(hDlg, LPCSTR(NameMsg.c_str()), LPCSTR("Adding Person Dialog"), MB_OK);
+			
+			else //user has filled the fields needed to create a model.
 			{
 				//Used to varify values
 				//MessageBox(hDlg, LPCSTR(sal), LPCSTR("Adding Person Dialog"), MB_OK);
@@ -297,18 +288,19 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 				//MessageBox(hDlg, LPCSTR(gender), LPCSTR("Adding Person Dialog"), MB_OK);
 				//MessageBox(hDlg, LPCSTR(email), LPCSTR("Adding Person Dialog"), MB_OK);
 				currentModelID = savingFace->createModel(sal,first,middle,last,suffix,gender,email);
-			}
 
 			
-			if(currentModelID)
-			{
-				EndDialog(hDlg, LOWORD(wParam));
-				DialogBox(hInst, MAKEINTRESOURCE(UDI_DIALOG3), hDlg, IDD_PHOTO_CALLBACK);
-				return (INT_PTR)TRUE;
-			}else
-				//Error occured. Notify user.
-				MessageBox(hDlg, LPCSTR("An error occured."), LPCSTR("Adding Person Dialog"), MB_OK);
-				break;
+				if(currentModelID)
+				{
+					EndDialog(hDlg, LOWORD(wParam));
+					DialogBox(hInst, MAKEINTRESOURCE(UDI_DIALOG3), hDlg, IDD_PHOTO_CALLBACK);
+					return (INT_PTR)TRUE;
+				}else
+					//Error occured. Notify user.
+					MessageBox(hDlg, LPCSTR("An error occured."), LPCSTR("Adding Person Dialog"), MB_OK);
+					
+			}
+			break;
 		}
 		if(LOWORD(wParam) == UDI_CANCEL)
 		{
