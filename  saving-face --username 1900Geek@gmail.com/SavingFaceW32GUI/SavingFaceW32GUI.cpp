@@ -217,14 +217,28 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 	switch (message)
 	{
 	case WM_INITDIALOG:
+		//Init Combo boxes here
 		return (INT_PTR)TRUE;
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == UDI_OK)
 		{
 			//Process Crap here
-			char* test = new char[200];
-			GetWindowText(GetDlgItem(hDlg, UDI_FIRST_ET),test,200);//Works
+			char* sal = new char[200];
+			char* first = new char[200];
+			char* middle = new char[200];
+			char* last = new char[200];
+			char* suffix = new char[200];
+			char* gender = new char[200];
+			char* email = new char[200];
+			GetWindowText(GetDlgItem(hDlg, UDI_SALUTATION_CB),sal,200);
+			GetWindowText(GetDlgItem(hDlg, UDI_FIRST_ET),first,200);
+			GetWindowText(GetDlgItem(hDlg, UDI_MIDDLE_ET),middle,200);
+			GetWindowText(GetDlgItem(hDlg, UDI_LAST_ET),last,200);
+			GetWindowText(GetDlgItem(hDlg, UDI_SUFFIX_CB),suffix,200);
+			GetWindowText(GetDlgItem(hDlg, UDI_GENDER_CB),gender,200);
+			GetWindowText(GetDlgItem(hDlg, UDI_EMAIL_ET),email,200);
+
 			return (INT_PTR)TRUE;
 		}
 		if(LOWORD(wParam) == UDI_CANCEL)
