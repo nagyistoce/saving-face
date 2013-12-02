@@ -223,6 +223,8 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 		if (LOWORD(wParam) == UDI_OK)
 		{
 			//Process Crap here
+			char* test = new char[200];
+			GetWindowText(GetDlgItem(hDlg, UDI_FIRST_ET),test,200);//Works
 			return (INT_PTR)TRUE;
 		}
 		if(LOWORD(wParam) == UDI_CANCEL)
@@ -230,7 +232,7 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;
 		}
-
+		
 		break;
 	}
 	return (INT_PTR)FALSE;
