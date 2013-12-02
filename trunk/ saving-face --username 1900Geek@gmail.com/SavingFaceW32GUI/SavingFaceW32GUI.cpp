@@ -238,8 +238,16 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			GetWindowText(GetDlgItem(hDlg, UDI_SUFFIX_CB),suffix,200);
 			GetWindowText(GetDlgItem(hDlg, UDI_GENDER_CB),gender,200);
 			GetWindowText(GetDlgItem(hDlg, UDI_EMAIL_ET),email,200);
-
-			return (INT_PTR)TRUE;
+			//Check for first and last here
+			currentModelID = savingFace->createModel(sal,first,middle,last,suffix,gender,email);
+			if(currentModelID)
+			{
+				EndDialog(hDlg, LOWORD(wParam));
+				//Open photo taking dialog.
+				return (INT_PTR)TRUE;
+			}else
+				//Error occured. Notify user.
+				break;
 		}
 		if(LOWORD(wParam) == UDI_CANCEL)
 		{
