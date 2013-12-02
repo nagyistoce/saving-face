@@ -309,7 +309,15 @@ INT_PTR CALLBACK IDD_PHOTO_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPAR
 			//TODO: Verify picture was taken.
 			EndDialog(hDlg, LOWORD(wParam));
 			//Verify correct functioning.
-			savingFace->buildModel(currentModelID);
+			MessageBox(hDlg, LPCSTR("Building model."), LPCSTR("Capture Dialog"), MB_OK);
+			if (savingFace->buildModel(currentModelID) == SF_STS_OK)
+			{
+				MessageBox(hDlg, LPCSTR("Model has been built."), LPCSTR("Capture Dialog"), MB_OK);
+			}
+			else
+			{
+				MessageBox(hDlg, LPCSTR("An error has occured building the model."), LPCSTR("Capture Dialog"), MB_OK);
+			}
 			return (INT_PTR)TRUE;
 		}else if(LOWORD(wParam) == UDI_CAPTURE)
 		{
