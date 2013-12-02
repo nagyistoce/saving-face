@@ -223,7 +223,8 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 	case WM_COMMAND:
 		if (LOWORD(wParam) == UDI_OK)
 		{
-			//Process Crap here
+			
+
 			char* sal = new char[200];
 			char* first = new char[200];
 			char* middle = new char[200];
@@ -238,8 +239,26 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			GetWindowText(GetDlgItem(hDlg, UDI_SUFFIX_CB),suffix,200);
 			GetWindowText(GetDlgItem(hDlg, UDI_GENDER_CB),gender,200);
 			GetWindowText(GetDlgItem(hDlg, UDI_EMAIL_ET),email,200);
-			//Check for first and last here
-			currentModelID = savingFace->createModel(sal,first,middle,last,suffix,gender,email);
+
+			//Check to see if user has entered first name
+			int len = GetWindowTextLength(GetDlgItem(hDlg, UDI_FIRST_ET));
+			int len2 = GetWindowTextLength(GetDlgItem(hDlg, UDI_LAST_ET));
+			if(len < 1)    
+			{       
+				MessageBox(hDlg, LPCSTR("You must enter a first name."), LPCSTR("Adding Person Dialog"), MB_OK);
+			}
+			//Check to see if user has entered last name
+			else if(len2 < 1)    
+			{       
+				MessageBox(hDlg, LPCSTR("You must enter a last name."), LPCSTR("Adding Person Dialog"), MB_OK);
+			}
+			//user has input fields needed to create a model.
+			else
+			{
+				currentModelID = savingFace->createModel(sal,first,middle,last,suffix,gender,email);
+			}
+
+			
 			if(currentModelID)
 			{
 				EndDialog(hDlg, LOWORD(wParam));
