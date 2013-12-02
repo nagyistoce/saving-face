@@ -262,7 +262,8 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			if(currentModelID)
 			{
 				EndDialog(hDlg, LOWORD(wParam));
-				//Open photo taking dialog.
+				//Probably should change the name from IDD_DIALOG1, resource folder needs 
+				//DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, IDD_PHOTO_CALLBACK);
 				return (INT_PTR)TRUE;
 			}else
 				//Error occured. Notify user.
@@ -277,4 +278,9 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 		break;
 	}
 	return (INT_PTR)FALSE;
+}
+
+INT_PTR CALLBACK IDD_PHOTO_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	return (INT_PTR)TRUE;
 }
