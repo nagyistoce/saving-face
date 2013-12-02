@@ -303,7 +303,6 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			if(currentModelID)
 			{
 				EndDialog(hDlg, LOWORD(wParam));
-				//Probably should change the name from IDD_DIALOG1, resource folder needs 
 				DialogBox(hInst, MAKEINTRESOURCE(UDI_DIALOG3), hDlg, IDD_PHOTO_CALLBACK);
 				return (INT_PTR)TRUE;
 			}else
@@ -329,12 +328,13 @@ INT_PTR CALLBACK IDD_PHOTO_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPAR
 	{
 	case WM_INITDIALOG:
 
+		//savingFace->takeSnapshot(currentModelID);
 		return (INT_PTR)TRUE;
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == UDI_OK2)
 		{
-			savingFace->snapshotFinished();
+			//savingFace->snapshotFinished();
 			return (INT_PTR)TRUE;
 		}
 		if(LOWORD(wParam) == UDI_CAPTURE)
@@ -344,6 +344,7 @@ INT_PTR CALLBACK IDD_PHOTO_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPAR
 
 			//take photo and load it to the image window
 			savingFace->pressShutter();
+			savingFace->snapshotFinished();
 			string file = savingFace->getSnapshotPath(currentModelID);
 
 			HBITMAP hImage = (HBITMAP)LoadImage(NULL, LPCSTR(file.c_str()), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADTRANSPARENT);
