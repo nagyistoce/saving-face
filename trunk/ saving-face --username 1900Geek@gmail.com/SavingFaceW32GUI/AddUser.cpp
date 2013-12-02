@@ -6,11 +6,11 @@ INT_PTR CALLBACK AddUserProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		case WM_CREATE:
 		{
-			MessageBox(hWnd, L"Creating buttons", L"Adding Person Dialog", MB_OK);
+			MessageBox(hWnd, "Creating buttons", "Adding Person Dialog", MB_OK);
 			// Create an edit box
 			HWND hEdit = CreateWindowEx(WS_EX_CLIENTEDGE,
-				LPCWSTR("EDIT"),
-				LPCWSTR(""),
+				LPCSTR("EDIT"),
+				LPCSTR(""),
 				WS_CHILD|WS_VISIBLE|
 				ES_MULTILINE|ES_AUTOVSCROLL|ES_AUTOHSCROLL,
 				0,
@@ -33,8 +33,8 @@ INT_PTR CALLBACK AddUserProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// Create a push button
 			HWND hWndButton=CreateWindowEx(NULL,
-				LPCWSTR("BUTTON"),
-				LPCWSTR("OK"),
+				LPCSTR("BUTTON"),
+				LPCSTR("OK"),
 				WS_TABSTOP|WS_VISIBLE|
 				WS_CHILD|BS_DEFPUSHBUTTON,
 				50,
@@ -82,7 +82,6 @@ INT_PTR CALLBACK AddUserProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	}
-
 	return false;
 }
 
