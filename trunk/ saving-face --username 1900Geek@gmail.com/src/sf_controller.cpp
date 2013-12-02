@@ -26,8 +26,10 @@ namespace SF_CNT_PHOTO
 
 	bool shutterPressed()
 	{
-		if(takePhoto){
-			takePhoto = false;
+		static int take = 0;
+		if(++take == 50){
+			finished = true;
+			take = 0;
 			return true;
 		}
 		return false;
@@ -35,8 +37,7 @@ namespace SF_CNT_PHOTO
 
 	bool areFinished()
 	{
-		if(finished)
-		{
+		if(finished){
 			finished = false;
 			return true;
 		}
@@ -49,22 +50,30 @@ SF_STS sf_controller::takeSnapshot(SF_MUID modelId)
 	return session->snapshotLoop(mBuilder->getModel(modelId),&SF_CNT_PHOTO::shutterPressed,&SF_CNT_PHOTO::areFinished);
 }
 
-//Take the photo and return the filePath
+//Take the photo
 void sf_controller::pressShutter()
 {
-	SF_CNT_PHOTO::takePhoto = true;
-	
+	//Ignore for now. Requires multi-threading
 }
 	
 //Close the Snapshot video feed
 void sf_controller::snapshotFinished()
 {
-	SF_CNT_PHOTO::finished = true;
+	//SF_CNT_PHOTO::finished = true;
+	if(SF_CNT_PHOTO::takePhoto == 0)
+		SF_CNT_PHOTO::finished = true;
+	else
+		SF_CNT_PHOTO::finished = false;
 }
 
 string sf_controller::getSnapshotPath(SF_MUID modelID)
 {
-	return "";
+	string path = _DEFAULT_IMAGE_DIR;
+	//makeDirectory(path);
+	path = getFullPath(path);
+	path += mBuilder->getModel(modelID)->getFileVersionName().c_str();
+	path +=".BMP";
+	return path;
 }
 
 SF_STS sf_controller::buildModel(SF_MUID modelID)

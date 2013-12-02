@@ -21,11 +21,11 @@ public:
 	
 	//Return -1 if required fields are not initialized.
 	SF_MUID createModel(SF_NAME const salutation, SF_NAME const firstName, SF_NAME const middleName, SF_NAME const lastName, SF_NAME const suffix,SF_GENDER const gender,  SF_EMAIL const email);
-	
 
 	//Opens a video feed to take the picture.
 	SF_STS takeSnapshot(SF_MUID modelId);
 
+	
 	//Take the photo.
 	void pressShutter();
 	
@@ -56,4 +56,13 @@ private:
 	sf_model_builder *mBuilder;
 	SF_Session *session;
 };
+
+struct bob
+{
+	sf_controller *controller;
+	SF_MUID modelId;
+};
+
+void threadStartSnapshot(bob *theBob);
+
 #endif
