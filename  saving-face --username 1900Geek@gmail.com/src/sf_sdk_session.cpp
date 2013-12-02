@@ -398,7 +398,6 @@ namespace SF
 		while(true)
 		{
 			PXCSmartSP sp;//Synchronous Pointer
-
 			//ReadStream If Data Available or Block
 			if (capture->ReadStreamAsync(&image, &sp)<PXC_STATUS_NO_ERROR) break;
 			if (sp->Synchronize()<PXC_STATUS_NO_ERROR) continue;
