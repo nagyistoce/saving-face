@@ -70,7 +70,10 @@ namespace SavingFaceTest
 			sprintf_s(str, 200, "Model Person ID:: %d\n", puid);
 			Logger().WriteMessage(str);
 			Assert().AreEqual(muid, puid, L"Model MUID != PUID");
-			modelBuilder->buildModel(muid);
+			SF_Session *session = new SF_Session();
+			session->createSession();
+			session->setOptions(NULL,NULL);
+			modelBuilder->buildModel(muid,session);
 			makeDirectory("Test_Model_Output");
 			string path = getFullPath("Test_Model_Output") + "Test_Model.mdl";
 			ofstream *out = new ofstream(path.c_str(), ios::out | ios::binary);

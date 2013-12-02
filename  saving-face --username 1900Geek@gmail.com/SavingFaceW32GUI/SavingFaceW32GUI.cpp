@@ -309,12 +309,11 @@ INT_PTR CALLBACK IDD_PHOTO_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPAR
 			//TODO: Verify picture was taken.
 			EndDialog(hDlg, LOWORD(wParam));
 			//Verify correct functioning.
-			//savingFace->buildModel(currentModelID);
+			savingFace->buildModel(currentModelID);
 			return (INT_PTR)TRUE;
 		}else if(LOWORD(wParam) == UDI_CAPTURE)
 		{
 			//take photo and load it to the image window
-			//savingFace->pressShutter();
 			savingFace->takeSnapshot(currentModelID);
 			string file = savingFace->getSnapshotPath(currentModelID);
 			HBITMAP hImage = (HBITMAP)LoadImage(NULL, LPCSTR(file.c_str()), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
