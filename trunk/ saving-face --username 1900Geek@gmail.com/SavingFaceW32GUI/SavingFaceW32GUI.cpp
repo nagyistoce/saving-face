@@ -23,6 +23,12 @@ BOOL				InitInstance(HINSTANCE, int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
 
+//ComboBoxItems
+const char *SalutationItems[] = { "Dr.", "Sir", "Mr.", "Mrs.", "Ms." };
+const char *SuffixItems[] = {"Sr.", "Jr.", "I", "II", "III", "IV", "V" };
+const char *GenderItems[] = {"Female","Male","Not Given"};
+
+
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPTSTR    lpCmdLine,
@@ -218,6 +224,33 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 	{
 	case WM_INITDIALOG:
 		//Init Combo boxes here
+		if ( -1 == SendMessage(GetDlgItem(hDlg, UDI_SALUTATION_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)SalutationItems[0])))
+		{
+			MessageBox(hDlg, LPCSTR("Failed to add item to combo box."), LPCSTR("Adding Person Dialog"), MB_OK);
+		}
+		SendMessage(GetDlgItem(hDlg, UDI_SALUTATION_CB), CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)SalutationItems[1]));
+		SendMessage(GetDlgItem(hDlg, UDI_SALUTATION_CB), CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)SalutationItems[2]));
+		SendMessage(GetDlgItem(hDlg, UDI_SALUTATION_CB), CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)SalutationItems[3]));
+		SendMessage(GetDlgItem(hDlg, UDI_SALUTATION_CB), CB_ADDSTRING, 0, reinterpret_cast<LPARAM>((LPCTSTR)SalutationItems[4]));
+
+		if ( -1 == SendMessage(GetDlgItem(hDlg, UDI_SUFFIX_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)SuffixItems[0])))
+		{
+			MessageBox(hDlg, LPCSTR("Failed to add item to combo box."), LPCSTR("Adding Person Dialog"), MB_OK);
+		}
+		SendMessage(GetDlgItem(hDlg, UDI_SUFFIX_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)SuffixItems[1]));
+		SendMessage(GetDlgItem(hDlg, UDI_SUFFIX_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)SuffixItems[2]));
+		SendMessage(GetDlgItem(hDlg, UDI_SUFFIX_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)SuffixItems[3]));
+		SendMessage(GetDlgItem(hDlg, UDI_SUFFIX_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)SuffixItems[4]));
+		SendMessage(GetDlgItem(hDlg, UDI_SUFFIX_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)SuffixItems[5]));
+		SendMessage(GetDlgItem(hDlg, UDI_SUFFIX_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)SuffixItems[6]));
+
+		if ( -1 == SendMessage(GetDlgItem(hDlg, UDI_GENDER_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)GenderItems[0])))
+		{
+			MessageBox(hDlg, LPCSTR("Failed to add item to combo box."), LPCSTR("Adding Person Dialog"), MB_OK);
+		}
+
+		SendMessage(GetDlgItem(hDlg, UDI_GENDER_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)GenderItems[1]));
+		SendMessage(GetDlgItem(hDlg, UDI_GENDER_CB),  CB_ADDSTRING , 0, reinterpret_cast<LPARAM>((LPCTSTR)GenderItems[2]));
 		return (INT_PTR)TRUE;
 
 	case WM_COMMAND:
@@ -252,9 +285,16 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			{       
 				MessageBox(hDlg, LPCSTR("You must enter a last name."), LPCSTR("Adding Person Dialog"), MB_OK);
 			}
-			//user has input fields needed to create a model.
+			//user has filled the fields needed to create a model.
 			else
 			{
+				MessageBox(hDlg, LPCSTR(sal), LPCSTR("Adding Person Dialog"), MB_OK);
+				MessageBox(hDlg, LPCSTR(first), LPCSTR("Adding Person Dialog"), MB_OK);
+				MessageBox(hDlg, LPCSTR(middle), LPCSTR("Adding Person Dialog"), MB_OK);
+				MessageBox(hDlg, LPCSTR(last), LPCSTR("Adding Person Dialog"), MB_OK);
+				MessageBox(hDlg, LPCSTR(suffix), LPCSTR("Adding Person Dialog"), MB_OK);
+				MessageBox(hDlg, LPCSTR(gender), LPCSTR("Adding Person Dialog"), MB_OK);
+				MessageBox(hDlg, LPCSTR(email), LPCSTR("Adding Person Dialog"), MB_OK);
 				currentModelID = savingFace->createModel(sal,first,middle,last,suffix,gender,email);
 			}
 
@@ -263,10 +303,11 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			{
 				EndDialog(hDlg, LOWORD(wParam));
 				//Probably should change the name from IDD_DIALOG1, resource folder needs 
-				//DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG1), hWnd, IDD_PHOTO_CALLBACK);
+				DialogBox(hInst, MAKEINTRESOURCE(UDI_DIALOG3), hDlg, IDD_PHOTO_CALLBACK);
 				return (INT_PTR)TRUE;
 			}else
 				//Error occured. Notify user.
+				MessageBox(hDlg, LPCSTR("An error occured."), LPCSTR("Adding Person Dialog"), MB_OK);
 				break;
 		}
 		if(LOWORD(wParam) == UDI_CANCEL)
