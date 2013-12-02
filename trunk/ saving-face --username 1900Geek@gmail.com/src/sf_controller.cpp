@@ -80,7 +80,7 @@ SF_STS sf_controller::buildModel(SF_MUID modelID)
 {
 	//Check for valid photo.
 		//return -1;
-	return mBuilder->buildModel(modelID);
+	return mBuilder->buildModel(modelID,session);
 }
 	
 	

@@ -98,26 +98,29 @@
 }
 
 	//called after calling addNewModel then pass in the muid
-	SF_STS sf_model_builder::buildModel(SF_MUID muid)
+	SF_STS sf_model_builder::buildModel(SF_MUID muid,SF_Session *session)
 	{
 		currentModel = muid;
 		//TODO check to see that modelArr is initialized.
-		SF::SF_Session *session = new SF::SF_Session();
-		if(!(session->createSession()))
-				return SF_STS_FAIL;		
-			if(!(session->setOptions(NULL, NULL)))
-				return SF_STS_FAIL;
-			if(session->captureStreams() < SF_STS_OK)
-				return SF_STS_FAIL;
-			session->createDepthRenderView();
-			session->createColorRenderView();
-			session->loadFaceModule();
+		//SF::SF_Session *session = new SF::SF_Session();
+		//if(!(session->createSession()))
+		//		return SF_STS_FAIL;		
+		string fileName = getModel(muid)->getFileVersionName();
+		fileName += ".vdo";
+		//if(!(session->setOptions(NULL, NULL)))
+		//	return SF_STS_FAIL;
+		if(session->captureStreams(fileName,true) < SF_STS_OK)
+			return SF_STS_FAIL;
+		session->createDepthRenderView();
+		session->createColorRenderView();
+		session->loadFaceModule();
 
 		MB::currentModelInfo = getModel(muid)->getModelInfo();
 		MB::arr = getModel(muid)->getWritableModelArr();
 		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,256);
 		MB::currentModelInfo = 0;
 		MB::arr = 0;
+		session->releaseStreams();
 		return SF_STS_OK;
 	}
 	Model *sf_model_builder::getModel(SF_MUID muid)
