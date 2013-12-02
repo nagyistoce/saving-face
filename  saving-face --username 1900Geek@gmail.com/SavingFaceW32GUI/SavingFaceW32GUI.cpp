@@ -288,13 +288,14 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			//user has filled the fields needed to create a model.
 			else
 			{
-				MessageBox(hDlg, LPCSTR(sal), LPCSTR("Adding Person Dialog"), MB_OK);
-				MessageBox(hDlg, LPCSTR(first), LPCSTR("Adding Person Dialog"), MB_OK);
-				MessageBox(hDlg, LPCSTR(middle), LPCSTR("Adding Person Dialog"), MB_OK);
-				MessageBox(hDlg, LPCSTR(last), LPCSTR("Adding Person Dialog"), MB_OK);
-				MessageBox(hDlg, LPCSTR(suffix), LPCSTR("Adding Person Dialog"), MB_OK);
-				MessageBox(hDlg, LPCSTR(gender), LPCSTR("Adding Person Dialog"), MB_OK);
-				MessageBox(hDlg, LPCSTR(email), LPCSTR("Adding Person Dialog"), MB_OK);
+				//Used to varify values
+				//MessageBox(hDlg, LPCSTR(sal), LPCSTR("Adding Person Dialog"), MB_OK);
+				//MessageBox(hDlg, LPCSTR(first), LPCSTR("Adding Person Dialog"), MB_OK);
+				//MessageBox(hDlg, LPCSTR(middle), LPCSTR("Adding Person Dialog"), MB_OK);
+				//MessageBox(hDlg, LPCSTR(last), LPCSTR("Adding Person Dialog"), MB_OK);
+				//MessageBox(hDlg, LPCSTR(suffix), LPCSTR("Adding Person Dialog"), MB_OK);
+				//MessageBox(hDlg, LPCSTR(gender), LPCSTR("Adding Person Dialog"), MB_OK);
+				//MessageBox(hDlg, LPCSTR(email), LPCSTR("Adding Person Dialog"), MB_OK);
 				currentModelID = savingFace->createModel(sal,first,middle,last,suffix,gender,email);
 			}
 
@@ -323,5 +324,35 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 
 INT_PTR CALLBACK IDD_PHOTO_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)TRUE;
+	UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+
+		return (INT_PTR)TRUE;
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == UDI_OK2)
+		{
+			savingFace->snapshotFinished();
+			return (INT_PTR)TRUE;
+		}
+		if(LOWORD(wParam) == UDI_CAPTURE)
+		{
+			//Start the camera
+			savingFace->takeSnapshot(currentModelID);
+
+			//take photo and load it to the image window
+			savingFace->pressShutter();
+			string file = savingFace->getSnapshotPath(currentModelID);
+
+			HBITMAP hImage = (HBITMAP)LoadImage(NULL, LPCSTR(file.c_str()), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_LOADTRANSPARENT);
+
+			SendMessage(GetDlgItem(hDlg, UDI_PC),STM_SETIMAGE,IMAGE_BITMAP,(LPARAM)hImage);
+			//EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+		
+		break;
+	}
 }
