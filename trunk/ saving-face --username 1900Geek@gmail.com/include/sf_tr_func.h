@@ -3,6 +3,7 @@
 #define _SF_TR_FUNC
 #include "sf_defs.h"
 #include "sf_model.h"
+#include <IOStream>
 
 
 
@@ -70,9 +71,17 @@ namespace SF
 		//returnIndexed.y = floor((md_Coord.y - model->yMin) / model->deltaY);
 		//returnIndexed.z = floor((md_Coord.z - model->zMin) / model->deltaZ);
 		//Floor Function unnecessary
-		returnIndexed.x = (int)((md_Coord.x - model->xMin) / model->deltaX);
-		returnIndexed.y = (int)((md_Coord.y - model->yMin) / model->deltaY);
-		returnIndexed.z = (int)((md_Coord.z - model->zMin) / model->deltaZ);
+
+		//This is not the culprit of the 0 divide
+		//we should find a good substitue for 0, maybe a really small number
+		if (model->deltaX != 0 && model->deltaY != 0 && model->deltaZ != 0)
+		{
+			returnIndexed.x = (int)((md_Coord.x - model->xMin) / model->deltaX);
+			returnIndexed.y = (int)((md_Coord.y - model->yMin) / model->deltaY);
+			returnIndexed.z = (int)((md_Coord.z - model->zMin) / model->deltaZ);
+		}
+		else
+			std::cout << "delta value was equal to 0.";
 	}
 
 
