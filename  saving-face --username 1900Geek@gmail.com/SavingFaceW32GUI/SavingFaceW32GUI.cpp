@@ -157,6 +157,26 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case IDM_ABOUT:
 			DialogBox(hInst, MAKEINTRESOURCE(SF_ABOUT_DIALOG), hWnd, About);
 			break;
+		case ID_FILE_LOADDATABASE:
+			if (savingFace->loadDatabase() == SF_STS_OK)
+			{
+				MessageBox(hWnd, LPCSTR("Database has successfully been loaded."), LPCSTR("Load Database Dialog"), MB_OK);
+			}
+			else
+			{
+				MessageBox(hWnd, LPCSTR("Error loading database."), LPCSTR("Load Database Dialog"), MB_OK);
+			}
+			break;
+		case ID_FILE_SAVEDATABASE:
+			if (savingFace->saveDatabase() == SF_STS_OK)
+			{
+				MessageBox(hWnd, LPCSTR("Database has successfully been saved."), LPCSTR("Save Database Dialog"), MB_OK);
+			}
+			else
+			{
+				MessageBox(hWnd, LPCSTR("Error saving database."), LPCSTR("Save Database Dialog"), MB_OK);
+			}
+			break;
 		case IDM_EXIT:
 			DestroyWindow(hWnd);
 			break;

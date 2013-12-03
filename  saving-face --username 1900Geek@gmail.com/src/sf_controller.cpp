@@ -87,6 +87,16 @@ SF_STS sf_controller::command(string textCommand)
 	return SF_STS_FAIL;
 }
 
+SF_STS sf_controller::loadDatabase()
+{
+	return db->loadDatabase(_DEFAULT_DB_DIR);
+}
+
+SF_STS sf_controller::saveDatabase()
+{
+	return db->saveDatabase(_DEFAULT_DB_DIR);
+}
+
 SF_STS sf_controller::init(string mode)
 {
 	//Check for alternative modes and implement logic as needed.
