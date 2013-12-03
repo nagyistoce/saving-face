@@ -262,7 +262,7 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			GetWindowText(GetDlgItem(hDlg, UDI_GENDER_CB),gender,200);
 			GetWindowText(GetDlgItem(hDlg, UDI_EMAIL_ET),email,200);
 
-			//Check to see if user has entered first name
+			//Check to see if user has entered first and last name
 			if(strlen(first) < 1 || strlen(last) < 1)    
 			{       
 				MessageBox(hDlg, LPCSTR("You must enter at least a first and last name."), LPCSTR("Adding Person Dialog"), MB_OK);
