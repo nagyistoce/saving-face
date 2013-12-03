@@ -84,18 +84,18 @@ namespace SF
 		void drawCrossHairsOnR3Landmark(SF_R3_COORD &landmark, PXCImage::ImageData &image);
 		
 		PXCSmartPtr<PXCSession> session;
-		PXCSmartPtr<UtilCapture> capture;
+		UtilCapture* capture;
 
 		//SDK Easy Render Views...
 		PXCSmartPtr<UtilRender> depth_render;
 		PXCSmartPtr<UtilRender> uv_render;
 
 		//Face Analysis Module
-		PXCSmartPtr<PXCFaceAnalysis> face;
-		PXCSmartPtr<PXCFaceAnalysis::Landmark> landmark;
-		PXCSmartPtr<PXCFaceAnalysis::Detection> detector;
+		PXCFaceAnalysis *face;
+		PXCFaceAnalysis::Landmark *landmark;
+		PXCFaceAnalysis::Detection *detector;
 
-		PXCSmartPtr<PXCAccelerator> accelerator;
+		PXCAccelerator *accelerator;
 
 		UtilCmdLine *cmdl;
 		PXCCapture::VideoStream::ProfileInfo colorProfile;
@@ -111,7 +111,7 @@ namespace SF
 		//Holds Conversion from depth XY to Color XY
 		PXCPointF32 *depthXYToColorXY; 
 
-		PXCSmartPtr<PXCProjection> projection;
+		PXCProjection *projection;
 		pxcUID prj_uid;
 
 		int depthWidth;
