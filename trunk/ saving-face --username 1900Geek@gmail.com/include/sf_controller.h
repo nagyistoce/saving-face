@@ -25,6 +25,10 @@ public:
 	//Opens a video feed to take the picture.
 	SF_STS takeSnapshot(SF_MUID modelId);
 
+	//Quick implementation of save and load database
+	//probably want to add an argument for the path
+	SF_STS loadDatabase();
+	SF_STS saveDatabase();
 	
 	//Take the photo.
 	void pressShutter();
