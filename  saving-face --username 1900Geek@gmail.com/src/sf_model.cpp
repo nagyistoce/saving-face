@@ -72,6 +72,10 @@ namespace SF
 		this->model_info.deltaX = SF_DEFAULT_DELTAX;
 		this->model_info.deltaY = SF_DEFAULT_DELTAY;
 		this->model_info.deltaZ = SF_DEFAULT_DELTAZ;
+
+		if (this->model_info.deltaX == 0 || this->model_info.deltaY == 0 || this->model_info.deltaZ == 0)
+			return SF_STS_FAIL;
+
 		this->model_info.xWidth = (SF_ARR_WIDTH)(((this->model_info.xMax - this->model_info.xMin)) / this->model_info.deltaX);
 		//Potential bug if value is not a perfect integer
 		//for now assume it is. 
@@ -98,6 +102,10 @@ namespace SF
 		this->model_info.deltaX = deltaX;
 		this->model_info.deltaY = deltaY;
 		this->model_info.deltaZ = deltaZ;
+
+		if (this->model_info.deltaX == 0 || this->model_info.deltaY == 0 || this->model_info.deltaZ == 0)
+			return SF_STS_FAIL;
+
 		this->model_info.xWidth = (SF_ARR_WIDTH)(((this->model_info.xMax - this->model_info.xMin)) / this->model_info.deltaX);
 		//Potential bug if value is not a perfect integer
 		//for now assume it is. 
