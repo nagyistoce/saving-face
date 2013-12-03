@@ -78,8 +78,6 @@ string sf_controller::getSnapshotPath(SF_MUID modelID)
 
 SF_STS sf_controller::buildModel(SF_MUID modelID)
 {
-	//Check for valid photo.
-		//return -1;
 	return mBuilder->buildModel(modelID,session);
 }
 	
@@ -100,5 +98,6 @@ SF_STS sf_controller::init(string mode)
 		return SF_STS_FAIL;		
 	if(!(session->setOptions(NULL, NULL)))
 		return SF_STS_FAIL;
+	//session->loadFaceModule();
 	return SF_STS_OK;
 }

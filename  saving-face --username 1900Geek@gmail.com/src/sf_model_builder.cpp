@@ -109,15 +109,18 @@
 		fileName += ".vdo";
 		//if(!(session->setOptions(NULL, NULL)))
 		//	return SF_STS_FAIL;
-		if(session->captureStreams(fileName,true) < SF_STS_OK)
+		if(session->captureStreams() < SF_STS_OK)
 			return SF_STS_FAIL;
+		
+		//if(session->captureStreams(fileName,true) < SF_STS_OK)
+		//	return SF_STS_FAIL;
 		session->createDepthRenderView();
 		session->createColorRenderView();
 		session->loadFaceModule();
 
 		MB::currentModelInfo = getModel(muid)->getModelInfo();
 		MB::arr = getModel(muid)->getWritableModelArr();
-		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,256);
+		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,255);
 		MB::currentModelInfo = 0;
 		MB::arr = 0;
 		session->releaseStreams();

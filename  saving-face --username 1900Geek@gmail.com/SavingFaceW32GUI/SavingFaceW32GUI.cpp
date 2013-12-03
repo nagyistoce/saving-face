@@ -295,9 +295,6 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 INT_PTR CALLBACK IDD_PHOTO_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(lParam);
-	//bob *theBob = new bob(); 
-	//theBob->controller = savingFace;
-	//theBob->modelId = currentModelID;
 	switch (message)
 	{
 	case WM_INITDIALOG:

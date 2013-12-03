@@ -37,9 +37,12 @@ namespace SF
 		//Will automatically release
 		//Do to smart pointer
 		//Should call especially if doing fileIO
+		face->Release();
+		capture->Release();
 		capture = 0;
-		uv_render = 0;
-		depth_render = 0;
+		uv_render.ReleaseRef();
+		depth_render.ReleaseRef();
+		
 	}
 
 	SF_STS SF_Session::captureColorStream()
@@ -59,7 +62,11 @@ namespace SF
 	}
 
 	SF_STS SF_Session::captureStreams(string fileName, bool record){
-		
+		if(capture != nullptr)
+		{
+			delete capture;
+			capture = nullptr;
+		}
 		PXCCapture::VideoStream::DataDesc request; 
 		memset(&request, 0, sizeof(request)); 
 		//Setup To Request Data Streams
@@ -143,7 +150,8 @@ namespace SF
 
 	SF_Session::~SF_Session(void)
 	{
-		if(cmdl) delete cmdl;
+		capture->Release();
+		session->Release();
 	}
 
 	SF_STS SF_Session::initLoop()
@@ -295,12 +303,17 @@ namespace SF
 		for (int f=0;(numFrames == 0)?true:f < numFrames;) {
 			
 			PXCSmartSPArray sp(2);//Synchronous Pointer
-
+			try{
 			//ReadStream If Data Available or Block
-			if (capture->ReadStreamAsync(images, &sp[0])<PXC_STATUS_NO_ERROR) break;
+				if (capture->ReadStreamAsync(images, &sp[0])<PXC_STATUS_NO_ERROR) break;
 			//Process Face YPR and Landmarks
-			if(face->ProcessImageAsync(images,&sp[1]) <PXC_STATUS_NO_ERROR) continue;//Fail to recognize face
+				if(face->ProcessImageAsync(images,&sp[1]) <PXC_STATUS_NO_ERROR) continue;//Fail to recognize face
 			//Wait for all ASynchronous Modules To Return
+			}catch(exception e)
+			{
+					continue;
+			}
+			
 			if (sp.SynchronizeEx()<PXC_STATUS_NO_ERROR) continue;
 			//Gain read access to depth image.
 			PXCImage::ImageData depthImageData;
@@ -320,14 +333,18 @@ namespace SF
 				pxcUID fid; 
 				pxcU64 ts;
 				//To limit num faces i = 0;
-				if (face->QueryFace(i,&fid,&ts)<PXC_STATUS_NO_ERROR) break;//No more faces
-				PXCFaceAnalysis::Detection::Data data;
-				detector->QueryData(fid,&data);
 				PXCFaceAnalysis::Landmark::LandmarkData ldata[7];
-				PXCFaceAnalysis::Landmark::PoseData pdata;
-				landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_7POINTS,ldata);//Check Return Status and Break
-				landmark->QueryPoseData(fid, &pdata);//Check Return Status and Break
-				
+					PXCFaceAnalysis::Landmark::PoseData pdata;
+				try{
+					if (face->QueryFace(i,&fid,&ts)<PXC_STATUS_NO_ERROR) break;//No more faces
+					PXCFaceAnalysis::Detection::Data data;
+					detector->QueryData(fid,&data);
+					landmark->QueryLandmarkData(fid,PXCFaceAnalysis::Landmark::LABEL_7POINTS,ldata);//Check Return Status and Break
+					landmark->QueryPoseData(fid, &pdata);//Check Return Status and Break
+				}catch(exception e)
+				{
+					continue;
+				}
 				if(pdata.yaw<-1000)//Did not get quality data.
 					continue;
 
@@ -367,7 +384,7 @@ namespace SF
 					for (int x=0;x<depthWidth;x++,k++) {
 						int xx=(int)(depthXYToColorXY[k].x+0.5f), yy= (int) (depthXYToColorXY[k].y+0.5f);
 						if (xx<0 || yy<0 || xx>=(int) colorWidth || yy >=(int)colorHeight) continue;//Currently this line does nothing.
-						if (depthXYZCoords) if (depthXYZCoords[k].z==depthLowConfidence || depthXYZCoords[k].z==depthSaturation) continue;
+						if (depthXYZCoords[k].z==depthLowConfidence || depthXYZCoords[k].z==depthSaturation) continue;
 						processVertex(depthR3Coords[k],callingClass);
 					}
 				}
