@@ -37,7 +37,8 @@ namespace SF
 		//Will automatically release
 		//Do to smart pointer
 		//Should call especially if doing fileIO
-		face->Release();
+		if(face)face->Release();
+		face = 0;
 		capture->Release();
 		capture = 0;
 		uv_render.ReleaseRef();
@@ -299,20 +300,27 @@ namespace SF
 		if(initLoop() < SF_STS_OK) return;//Loop Initialization Failed
 		//Begin Loop
 		//Make num frames an argument parameter
-		PXCSmartArray<PXCImage> images(2);
 		for (int f=0;(numFrames == 0)?true:f < numFrames;) {
-			
+			PXCImage *images[2];
+			PXCImage::ImageInfo cinfo;
+			memset(&cinfo,0,sizeof(cinfo));
+			cinfo.width=640;
+			cinfo.height=480;
+			cinfo.format=PXCImage::COLOR_FORMAT_RGB32;
+			PXCImage::ImageInfo dinfo;
+			memset(&cinfo,0,sizeof(dinfo));
+			dinfo.width=320;
+			dinfo.height=240;
+			dinfo.format=PXCImage::COLOR_FORMAT_DEPTH;
+			accelerator->CreateImage(&cinfo,&images[0]);
+			accelerator->CreateImage(&cinfo,&images[1]);
 			PXCSmartSPArray sp(2);//Synchronous Pointer
-			try{
+			
 			//ReadStream If Data Available or Block
 				if (capture->ReadStreamAsync(images, &sp[0])<PXC_STATUS_NO_ERROR) break;
 			//Process Face YPR and Landmarks
 				if(face->ProcessImageAsync(images,&sp[1]) <PXC_STATUS_NO_ERROR) continue;//Fail to recognize face
 			//Wait for all ASynchronous Modules To Return
-			}catch(exception e)
-			{
-					continue;
-			}
 			
 			if (sp.SynchronizeEx()<PXC_STATUS_NO_ERROR) continue;
 			//Gain read access to depth image.
@@ -325,7 +333,7 @@ namespace SF
 			for (int y=0,k=0;y<depthHeight;y++)
 				for (int x=0;x<depthWidth;x++,k++)
 				    depthXYZCoords[k].z=((short*)depthImageData.planes[0])[y*dwidth2+x];
-
+			images[1]->ReleaseAccess(&depthImageData);
 			if(updateProjections() < SF_STS_OK) continue;
 			
 			//Begin Processing Image by face.
@@ -394,7 +402,8 @@ namespace SF
 			//Add checks to see if they exist.
 			if (!depth_render->RenderFrame(images[1])) break;
 			if (!uv_render->RenderFrame(images[0])) break;
-
+			images[0]->Release();
+			images[1]->Release();
 			//Check for terminating condition
 			if(continueProcessing)
 				if(!continueProcessing())
