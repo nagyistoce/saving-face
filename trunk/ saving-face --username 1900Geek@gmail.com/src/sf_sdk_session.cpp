@@ -146,13 +146,15 @@ namespace SF
 	SF_Session::SF_Session(void)
 	{
 		cmdl = 0;
+		capture = nullptr;
+		face = nullptr;
+
 	}
 
 
 	SF_Session::~SF_Session(void)
 	{
-		capture->Release();
-		session->Release();
+		if(capture)capture->Release();
 	}
 
 	SF_STS SF_Session::initLoop()

@@ -170,8 +170,9 @@ namespace SavingFaceTest
 			Model model;
 			model.setName("Mr.","Fancy","","Pants","");
 			session.snapshotLoop(&model,&shutterTest,&photoFinish);
-			Assert().Fail(L"Not Finished Verify it worked");
-			//By Checking that the file exists.
+			string path = getFullPath(_DEFAULT_IMAGE_DIR) + model.getFileVersionName() + ".BMP";
+			Assert().IsTrue(doesDirectoryExist(path),L"File Not Saved");
+
 		}
 
 #ifdef Mathematica
