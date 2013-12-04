@@ -9,12 +9,12 @@ namespace SF
 	//Define Defaults
 	//Tweak here to manipulate the default configuration
 	//Will not affect previous instances
-	#define SF_DEFAULT_XMIN (-0.25f)
-	#define SF_DEFAULT_XMAX (0.25f)
-	#define SF_DEFAULT_YMIN (-0.25f)
-	#define SF_DEFAULT_YMAX (0.25f)
-	#define SF_DEFAULT_ZMIN (-0.1f)
-	#define SF_DEFAULT_ZMAX (0.25f)
+	#define SF_DEFAULT_XMIN (-0.125f)
+	#define SF_DEFAULT_XMAX (0.125f)
+	#define SF_DEFAULT_YMIN (-0.125f)
+	#define SF_DEFAULT_YMAX (0.125f)
+	#define SF_DEFAULT_ZMIN (-0.05f)
+	#define SF_DEFAULT_ZMAX (0.20f)
 	#define SF_DEFAULT_DELTAX (0.0025f)
 	#define SF_DEFAULT_DELTAY (0.0025f)
 	#define SF_DEFAULT_DELTAZ (0.0025f)
