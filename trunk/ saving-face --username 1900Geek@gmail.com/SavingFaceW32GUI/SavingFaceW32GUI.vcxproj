@@ -149,6 +149,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\ saving-face --username 1900Geek%40gmail.com\SavingFaceW32GUI\AddUser.h" />
+    <ClInclude Include="checkme.h" />
     <ClInclude Include="GlobalVars.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SavingFaceW32GUI.h" />
