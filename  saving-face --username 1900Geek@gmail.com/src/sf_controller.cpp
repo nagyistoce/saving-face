@@ -78,7 +78,7 @@ string sf_controller::getSnapshotPath(SF_MUID modelID)
 
 SF_STS sf_controller::buildModel(SF_MUID modelID)
 {
-	return mBuilder->buildModel(modelID,session);
+	return mBuilder->buildModel(modelID,session,true);
 }
 	
 	

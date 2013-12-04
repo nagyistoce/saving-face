@@ -55,7 +55,7 @@ namespace SF
 		//Contains the loop to the camera
 		//Include options to save video
 		//Save model to disk when finished
-		SF_STS buildModel(SF_MUID muid, SF_Session *session);
+		SF_STS buildModel(SF_MUID muid, SF_Session *session,bool saveVideo = false);
 
 	private:
 		//temp_db holds the working model while being built, private instance
