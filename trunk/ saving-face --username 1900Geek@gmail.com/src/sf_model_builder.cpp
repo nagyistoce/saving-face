@@ -118,7 +118,10 @@
 
 		MB::currentModelInfo = getModel(muid)->getModelInfo();
 		MB::arr = getModel(muid)->getWritableModelArr();
-		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,255);
+		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,1000);
+		int len = getModel(muid)->getArrLength();
+		for(int i = 0; i < len; i++)
+			if(MB::arr[i] < 0x14)  MB::arr[i] = 0;
 		MB::currentModelInfo = 0;
 		MB::arr = 0;
 		session->releaseStreams();
