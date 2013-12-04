@@ -130,7 +130,7 @@ namespace SF
 		detector = face->DynamicCast<PXCFaceAnalysis::Detection>();
 		PXCFaceAnalysis::Detection::ProfileInfo dinfo;
 		//Tune performance here 100 = fastest
-		dinfo.responsiveness = 0;
+		//dinfo.responsiveness = 0;
 		detector->QueryProfile(0,&dinfo);
 		detector->SetProfile(&dinfo);
 		landmark = face->DynamicCast<PXCFaceAnalysis::Landmark>();
@@ -390,6 +390,8 @@ namespace SF
 				//Huge efficiancy can be gained by subsetting the data to relavent area
 				//Based on the relative position of the facial features.
 				//Add checks to make sure pos3d never goes out with a bad value
+				
+				//TODO based on l[6] minimize search area
 				for (int y=0,k=0;y<depthHeight;y++) {
 					for (int x=0;x<depthWidth;x++,k++) {
 						int xx=(int)(depthXYToColorXY[k].x+0.5f), yy= (int) (depthXYToColorXY[k].y+0.5f);
