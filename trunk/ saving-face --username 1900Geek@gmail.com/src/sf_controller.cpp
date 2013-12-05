@@ -97,7 +97,7 @@ SF_STS sf_controller::loadDatabase()
 
 SF_STS sf_controller::saveDatabase()
 {
-	return db->saveDatabase(getFullPath(_DEFAULT_DB_DIR));
+	return db->saveDatabase(_DEFAULT_DB_DIR);
 }
 
 SF_STS sf_controller::init(string mode)
