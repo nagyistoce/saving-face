@@ -41,7 +41,7 @@ SF_STS sf_db::saveDatabase(string path)
      for (iter = db.begin(); iter != db.end(); iter++) 
 	 {
 		//saving file as (file version name).mdl
-		 ofstream *out = new ofstream(path + db[iter->first]->getFileVersionName() + ".mdl", ios::out | ios::binary);
+		 ofstream *out = new ofstream(getFullPath(path) + db[iter->first]->getFileVersionName() + ".mdl", ios::out | ios::binary);
 			status = (!status) ? SF_STS_FAIL : iter->second->streamToFile(out);
 			delete out;
 	 }
@@ -65,7 +65,8 @@ SF_STS sf_db::deleteModelFromDatabase(SF_MUID modelID)
 	//load all models in the path with file extension .mdl
 	SF_STS sf_db::loadDatabase(string path)
 	{
-		makeDirectory(path);
+		//argument is not a partial path may make errors
+		//makeDirectory(path);
 		SF_STS status = SF_STS_OK;
 		HANDLE hFind = INVALID_HANDLE_VALUE;
 		WIN32_FIND_DATA ffd;
