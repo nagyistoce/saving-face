@@ -43,7 +43,6 @@ namespace SF
 	
 	void calculateTRMatrix(SF_TR_MATRIX &tm, SF_R3_COORD &rwcReference, const SF_YPR &ypr)
 	{
-		//Note depending on the referance frame we made need to apply the inverse of ypr.
 		tm.trV = rwcReference;
 
 		SF_SCALAR tx[9] = {1.f,0.f,0.f,0.f, cos(ypr.yaw),-sin(ypr.yaw),0.f,sin(ypr.yaw),cos(ypr.yaw)};
@@ -65,22 +64,9 @@ namespace SF
 
 
 	inline void coordInModelSpace(SF_MODEL_COORD3D_INDEX &returnIndexed, const SF_MODEL_COORD3D &md_Coord, const Model::Model_Info *model){
-		//SF_MODEL_COORD3D_INDEX *returnIndex = new SF_MODEL_COORD3D_INDEX;
-		//returnIndexed.x = floor((md_Coord.x - model->xMin) / model->deltaX);
-		//returnIndexed.y = floor((md_Coord.y - model->yMin) / model->deltaY);
-		//returnIndexed.z = floor((md_Coord.z - model->zMin) / model->deltaZ);
-		//Floor Function unnecessary
-
-		//This is not the culprit of the 0 divide
-		//we should find a good substitue for 0, maybe a really small number
-		//if (model->deltaX != 0 && model->deltaY != 0 && model->deltaZ != 0)
-		//{
 			returnIndexed.x = (int)((md_Coord.x - model->xMin) / model->deltaX);
 			returnIndexed.y = (int)((md_Coord.y - model->yMin) / model->deltaY);
 			returnIndexed.z = (int)((md_Coord.z - model->zMin) / model->deltaZ);
-		//}
-		//else
-			//std::cout << "delta value was equal to 0.";
 	}
 
 
