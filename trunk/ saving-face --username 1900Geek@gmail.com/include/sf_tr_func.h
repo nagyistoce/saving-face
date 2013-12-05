@@ -65,7 +65,7 @@ namespace SF
 
 
 	inline void coordInModelSpace(SF_MODEL_COORD3D_INDEX &returnIndexed, const SF_MODEL_COORD3D &md_Coord, const Model::Model_Info *model){
-		SF_MODEL_COORD3D_INDEX *returnIndex = new SF_MODEL_COORD3D_INDEX;
+		//SF_MODEL_COORD3D_INDEX *returnIndex = new SF_MODEL_COORD3D_INDEX;
 		//returnIndexed.x = floor((md_Coord.x - model->xMin) / model->deltaX);
 		//returnIndexed.y = floor((md_Coord.y - model->yMin) / model->deltaY);
 		//returnIndexed.z = floor((md_Coord.z - model->zMin) / model->deltaZ);
