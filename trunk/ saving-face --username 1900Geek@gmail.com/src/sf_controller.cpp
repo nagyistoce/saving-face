@@ -78,7 +78,10 @@ string sf_controller::getSnapshotPath(SF_MUID modelID)
 
 SF_STS sf_controller::buildModel(SF_MUID modelID)
 {
-	return mBuilder->buildModel(modelID,session,true);
+	SF_STS sts =  mBuilder->buildModel(modelID,session,true);
+	if(sts == SF_STS_OK)
+		sts = mBuilder->saveToDatabase(modelID, db);
+	return sts;
 }
 	
 	
@@ -89,19 +92,19 @@ SF_STS sf_controller::command(string textCommand)
 
 SF_STS sf_controller::loadDatabase()
 {
-	return db->loadDatabase(_DEFAULT_DB_DIR);
+	return db->loadDatabase(getFullPath(_DEFAULT_DB_DIR));
 }
 
 SF_STS sf_controller::saveDatabase()
 {
-	return db->saveDatabase(_DEFAULT_DB_DIR);
+	return db->saveDatabase(getFullPath(_DEFAULT_DB_DIR));
 }
 
 SF_STS sf_controller::init(string mode)
 {
 	//Check for alternative modes and implement logic as needed.
 	db = new sf_db();
-	db->loadDatabase(_DEFAULT_DB_DIR);
+	//db->loadDatabase(getFullPath(_DEFAULT_DB_DIR));
 	mBuilder = new sf_model_builder();
 	session = new SF_Session();
 	if(!(session->createSession()))

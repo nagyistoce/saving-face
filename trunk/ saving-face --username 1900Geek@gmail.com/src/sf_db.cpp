@@ -1,6 +1,6 @@
 #include "sf_db.h"
 #include <windows.h>
-
+#include "sf_util.h"
 
 
 sf_db::sf_db(void)
@@ -35,8 +35,8 @@ Model *sf_db::getModel(SF_MUID muid)
 //TODO:  delete file if database fails to save
 SF_STS sf_db::saveDatabase(string path)
 {
+	makeDirectory(path);
 	std::map<SF_MUID, Model*>::iterator iter;
-
 	SF_STS status = SF_STS_OK;
      for (iter = db.begin(); iter != db.end(); iter++) 
 	 {
@@ -65,6 +65,7 @@ SF_STS sf_db::deleteModelFromDatabase(SF_MUID modelID)
 	//load all models in the path with file extension .mdl
 	SF_STS sf_db::loadDatabase(string path)
 	{
+		makeDirectory(path);
 		SF_STS status = SF_STS_OK;
 		HANDLE hFind = INVALID_HANDLE_VALUE;
 		WIN32_FIND_DATA ffd;
