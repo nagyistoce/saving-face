@@ -122,7 +122,7 @@
 		int len = getModel(muid)->getArrLength();
 		session->releaseStreams();
 		for(int i = 0; i < len; i++)
-			if(MB::arr[i] < 0x0B)  MB::arr[i] = 0;
+			if(MB::arr[i] < 0x15)  MB::arr[i] = 0;
 		MB::currentModelInfo = 0;
 		MB::arr = 0;
 		return SF_STS_OK;
