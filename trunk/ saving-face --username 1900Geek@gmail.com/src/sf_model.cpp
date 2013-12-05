@@ -143,7 +143,14 @@ namespace SF
 
 	SF_STS Model::streamToFile(ofstream *fileStream)
 	{
-
+		if(strcmp(getGender().c_str(),"")==0)setGender("XXX");
+		if(strcmp(person_info.salutation.c_str(),"")==0)person_info.firstName = "XXX";
+		if(strcmp(person_info.firstName.c_str(),"")==0)person_info.salutation = "XXX";
+		if(strcmp(person_info.middleName.c_str(),"")==0)person_info.middleName = "XXX";
+		if(strcmp(person_info.lastName.c_str(),"")==0)person_info.lastName = "XXX";
+		if(strcmp(person_info.suffix.c_str(),"")==0)person_info.suffix = "XXX";
+		if(strcmp(person_info.emailAddress.c_str(),"")==0)person_info.emailAddress = "XXX";
+		
 		//The plus one is for the null terminating character
 		char str[1028];
 		sprintf_s(str,500, "%d&%s&%s&%s&%s&%s&%s&%s&%f&%f&%f&%d&%d&%f&%f&%f&%d&%d&%f&%f&%f&%d&%d", 
@@ -175,11 +182,14 @@ namespace SF
 			model_info.muid
 			);
 		
-		//Temp for testing
-		//model_info.modelArr[0] = 0xFA;
-		//model_info.modelArr[1] = 0xCE;
-		//model_info.modelArr[arrLength-2] = 0xFA;
-		//model_info.modelArr[arrLength-1] = 0xCE;
+		if(strcmp(getGender().c_str(),"XXX")==0)setGender("");
+		if(strcmp(person_info.salutation.c_str(),"XXX")==0)person_info.firstName = "";
+		if(strcmp(person_info.firstName.c_str(),"XXX")==0)person_info.salutation = "";
+		if(strcmp(person_info.middleName.c_str(),"XXX")==0)person_info.middleName = "";
+		if(strcmp(person_info.lastName.c_str(),"XXX")==0)person_info.lastName = "";
+		if(strcmp(person_info.suffix.c_str(),"XXX")==0)person_info.suffix = "";
+		if(strcmp(person_info.emailAddress.c_str(),"XXX")==0)person_info.emailAddress = "";
+
 		fileStream->write(str, strlen(str)+1);
 		int pos = 0;
 		while(pos < arrLength)
@@ -199,11 +209,14 @@ namespace SF
 		char in[1028];
 		*fileStream >> in;
 		char *next_token = NULL;
+		char *str = NULL;
 		person_info.puid = atol(strtok_s(in,"&",&next_token));
 		setGender(strtok_s(NULL, "&",&next_token));
 		person_info.salutation = strtok_s(NULL, "&",&next_token);
+		
 		person_info.firstName = strtok_s(NULL, "&",&next_token);
-		person_info.middleName = strtok_s(NULL, "&",&next_token);
+		str = strtok_s(NULL, "&",&next_token);
+		if(str != NULL)person_info.salutation == next_token;
 		person_info.lastName = strtok_s(NULL, "&",&next_token);
 		person_info.suffix = strtok_s(NULL, "&",&next_token);
 		person_info.emailAddress = strtok_s(NULL, "&",&next_token);
@@ -229,6 +242,15 @@ namespace SF
 		fileStream->read(temp, 1);
 		initModelArray();
 		fileStream->read(model_info.modelArr, arrLength);
+
+		if(strcmp(getGender().c_str(),"XXX")==0)setGender("");
+		if(strcmp(person_info.salutation.c_str(),"XXX")==0)person_info.firstName = "";
+		if(strcmp(person_info.firstName.c_str(),"XXX")==0)person_info.salutation = "";
+		if(strcmp(person_info.middleName.c_str(),"XXX")==0)person_info.middleName = "";
+		if(strcmp(person_info.lastName.c_str(),"XXX")==0)person_info.lastName = "";
+		if(strcmp(person_info.suffix.c_str(),"XXX")==0)person_info.suffix = "";
+		if(strcmp(person_info.emailAddress.c_str(),"XXX")==0)person_info.emailAddress = "";
+
 		return SF_STS_FAIL;
 	}
 
