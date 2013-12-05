@@ -20,10 +20,11 @@ namespace SavingFaceTest
 		TEST_METHOD(testDatabaseAddGetModel)
 		{
 			sf_db *db = new sf_db;
-			Model *modelOne, *modelTwo, *modelThree;
+			Model *modelOne, *modelTwo, *modelThree, *modelFour;
 			modelOne = new Model("MD.","Punish","Me", "Please", "Sr", "Male","Owww@drPain.com");
 			modelTwo = new Model("Mr.","Joe","F", "Dirt", "Jr", "Male","DirtJoe@email.com");
 			modelThree = new Model("Dr.","Gordon","P", "Freeman", "I", "Male","gordon@valve.com");
+			modelFour = new Model("","A","", "Badass", "", "Male","");
 
 			modelOne->setPersonUID(111111L);
 			modelOne->setModelUID(222222L); 
@@ -36,14 +37,20 @@ namespace SavingFaceTest
 			modelThree->setPersonUID(555555L);
 			modelThree->setModelUID(666666L); 
 			SF_MUID expMUIDThree = modelThree->getModelUID();
+
+			modelFour->setPersonUID(777777L);
+			modelFour->setModelUID(888888L); 
+			SF_MUID expMUIDFour = modelFour->getModelUID();
 			
 			string expConcatNameOne = modelOne->getConcatenatedName();
 			string expConcatNameTwo = modelTwo->getConcatenatedName();
 			string expConcatNameThree = modelThree->getConcatenatedName();
+			string expConcatNameFour = modelFour->getConcatenatedName();
 
 			modelOne->initModelArray();
 			modelTwo->initModelArray();
 			modelThree->initModelArray();
+			modelFour->initModelArray();
 			
 			modelOne->getModelInfo()->modelArr[0] = 'A';
 			modelOne->getModelInfo()->modelArr[1] = 'B';
@@ -78,27 +85,33 @@ namespace SavingFaceTest
 			Assert().IsTrue(db->addModelToDatabase(modelOne) == SF_STS_OK, L"Failed to add model to database.");
 			Assert().IsTrue(db->addModelToDatabase(modelTwo) == SF_STS_OK, L"Failed to add model to database.");
 			Assert().IsTrue(db->addModelToDatabase(modelThree) == SF_STS_OK, L"Failed to add model to database.");
+			Assert().IsTrue(db->addModelToDatabase(modelFour) == SF_STS_OK, L"Failed to add model to database.");
 
 			modelOne = 0;
 			modelTwo = 0;
 			modelThree = 0;
+			modelFour = 0;
 
 			modelOne = new Model();
 			modelTwo = new Model();
 			modelThree = new Model();
+			modelFour = new Model();
 
 			//verify that the model has been reinitialized to default
 			Assert().IsFalse(modelOne->getConcatenatedName().c_str() == expConcatNameOne.c_str(), L"Name should not match the expected name, yet.");
 			Assert().IsFalse(modelTwo->getConcatenatedName().c_str() == expConcatNameTwo.c_str(), L"Name should not match the expected name, yet.");
 			Assert().IsFalse(modelThree->getConcatenatedName().c_str() == expConcatNameThree.c_str(), L"Name should not match the expected name, yet.");
+			Assert().IsFalse(modelFour->getConcatenatedName().c_str() == expConcatNameFour.c_str(), L"Name should not match the expected name, yet.");
 
 			modelOne = db->getModel(expMUIDOne);
 			modelTwo = db->getModel(expMUIDTwo);
 			modelThree = db->getModel(expMUIDThree);
+			modelFour = db->getModel(expMUIDFour);
 
 			Assert().IsFalse(modelOne == nullptr, L"Failed to retrieve model from database.");
 			Assert().IsFalse(modelTwo == nullptr, L"Failed to retrieve model from database.");
 			Assert().IsFalse(modelThree == nullptr, L"Failed to retrieve model from database.");
+			Assert().IsFalse(modelFour == nullptr, L"Failed to retrieve model from database.");
 
 			Assert().AreEqual(expMUIDOne, modelOne->getModelUID(),L"MUID is not equal");
 			Assert().AreEqual(expConcatNameOne, modelOne->getConcatenatedName(),L"Names are not equal");
@@ -216,9 +229,21 @@ namespace SavingFaceTest
 			Assert().IsTrue(modelThree->getModelInfo()->modelArr[1] == 'Y',L"Address 1 not equal");
 			Assert().IsTrue(modelThree->getModelInfo()->modelArr[2] == 'Z',L"Address 2 not equal");
 
+			//Tests for model 4
+			Assert().AreEqual(expMUIDFour, modelFour->getModelUID(),L"MUID is not equal");
+			Assert().AreEqual(expConcatNameFour, modelFour->getConcatenatedName(),L"Names are not equal");
+			Assert().IsTrue(modelFour->getPersonUID() == 777777L,L"PUID is not equal");
+			Assert().IsTrue(modelFour->getFirstName() == "A", L"First name is not equal");
+			Assert().IsFalse(modelFour->getFirstName() == "a");
+			Assert().IsTrue(modelFour->getLastName() == "Badass", L"Last name is not equal");
+			Assert().IsFalse(modelFour->getLastName() == "badass");
+			Assert().IsTrue(modelFour->getGender() == "male", L"Gender is not equal");
+			Assert().IsFalse(modelFour->getGender() == "Male");
+
 			delete modelOne;
 			delete modelTwo;
 			delete modelThree;
+			delete modelFour;
 
 			delete db;
 		}
@@ -236,10 +261,11 @@ namespace SavingFaceTest
 			//This can be done simply by checking the MUID, the rest is tested in
 			//modelClassTest.cpp->fileIOTest
 			sf_db *db = new sf_db;
-			Model *modelOne, *modelTwo, *modelThree;
+			Model *modelOne, *modelTwo, *modelThree, *modelFour;
 			modelOne = new Model("MD.","Punish","Me", "Please", "Sr", "Male","Owww@drPain.com");
 			modelTwo = new Model("Mr.","Joe","F", "Dirt", "Jr", "Male","DirtJoe@email.com");
 			modelThree = new Model("Dr.","Gordon","P", "Freeman", "I", "Male","gordon@valve.com");
+			modelFour = new Model("","A","", "Badass", "", "Male","");
 
 			modelOne->setPersonUID(111111L);
 			modelOne->setModelUID(222222L); 
@@ -250,13 +276,18 @@ namespace SavingFaceTest
 			modelThree->setPersonUID(555555L);
 			modelThree->setModelUID(666666L); 
 
+			modelFour->setPersonUID(777777L);
+			modelFour->setModelUID(888888L); 
+
 			modelOne->initModelArray();
 			modelTwo->initModelArray();
 			modelThree->initModelArray();
+			modelFour->initModelArray();
 
 			Assert().IsTrue(db->addModelToDatabase(modelOne) == SF_STS_OK, L"Failed to add model to database.");
 			Assert().IsTrue(db->addModelToDatabase(modelTwo) == SF_STS_OK, L"Failed to add model to database.");
 			Assert().IsTrue(db->addModelToDatabase(modelThree) == SF_STS_OK, L"Failed to add model to database.");
+			Assert().IsTrue(db->addModelToDatabase(modelFour) == SF_STS_OK, L"Failed to add model to database.");
 			
 
 			string path = getFullPath("testdatabase");
@@ -266,7 +297,7 @@ namespace SavingFaceTest
 			Logger().WriteMessage(L"\nPath is:");
 			Logger().WriteMessage(path.c_str());
 
-			Assert().IsTrue(db->saveDatabase(path) == SF_STS_OK,L"Failed to save to database");
+			Assert().IsTrue(db->saveDatabase("testdatabase") == SF_STS_OK,L"Failed to save to database");
 
 			sf_db *db2 = new sf_db();
 
@@ -275,7 +306,18 @@ namespace SavingFaceTest
 			Assert().IsTrue(db2->getModel(modelOne->getModelUID())->getModelUID()  == modelOne->getModelUID(),L"Loaded Model UID Not Equal"); 
 			Assert().IsTrue(db2->getModel(modelTwo->getModelUID())->getModelUID()  == modelTwo->getModelUID(),L"Loaded Model UID Not Equal"); 
 			Assert().IsTrue(db2->getModel(modelThree->getModelUID())->getModelUID()  == modelThree->getModelUID(),L"Loaded Model UID Not Equal"); 
+			Assert().IsTrue(db2->getModel(modelFour->getModelUID())->getModelUID()  == modelFour->getModelUID(),L"Loaded Model UID Not Equal"); 
 			
+			//Tests for model 4
+			Assert().AreEqual(888888L, modelFour->getModelUID(),L"MUID is not equal");
+			Assert().IsTrue(modelFour->getPersonUID() == 777777L,L"PUID is not equal");
+			Assert().IsTrue(modelFour->getFirstName() == "A", L"First name is not equal");
+			Assert().IsFalse(modelFour->getFirstName() == "a");
+			Assert().IsTrue(modelFour->getLastName() == "Badass", L"Last name is not equal");
+			Assert().IsFalse(modelFour->getLastName() == "badass");
+			Assert().IsTrue(modelFour->getGender() == "male", L"Gender is not equal");
+			Assert().IsFalse(modelFour->getGender() == "Male");
+
 			Model *modelOut = db2->getModel(modelThree->getModelUID());
 			char str[200]; 
 			sprintf_s(str,200,"\nRetrieved MUID: %d\n", modelOut->getModelUID());
@@ -283,6 +325,7 @@ namespace SavingFaceTest
 			delete modelOne;
 			delete modelTwo;
 			delete modelThree;
+			delete modelFour;
 
 			delete db;
 			delete db2;
