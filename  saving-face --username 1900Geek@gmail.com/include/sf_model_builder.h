@@ -57,6 +57,8 @@ namespace SF
 		//Save model to disk when finished
 		SF_STS buildModel(SF_MUID muid, SF_Session *session,bool saveVideo = false);
 
+		SF_STS saveToDatabase(SF_MUID muid,sf_db *sfdb);
+
 	private:
 		//temp_db holds the working model while being built, private instance
 		//actual_db holds a reference to the actual database.
