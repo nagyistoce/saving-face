@@ -144,8 +144,8 @@ namespace SF
 	SF_STS Model::streamToFile(ofstream *fileStream)
 	{
 		if(strcmp(getGender().c_str(),"")==0)setGender("XXX");
-		if(strcmp(person_info.salutation.c_str(),"")==0)person_info.firstName = "XXX";
-		if(strcmp(person_info.firstName.c_str(),"")==0)person_info.salutation = "XXX";
+		if(strcmp(person_info.salutation.c_str(),"")==0)person_info.salutation = "XXX";
+		if(strcmp(person_info.firstName.c_str(),"")==0)person_info.firstName = "XXX";
 		if(strcmp(person_info.middleName.c_str(),"")==0)person_info.middleName = "XXX";
 		if(strcmp(person_info.lastName.c_str(),"")==0)person_info.lastName = "XXX";
 		if(strcmp(person_info.suffix.c_str(),"")==0)person_info.suffix = "XXX";
@@ -209,14 +209,12 @@ namespace SF
 		char in[1028];
 		*fileStream >> in;
 		char *next_token = NULL;
-		char *str = NULL;
 		person_info.puid = atol(strtok_s(in,"&",&next_token));
 		setGender(strtok_s(NULL, "&",&next_token));
 		person_info.salutation = strtok_s(NULL, "&",&next_token);
 		
 		person_info.firstName = strtok_s(NULL, "&",&next_token);
-		str = strtok_s(NULL, "&",&next_token);
-		if(str != NULL)person_info.salutation == next_token;
+		person_info.middleName = strtok_s(NULL, "&",&next_token);
 		person_info.lastName = strtok_s(NULL, "&",&next_token);
 		person_info.suffix = strtok_s(NULL, "&",&next_token);
 		person_info.emailAddress = strtok_s(NULL, "&",&next_token);

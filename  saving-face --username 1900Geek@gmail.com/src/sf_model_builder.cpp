@@ -118,15 +118,21 @@
 
 		MB::currentModelInfo = getModel(muid)->getModelInfo();
 		MB::arr = getModel(muid)->getWritableModelArr();
-		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,1000);
+		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,500);
 		int len = getModel(muid)->getArrLength();
+		session->releaseStreams();
 		for(int i = 0; i < len; i++)
-			if(MB::arr[i] < 0x14)  MB::arr[i] = 0;
+			if(MB::arr[i] < 0x0B)  MB::arr[i] = 0;
 		MB::currentModelInfo = 0;
 		MB::arr = 0;
-		session->releaseStreams();
 		return SF_STS_OK;
 	}
+
+	SF_STS sf_model_builder::saveToDatabase(SF_MUID muid,sf_db *sfdb)
+	{
+		return sfdb->addModelToDatabase(getModel(muid));
+	}
+
 	Model *sf_model_builder::getModel(SF_MUID muid)
 	{
 		return temp_db.getModel(muid);
