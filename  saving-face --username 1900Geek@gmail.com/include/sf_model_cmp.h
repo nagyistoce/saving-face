@@ -1,3 +1,4 @@
+#include <Windows.h>
 #include "sf_defs.h"
 #include "sf_model.h"
 #include "sf_db.h"

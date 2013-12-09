@@ -17,6 +17,6 @@ namespace SF
 		sf_model_cmp::cmp_results *sf_model_cmp::compare()
 		{
 
-
+			return 0;
 		}
 }
