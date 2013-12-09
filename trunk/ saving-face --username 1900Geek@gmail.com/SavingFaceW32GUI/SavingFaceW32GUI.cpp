@@ -183,6 +183,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		case ID_ACTIONS_CREATEANEWMODEL:
 			DialogBox(hInst, MAKEINTRESOURCE(UDI_DIALOG2), hWnd, UDI_CALLBACK);
 			break;
+		case ID_ACTIONS_I:
+			DialogBox(hInst, MAKEINTRESOURCE(UDI_DIALOG4), hWnd, UDI_IDENTIFY_CALLBACK);
+			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
@@ -307,6 +310,29 @@ INT_PTR CALLBACK UDI_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPa
 			return (INT_PTR)TRUE;
 		}
 		
+		break;
+	}
+	return (INT_PTR)FALSE;
+}
+
+INT_PTR CALLBACK UDI_IDENTIFY_CALLBACK(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	UNREFERENCED_PARAMETER(lParam);
+	switch (message)
+	{
+	case WM_INITDIALOG:
+		return (INT_PTR)TRUE;  //send the callback function to controller here?
+
+	case WM_COMMAND:
+		if (LOWORD(wParam) == UDI_OK3)
+		{
+			EndDialog(hDlg, LOWORD(wParam));
+			return (INT_PTR)TRUE;
+		}
+		else if (LOWORD(wParam) == IDC_REIDENTIFY)
+		{
+			//reidentify code
+		}
 		break;
 	}
 	return (INT_PTR)FALSE;
