@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\sf_model_cmp.cpp" />
     <ClCompile Include="src\sf_controller.cpp" />
     <ClCompile Include="src\sf_db.cpp" />
     <ClCompile Include="src\sf_model.cpp" />
@@ -78,6 +79,7 @@
     <ClCompile Include="src\sf_util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\sf_model_cmp.h" />
     <ClInclude Include="include\PriorTODOList.h" />
     <ClInclude Include="include\sf_controller.h" />
     <ClInclude Include="include\sf_db.h" />
