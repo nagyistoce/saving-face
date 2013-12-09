@@ -104,13 +104,11 @@ SF_STS sf_controller::init(string mode)
 {
 	//Check for alternative modes and implement logic as needed.
 	db = new sf_db();
-	//db->loadDatabase(getFullPath(_DEFAULT_DB_DIR));
 	mBuilder = new sf_model_builder();
 	session = new SF_Session();
 	if(!(session->createSession()))
 		return SF_STS_FAIL;		
 	if(!(session->setOptions(NULL, NULL)))
 		return SF_STS_FAIL;
-	//session->loadFaceModule();
 	return SF_STS_OK;
 }
