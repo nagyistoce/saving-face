@@ -94,4 +94,15 @@ SF_STS sf_db::deleteModelFromDatabase(SF_MUID modelID)
 		return status;
 	}
 
+	//Being lazy here. assuming the that models has been allocated and has sufficient space.
+	void  sf_db::getModelList(Model **models, int &numModels)
+	{
+		numModels = 0;
+		std::map<SF_MUID, Model*>::iterator iter;
+		for (iter = db.begin(); iter != db.end(); iter++) 
+		{
+			models[numModels++] = iter->second;
+		}
+	}
+
 

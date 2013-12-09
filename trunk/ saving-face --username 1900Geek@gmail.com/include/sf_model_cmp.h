@@ -31,5 +31,9 @@ namespace SF
 		sf_db *db;
 		Model *model;
 		SF_Session *session;
+		sf_model_builder *builder;
+		Model **models;
+		int numModels;
+		SF_STS getModelReferences();
 	};
 }

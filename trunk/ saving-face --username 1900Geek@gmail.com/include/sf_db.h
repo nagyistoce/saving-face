@@ -24,11 +24,8 @@ using namespace std;
 		//remove a model from the database
 		SF_STS deleteModelFromDatabase(SF_MUID modelID);
 	
-		//Can be simple... Single comparison algorithm... (Recomended)
-		//Simple/Fast case is that all models have identical model_info structs.
-		//More complex is to allow for differnt model resolutions... (Later)
-		//return type yet unknown
-		void compareToModels(/*a function pointer to a model comparison algorithm*/);
+		//Return a read-only set of models
+		void getModelList(Model **models, int &numModels);
 
 		//Returns a reference to the model class.
 		//Eleminates the need for wrapper functions
