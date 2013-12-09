@@ -242,8 +242,8 @@ namespace SF
 		fileStream->read(model_info.modelArr, arrLength);
 
 		if(strcmp(getGender().c_str(),"XXX")==0)setGender("");
-		if(strcmp(person_info.salutation.c_str(),"XXX")==0)person_info.firstName = "";
-		if(strcmp(person_info.firstName.c_str(),"XXX")==0)person_info.salutation = "";
+		if(strcmp(person_info.salutation.c_str(),"XXX")==0)person_info.salutation = "";
+		if(strcmp(person_info.firstName.c_str(),"XXX")==0)person_info.firstName = "";
 		if(strcmp(person_info.middleName.c_str(),"XXX")==0)person_info.middleName = "";
 		if(strcmp(person_info.lastName.c_str(),"XXX")==0)person_info.lastName = "";
 		if(strcmp(person_info.suffix.c_str(),"XXX")==0)person_info.suffix = "";
