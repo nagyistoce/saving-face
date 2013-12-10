@@ -16,15 +16,35 @@ namespace SF
 			delete builder;
 		}
 
-		//temp until call back is added
+		//A First Crude Implementation
+		//Uses a fully constructed model
+		//To later be replaced by multiple
+		//implementations that call an observer
 		sf_model_cmp::cmp_results *sf_model_cmp::compare()
-		{
-			//A First Crude Implementation
+		{	
 			SF_MUID muid = builder->addNewModel();
 			SF_STS sts = builder->buildModel(muid,session,false);
 			model = builder->getModel(muid);
 			SF_MODEL_ARR arr = model->getReadOnlyModelArr();
-			return 0;
+			int length = model->getArrLength();
+			getModelReferences();
+			int score[50]= {0};
+			for(int i = 0; i < length; i++)
+			{
+				if(arr[i] == 0) continue;
+				for(int m = 0; m < numModels; m++)
+				{
+					score[m] += models[m]->getReadOnlyModelArr()[i];
+				}
+			}
+			cmp_results *res = new cmp_results();
+			for(int m = 0; m < numModels; m++)
+			{
+				res->names.push_back(models[m]->getConcatenatedName());
+				res->scores.push_back(score[m]);
+				res->imagePaths.push_back(getFullPath(_DEFAULT_IMAGE_DIR) + models[m]->getFileVersionName() + ".BMP");
+			}
+			return res;
 		}
 
 		SF_STS sf_model_cmp::getModelReferences()

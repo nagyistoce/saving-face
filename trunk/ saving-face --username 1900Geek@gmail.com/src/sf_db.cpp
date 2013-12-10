@@ -72,7 +72,6 @@ SF_STS sf_db::deleteModelFromDatabase(SF_MUID modelID)
 		WIN32_FIND_DATA ffd;
 		string wwcStr = path + "*.mdl";
 		hFind = FindFirstFile(wwcStr.c_str(), &ffd);
-
 		if (hFind == INVALID_HANDLE_VALUE) 
 		{
 			status = SF_STS_FAIL; //error searching directory
