@@ -98,7 +98,7 @@
 }
 
 	//called after calling addNewModel then pass in the muid
-	SF_STS sf_model_builder::buildModel(SF_MUID muid,SF_Session *session,bool saveVideo)
+	SF_STS sf_model_builder::buildModel(SF_MUID muid,SF_Session *session,bool saveVideo, int numFrames, unsigned char cutoff)
 	{
 		currentModel = muid;
 			
@@ -118,11 +118,11 @@
 
 		MB::currentModelInfo = getModel(muid)->getModelInfo();
 		MB::arr = getModel(muid)->getWritableModelArr();
-		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,500);
+		session->camera_loop(&MB::getTr,&MB::processVertex,NULL,NULL,NULL,this,numFrames);
 		int len = getModel(muid)->getArrLength();
 		session->releaseStreams();
 		for(int i = 0; i < len; i++)
-			if(MB::arr[i] < 0x15)  MB::arr[i] = 0;
+			if(MB::arr[i] < cutoff)  MB::arr[i] = 0;
 		MB::currentModelInfo = 0;
 		MB::arr = 0;
 		return SF_STS_OK;
