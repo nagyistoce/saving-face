@@ -3,6 +3,7 @@
 #include "sf_model.h"
 #include "sf_db.h"
 #include "sf_model_builder.h"
+#include <vector>
 
 
 using namespace SF;
@@ -14,9 +15,10 @@ namespace SF
 		
 		struct cmp_results
 		{
-			string *names;
-			float *scores;
-			string *imagePaths;
+			vector<string> names;
+			//vector<float> scores;
+			vector<int> scores;
+			vector<string> imagePaths;
 		};
 
 		sf_model_cmp(sf_db *db, SF_Session *session);
