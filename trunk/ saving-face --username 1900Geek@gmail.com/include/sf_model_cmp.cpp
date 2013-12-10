@@ -24,7 +24,7 @@ namespace SF
 		{	
 			getModelReferences();
 			SF_MUID muid = builder->addNewModel();
-			SF_STS sts = builder->buildModel(muid,session,false);
+			SF_STS sts = builder->buildModel(muid,session,false,200,3);
 			model = builder->getModel(muid);
 			SF_MODEL_ARR arr = model->getReadOnlyModelArr();
 			int length = model->getArrLength();
