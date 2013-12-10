@@ -78,7 +78,7 @@ SF_STS sf_db::deleteModelFromDatabase(SF_MUID modelID)
 		}else
 		do {
 			string filePath = path + ffd.cFileName;
-			ifstream *in = new ifstream(filePath);
+			ifstream *in = new ifstream(filePath, ios::in | ios::binary);
 			Model *model = new Model();
 			model->loadFromFile(in);
 			in->close();
