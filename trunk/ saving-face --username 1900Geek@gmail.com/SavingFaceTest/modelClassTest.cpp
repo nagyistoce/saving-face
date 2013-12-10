@@ -160,12 +160,11 @@ namespace SavingFaceTest
 			model->initModelArray();
 
 			SF_MUID expMUID = model->getModelUID();
+			for(int i = 0; i < model->getArrLength();i++)
+				model->getModelInfo()->modelArr[i] = 'A' + (i%26);
 			
-			model->getModelInfo()->modelArr[0] = 'A';
-			model->getModelInfo()->modelArr[1] = 'B';
-			model->getModelInfo()->modelArr[2] = 'C';
 	
-			ofstream *out = new ofstream("TestOutput.mdl");
+			ofstream *out = new ofstream("TestOutput.mdl",ios::out | ios::binary);
 			string exp = model->getConcatenatedName();
 
 			SF_DELTA expDeltaX = model->getModelInfo()->deltaX;
@@ -192,7 +191,7 @@ namespace SavingFaceTest
 			delete model;
 			model = 0;
 			
-			ifstream *in = new ifstream("TestOutput.mdl");
+			ifstream *in = new ifstream("TestOutput.mdl",ios::in | ios::binary);
 			model = new Model();
 			model->loadFromFile(in);
 			in->close();
@@ -205,13 +204,17 @@ namespace SavingFaceTest
 			
 			for(int i = 0; i < 10; i++){
 				char str[200];
-				sprintf_s(str, 200, "\nAddress %d = %x", i, model->getModelInfo()->modelArr[i]);
+				sprintf_s(str, 200, "\nAddress %d = %c", i, model->getModelInfo()->modelArr[i]);
 				Logger().WriteMessage(str);
 			}
-
-			Assert().IsTrue(model->getModelInfo()->modelArr[0] == 'A',L"Address 0 not equal");
-			Assert().IsTrue(model->getModelInfo()->modelArr[1] == 'B',L"Address 1 not equal");
-			Assert().IsTrue(model->getModelInfo()->modelArr[2] == 'C',L"Address 2 not equal");
+			for(int i = 0; i < model->getArrLength();i++)
+			{
+				wstring msg = L"Address " + to_wstring(i);
+				Assert().IsTrue(model->getModelInfo()->modelArr[i] == 'A' + (i %26),msg.c_str());
+			}
+			
+			//Assert().IsTrue(model->getModelInfo()->modelArr[1] == 'B',L"Address 1 not equal");
+			//Assert().IsTrue(model->getModelInfo()->modelArr[2] == 'C',L"Address 2 not equal");
 			
 			Assert().IsTrue(model->getModelUID() == expMUID,L"MUID is not equal");
 			Assert().IsTrue(model->getPersonUID() == 56489742L,L"PUID is not equal");

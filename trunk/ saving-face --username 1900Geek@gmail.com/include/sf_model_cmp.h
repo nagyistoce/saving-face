@@ -16,8 +16,8 @@ namespace SF
 		struct cmp_results
 		{
 			vector<string> names;
-			//vector<float> scores;
-			vector<int> scores;
+			vector<float> scores;
+			//vector<int> scores;
 			vector<string> imagePaths;
 		};
 
@@ -26,6 +26,9 @@ namespace SF
 
 		//temp until call back is added
 		cmp_results *compare();
+
+		//Temp
+		vector<int> sums;
 		
 
 

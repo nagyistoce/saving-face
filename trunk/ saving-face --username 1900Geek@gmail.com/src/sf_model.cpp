@@ -239,8 +239,13 @@ namespace SF
 		char temp[2];
 		fileStream->read(temp, 1);
 		initModelArray();
-		fileStream->read(model_info.modelArr, arrLength);
-
+		//fileStream->read(model_info.modelArr, arrLength);
+		int pos = 0;
+		while(pos < arrLength)
+		{
+			fileStream->read(&model_info.modelArr[pos],arrLength-pos<1028?arrLength-pos:1028);
+			pos += 1028;
+		}
 		if(strcmp(getGender().c_str(),"XXX")==0)setGender("");
 		if(strcmp(person_info.salutation.c_str(),"XXX")==0)person_info.salutation = "";
 		if(strcmp(person_info.firstName.c_str(),"XXX")==0)person_info.firstName = "";
