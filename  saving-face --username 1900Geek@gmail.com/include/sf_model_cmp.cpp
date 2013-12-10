@@ -63,8 +63,7 @@ namespace SF
 				int length = models[m]->getArrLength();
 				int score = 0;
 				for(int i = 0; i < length; i++){
-					if(marr[i] != 0)
-						score += marr[i];
+						score += (unsigned char)(marr[i]);
 				}
 				sums.push_back(score);
 			}
