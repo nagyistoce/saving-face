@@ -1,0 +1,1 @@
+An application module to provide user authentication by facial contour recognition. This is a proof of concept application and will not be secured for public deployment.
